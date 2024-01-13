@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+	--color1a1: #04F1C2;
+	--color1a2: #03CEA4;
+
+	--color2a1: #A182B0;
+	--color2a2: #79568A;
+}
+
+body {
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.App {
+	min-height: 60vh;
+}
+
+.Logo {
+	height: 8vh;
+}
+
+.NavButton {
+	border-radius: 8px;
+}
+
+.NavButton>button {
+	cursor: pointer;
+	border: none;
+	border-radius: 8px;
+	background-color: var(--color1a1);
+	transition-duration: 150ms;
+	font-size: 1.1em;
+	padding: 0.6em 1.2em;
+	border: 3px solid black;
+	box-shadow: 5px 5px 0 black;
+	color: black;
+}
+
+.NavButton:hover>button {
+	background-color: var(--color1a2);
+	box-shadow: 0 0 0 black;
+}
+
+.Header {
+	position: sticky;
+	top: 0;
+	width: 98%;
+	padding: 1vh 1%;
+	height: calc(8vh - 3px);
+	border-bottom: 3px solid black;
+	display: flex;
+	align-items: center;
+	gap: 2vw;
+	background-color: white;
+}
+
+.Footer {
+	width: 80%;
+	padding: 5vh 10%;
+	min-height: 20vh;
+	background-color: black;
+	color: white;
+	position: relative;
+	bottom: 0;
+	font-size: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 3vh;
+}
+
+.LoginPage {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2vh;
+	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
+}
+
+.LoginPage>h1 {
+	margin-bottom: 5vh;
+	text-align: center;
+	font-size: 4em;
+}
+
+.LoginPage>div {
+	display: flex;
+	flex-direction: column;
+	gap: 1vh;
+}
+
+.LoginPage>div>div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 2vw;
+}
+
+.LoginPage>div>div>label {
+	font-size: 1.3em;
+}
+
+.LoginPage>div>div>input {
+	border-radius: 7px;
+	border: none;
+	background-color: rgb(202, 202, 202);
+	padding: 0.5em 1em;
+	font-size: 1.2em;
+}
+
+.NavButton>.ButtonDisabled {
+	background-color: rgb(139, 139, 139);
+	box-shadow: none;
+	cursor: not-allowed;
+}
+
+.NavButton>.ButtonDisabled:hover {
+	background-color: rgb(139, 139, 139);
+}
+
+.NavButton:last-child {
+	margin-left: auto;
+}
+
+.Calling {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.User {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5vh;
+	background-color: var(--color2a2);
+	padding: 2em;
+	color: white;
+}
+
+.UserStats {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1vh;
+}
+
+.UserStats>h2 {
+	text-align: center;
+}
+
+.UserStats>div {
+	padding: 0.5em 0.9em;
+	font-size: 1.2em;
+	text-align: center;
+}
+
+.Calling>h2 {
+	font-size: 2em;
+	text-align: center;
+	width: 25%;
+}
+
+.CallButton {
+	display: none;
+	border-radius: 8px;
+}
+
+.CallButton>button {
+	cursor: pointer;
+	border: none;
+	border-radius: 8px;
+	background-color: var(--color2a1);
+	transition-duration: 150ms;
+	font-size: 1.1em;
+	padding: 0.6em 1.2em;
+	border: 3px solid white;
+	box-shadow: 5px 5px 0 white;
+	color: white;
+}
+
+.CallButton:hover>button {
+	background-color: var(--color2a2);
+	box-shadow: 0 0 0 white;
+}

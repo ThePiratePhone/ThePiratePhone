@@ -1,0 +1,36 @@
+@media only screen and (orientation: portrait) {
+	.NavButton {
+		font-size: 2em;
+	}
+
+	.Calling {
+		zoom: 1;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.UserStats {
+		flex-direction: row;
+	}
+
+	.User {
+		flex-direction: row;
+		border-radius: 0 0 0 20px;
+	}
+
+	.CallButton {
+		display: block;
+	}
+
+	.CallButton>button {
+		box-shadow: none;
+	}
+
+	.NavButton>button {
+		box-shadow: none;
+	}
+
+	.Footer>div {
+		font-size: 2em;
+	}
+}
