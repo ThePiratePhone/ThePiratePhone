@@ -1,5 +1,5 @@
-function Script() {
-	return <div></div>;
+function Script({ script }: { script: string }) {
+	return <div className="Script">{script}</div>;
 }
 
 export default Script;

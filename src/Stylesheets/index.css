@@ -24,7 +24,8 @@ a {
 	min-height: 60vh;
 }
 
-.Logo {
+.Logo,
+.Logo>img {
 	height: 8vh;
 }
 
@@ -130,7 +131,7 @@ a {
 	background-color: rgb(139, 139, 139);
 }
 
-.NavButton:last-child {
+.Header>.NavButton:last-child {
 	margin-left: auto;
 }
 
@@ -139,6 +140,7 @@ a {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .User {
@@ -155,23 +157,30 @@ a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1vh;
 }
 
 .UserStats>h2 {
 	text-align: center;
+	font-size: 2em;
 }
 
 .UserStats>div {
-	padding: 0.5em 0.9em;
-	font-size: 1.2em;
+	font-size: 1.6em;
 	text-align: center;
 }
 
+.Calling>div>h2,
 .Calling>h2 {
 	font-size: 2em;
 	text-align: center;
 	width: 25%;
+}
+
+.CallingHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .CallButton {
@@ -195,4 +204,10 @@ a {
 .CallButton:hover>button {
 	background-color: var(--color2a2);
 	box-shadow: 0 0 0 white;
+}
+
+.Script {
+	font-size: 1em;
+	padding: 2em;
+	line-height: 1.5em;
 }

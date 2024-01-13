@@ -1,15 +1,10 @@
 declare module '*.png';
 declare module '*.svg';
 
-declare namespace NodeJS {
-	interface ProcessEnv {
-		URL: string;
-	}
-}
-
 type LoginResponse = {
 	OK: boolean;
 	Message: string;
+	data: Caller | undefined;
 };
 
 type Caller = {

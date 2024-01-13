@@ -4,9 +4,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
-import Calling from './Pages/Calling';
+import CallingDesktop from './Pages/CallingDesktop';
+import CallingMobile from './Pages/CallingMobile';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
+
+function mobileCheck() {
+	const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
+
+	return toMatch.some(toMatchItem => {
+		return navigator.userAgent.match(toMatchItem);
+	});
+}
 
 function App({ caller }: { caller: Caller }) {
 	const [ActiveCaller, setActiveCaller] = useState(caller);
@@ -18,7 +27,7 @@ function App({ caller }: { caller: Caller }) {
 		},
 		{
 			path: '/Calling',
-			element: <Calling />
+			element: mobileCheck() ? <CallingMobile /> : <CallingDesktop />
 		},
 		{
 			path: '/*',

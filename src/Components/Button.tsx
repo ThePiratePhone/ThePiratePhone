@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-function NavButton({ name, link }: { name: string; link: string }) {
+function NavButton({ value, link }: { value: string; link: string }) {
 	return (
 		<Link className="NavButton" to={'/' + link}>
-			<button>{name}</button>
+			<button>{value}</button>
 		</Link>
 	);
 }

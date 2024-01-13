@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
 
-import Logo from '../Assets/Logo.svg';
+import Logo from '../Assets/Logo.png';
 
 import NavButton from './Button';
 
 function Header({ caller }: { caller: Caller }) {
 	return (
 		<div className="Header">
-			<Link to="/">
-				<img src={Logo} alt="Logo" className="Logo" />
+			<Link to="/" className="Logo">
+				<img src={Logo} alt="Logo" />
 			</Link>
-			<NavButton link="about" name="A propos" />
-			<NavButton link="account" name={caller.name} />
+			<NavButton link="about" value="A propos" />
+			<NavButton link="account" value={caller.name} />
 		</div>
 	);
 }

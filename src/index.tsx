@@ -7,10 +7,9 @@ import './Stylesheets/mobile.css';
 import './declarations.d.ts';
 
 import App from './App';
+import LoginPage from './Pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
-process.env.URL = 'https://dfg.freeboxos.fr:7000/api';
 
 function renderApp(caller: Caller) {
 	root.render(
@@ -22,7 +21,7 @@ function renderApp(caller: Caller) {
 
 root.render(
 	<React.StrictMode>
-		{/*<LoginPage render={renderApp} />*/}
-		<App caller={{ name: 'Caller 1', callTime: new Map(), number: '0987654321', pin: '3026' }} />
+		<LoginPage render={renderApp} />
+		{/*<App caller={{ name: 'Caller 1', callTime: new Map(), number: '0987654321', pin: '3026' }} />*/}
 	</React.StrictMode>
 );

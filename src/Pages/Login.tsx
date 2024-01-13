@@ -1,50 +1,63 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+const URL = 'https://dfg.freeboxos.fr:7000/api';
+
 function Login(credentials: { number: string; pin: string }): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		axios
-			.post(`${process.env.URL}/loginUser`, { number: credentials.number, pin: credentials.pin })
-			.catch((err: Error) => {
-				console.error(err);
-				resolve({ OK: false, Message: err.message });
+			.post(`${URL}/login`, { number: credentials.number, pin: credentials.pin })
+			.catch(() => {
+				resolve({ OK: false, Message: 'Unknown error', data: undefined });
 			})
 			.then(response => {
 				if (typeof response == 'undefined') {
-					resolve({ OK: false, Message: 'Unknown error' });
+					resolve({ OK: false, Message: 'Unknown error', data: undefined });
 				} else {
-					resolve({ OK: true, Message: 'OK' });
+					resolve({ OK: true, Message: 'OK', data: response.data });
 				}
 			});
 	});
 }
 
-async function testOldToken(): Promise<boolean> {
+async function testOldToken(): Promise<LoginResponse> {
 	return new Promise(resolve => {
-		const oldCredentials = window.localStorage.getItem('credentials');
-		if (oldCredentials == null) resolve(false);
-		console.log(oldCredentials);
+		const oldCredentials = window.localStorage.getItem('credentials') as string;
 		Login(JSON.parse(oldCredentials as string))
 			.then(result => {
 				if (result.OK) {
-					resolve(true);
+					resolve(result);
 				} else {
-					resolve(false);
+					resolve(result);
 				}
 			})
-			.catch(() => resolve(false));
+			.catch(() => resolve({ OK: false, Message: 'Unknown error', data: undefined }));
 	});
 }
 
-function LoginPage({ render }: { render: Function }) {
+function LoginPage({ render }: { render: (caller: Caller) => void }) {
 	const [ButtonEnabled, setButtonEnabled] = useState(false);
 
 	useEffect(() => {
-		testOldToken().then(result => {
-			if (result) return render();
-			setButtonEnabled(true);
-		});
-	}, [setButtonEnabled]);
+		if (window.localStorage.getItem('credentials') == null) {
+			testOldToken().then(result => {
+				if (result.OK && result.data) return render(result.data);
+				setButtonEnabled(true);
+			});
+		}
+	});
+
+	useEffect(() => {
+		const phone = document.getElementById('phone') as HTMLInputElement;
+		const pin = document.getElementById('pin') as HTMLInputElement;
+		if (ButtonEnabled) {
+			phone.disabled = false;
+			pin.disabled = false;
+		} else {
+			phone.disabled = true;
+			pin.disabled = true;
+		}
+	}, [ButtonEnabled]);
 
 	function click() {
 		setButtonEnabled(false);
@@ -53,9 +66,9 @@ function LoginPage({ render }: { render: Function }) {
 			pin: (document.getElementById('pin') as HTMLInputElement).value as string
 		};
 		Login(credentials).then(result => {
-			if (result.OK) {
+			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				render();
+				render(result.data);
 			} else {
 				setButtonEnabled(true);
 			}
