@@ -10,6 +10,7 @@ function Header({ caller }: { caller: Caller }) {
 			<Link to="/" className="Logo">
 				<img src={Logo} alt="Logo" />
 			</Link>
+			<NavButton link="calling" value="Appeler" />
 			<NavButton link="about" value="A propos" />
 			<NavButton link="account" value={caller.name} />
 		</div>

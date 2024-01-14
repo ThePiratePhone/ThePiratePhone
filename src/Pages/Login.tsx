@@ -6,7 +6,7 @@ const URL = 'https://dfg.freeboxos.fr:7000/api';
 function Login(credentials: { number: string; pin: string }): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		axios
-			.post(`${URL}/login`, { number: credentials.number, pin: credentials.pin })
+			.post(`${URL}/login`, { phone: credentials.number, pin: credentials.pin })
 			.catch(() => {
 				resolve({ OK: false, Message: 'Unknown error', data: undefined });
 			})
@@ -14,7 +14,7 @@ function Login(credentials: { number: string; pin: string }): Promise<LoginRespo
 				if (typeof response == 'undefined') {
 					resolve({ OK: false, Message: 'Unknown error', data: undefined });
 				} else {
-					resolve({ OK: true, Message: 'OK', data: response.data });
+					resolve({ OK: true, Message: 'OK', data: response.data.data });
 				}
 			});
 	});
@@ -39,7 +39,7 @@ function LoginPage({ render }: { render: (caller: Caller) => void }) {
 	const [ButtonEnabled, setButtonEnabled] = useState(false);
 
 	useEffect(() => {
-		if (window.localStorage.getItem('credentials') == null) {
+		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
 				if (result.OK && result.data) return render(result.data);
 				setButtonEnabled(true);
