@@ -7,7 +7,7 @@ import { cleanNumber } from '../Utils';
 
 async function getNewClient(): Promise<User | undefined> {
 	return {
-		name: 'Emile DECHENAUD',
+		name: 'Caller 1',
 		number: '+33123456789',
 		callStatus: 'Todo',
 		callEnd: undefined,
@@ -59,6 +59,8 @@ function CallingMobile() {
 	const [user, setUser] = useState(<></>);
 	const [script, setScript] = useState(<></>);
 
+	const time = Date.now();
+
 	useEffect(() => {
 		getScript().then(result => {
 			if (typeof result != 'undefined') {
@@ -71,11 +73,9 @@ function CallingMobile() {
 			if (typeof result != 'undefined') {
 				setUser(
 					<div className="User">
-						<div className="UserStats">
-							<h2>{result.name}</h2>
-							<div>{cleanNumber(result.number)}</div>
-						</div>
+						<h2 className="UserName">{result.name}</h2>{' '}
 						<a href={'tel:' + result.number} className="CallButton">
+							<div>{cleanNumber(result.number)}</div>
 							<button>APPELER</button>
 						</a>
 					</div>
@@ -86,11 +86,23 @@ function CallingMobile() {
 		});
 	}, [setUser, setScript]);
 
+	function endCall() {
+		alert((Date.now() - time) / 1000);
+	}
+
 	return (
 		<div className="Calling">
 			<div className="CallingHeader">
 				<h2>Prochain contact</h2>
 				{user}
+			</div>
+			<div className="CallingEnd">
+				<div className="NavButton">
+					<button onClick={endCall}>PAS DE RÉPONSE</button>
+				</div>
+				<div className="NavButton">
+					<button onClick={endCall}>FIN D'APPEL</button>
+				</div>
 			</div>
 			{script}
 		</div>

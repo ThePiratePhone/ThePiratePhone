@@ -6,6 +6,7 @@
 
 	--color2a1: #A182B0;
 	--color2a2: #79568A;
+	--color2a2bg: #EDE7EF;
 }
 
 body {
@@ -29,14 +30,14 @@ a {
 	height: 8vh;
 }
 
-.NavButton {
-	border-radius: 8px;
-}
-
 .NavButton>button {
 	cursor: pointer;
 	border: none;
-	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	gap: 0.5em;
 	background-color: var(--color1a1);
 	transition-duration: 150ms;
 	font-size: 1.1em;
@@ -46,9 +47,27 @@ a {
 	color: black;
 }
 
+.NavButton>button>img {
+	width: 20px;
+}
+
 .NavButton:hover>button {
 	background-color: var(--color1a2);
 	box-shadow: 0 0 0 black;
+}
+
+.NavButton>.ButtonDisabled {
+	background-color: rgb(139, 139, 139);
+	box-shadow: none;
+	cursor: not-allowed;
+}
+
+.NavButton>.ButtonDisabled:hover {
+	background-color: rgb(139, 139, 139);
+}
+
+.Header>*:last-child {
+	margin-left: auto;
 }
 
 .Header {
@@ -61,7 +80,46 @@ a {
 	display: flex;
 	align-items: center;
 	gap: 2vw;
-	background-color: white;
+	background-color: var(--color2a2bg);
+}
+
+.LoginPage {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2vh;
+	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
+}
+
+.LoginPage>.LoginPageMain {
+	margin-top: 10vh;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+	gap: 2vh;
+}
+
+.LoginPage>.LoginPageMain>h1 {
+	margin: 5vh 0;
+	text-align: center;
+	font-size: 4em;
+}
+
+.LoginPage>.LoginPageMain>input {
+	border: none;
+	background-color: rgb(202, 202, 202);
+	padding: 0.5em 1em;
+	font-size: 1.2em;
+	width: 15em;
+	border-radius: 0px;
+}
+
+.LoginPage>.LoginPageMain>input:focus {
+	outline: 2px solid black;
 }
 
 .Footer {
@@ -79,62 +137,6 @@ a {
 	gap: 3vh;
 }
 
-.LoginPage {
-	height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 2vh;
-	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
-}
-
-.LoginPage>h1 {
-	margin-bottom: 5vh;
-	text-align: center;
-	font-size: 4em;
-}
-
-.LoginPage>div {
-	display: flex;
-	flex-direction: column;
-	gap: 1vh;
-}
-
-.LoginPage>div>div {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 2vw;
-}
-
-.LoginPage>div>div>label {
-	font-size: 1.3em;
-}
-
-.LoginPage>div>div>input {
-	border-radius: 7px;
-	border: none;
-	background-color: rgb(202, 202, 202);
-	padding: 0.5em 1em;
-	font-size: 1.2em;
-}
-
-.NavButton>.ButtonDisabled {
-	background-color: rgb(139, 139, 139);
-	box-shadow: none;
-	cursor: not-allowed;
-}
-
-.NavButton>.ButtonDisabled:hover {
-	background-color: rgb(139, 139, 139);
-}
-
-.Header>.NavButton:last-child {
-	margin-left: auto;
-}
-
 .Calling {
 	display: flex;
 	flex-direction: column;
@@ -147,33 +149,38 @@ a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 5vh;
 	background-color: var(--color2a2);
-	padding: 2em;
 	color: white;
 }
 
-.UserStats {
+.UserName {
+	text-align: center;
+	word-break: break-all;
+	font-size: 2em;
+	padding: 1em;
+}
+
+.User>a {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	gap: 1em;
+	padding: 2em;
+	padding-left: 0;
 }
 
-.UserStats>h2 {
+.User>a>div {
+	color: white;
+	font-size: 1.8em;
+	white-space: nowrap;
 	text-align: center;
-	font-size: 2em;
 }
 
-.UserStats>div {
-	font-size: 1.6em;
-	text-align: center;
-}
-
-.Calling>div>h2,
+.CallingHeader>h2,
 .Calling>h2 {
 	font-size: 2em;
 	text-align: center;
-	width: 25%;
+	text-align: center;
+	flex-grow: 1;
 }
 
 .CallingHeader {
@@ -185,16 +192,14 @@ a {
 
 .CallButton {
 	display: none;
-	border-radius: 8px;
 }
 
 .CallButton>button {
 	cursor: pointer;
 	border: none;
-	border-radius: 8px;
 	background-color: var(--color2a1);
 	transition-duration: 150ms;
-	font-size: 1.1em;
+	font-size: 1.6em;
 	padding: 0.6em 1.2em;
 	border: 3px solid white;
 	box-shadow: 5px 5px 0 white;
@@ -204,6 +209,29 @@ a {
 .CallButton:hover>button {
 	background-color: var(--color2a2);
 	box-shadow: 0 0 0 white;
+}
+
+.CallingEnd {
+	display: flex;
+	position: sticky;
+	top: 14vh;
+	align-content: center;
+	justify-content: center;
+	margin-top: 2em;
+	width: 100%;
+	gap: 5%;
+}
+
+.CallingEnd>.NavButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.CallingEnd>.NavButton>button {
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	flex-grow: 1;
 }
 
 .Script {
@@ -224,4 +252,8 @@ a {
 	text-align: center;
 	font-size: 3em;
 	padding: 0 2em;
+}
+
+.ButtonIcon {
+	width: 14px;
 }

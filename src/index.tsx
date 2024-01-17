@@ -21,7 +21,7 @@ function renderApp(caller: Caller) {
 
 root.render(
 	<React.StrictMode>
-		<LoginPage render={renderApp} />
-		{/*<App caller={{ name: 'Caller 1', callTime: new Map(), number: '0987654321', pin: '3026' }} />*/}
+		{/*<LoginPage render={renderApp} />*/}
+		<App caller={{ name: 'Caller 1', callTime: new Map(), number: '0987654321', pin: '3026' }} />
 	</React.StrictMode>
 );
