@@ -18,7 +18,7 @@ type CallStatus = 'Called' | 'Calling' | 'Not responded' | 'Todo';
 
 type User = {
 	name: string;
-	number: string;
+	phone: string;
 	callStatus: CallStatus;
 	callerNumber: string | undefined;
 	scriptVersion: number | undefined;

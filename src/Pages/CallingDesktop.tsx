@@ -8,7 +8,7 @@ import { cleanNumber } from '../Utils';
 async function getNewClient(): Promise<User | undefined> {
 	return {
 		name: 'Personnnnnnnnnnnnnnnnnnnn 1',
-		number: '+33123456789',
+		phone: '+33123456789',
 		callStatus: 'Todo',
 		callEnd: undefined,
 		callerNumber: undefined,
@@ -73,9 +73,9 @@ function CallingDesktop() {
 					<div className="User">
 						<div className="UserStats">
 							<h2>{result.name}</h2>
-							<div>{cleanNumber(result.number)}</div>
+							<div>{cleanNumber(result.phone)}</div>
 						</div>
-						<a href={'tel:' + result.number} className="CallButton">
+						<a href={'tel:' + result.phone} className="CallButton">
 							<button>APPELER</button>
 						</a>
 					</div>

@@ -58,8 +58,6 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 		alert((Date.now() - time) / 1000);
 	}
 
-	console.log('Test');
-
 	return (
 		<div className="Calling">
 			<div className="CallingHeader">
@@ -71,8 +69,8 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 						return user ? (
 							<div className="User">
 								<h2 className="UserName">{user.name}</h2>
-								<a href={'tel:' + user.number} className="CallButton">
-									<div>{cleanNumber(user.number)}</div>
+								<a href={'tel:' + user.phone} className="CallButton">
+									<div>{cleanNumber(user.phone)}</div>
 									<button>APPELER</button>
 								</a>
 							</div>
