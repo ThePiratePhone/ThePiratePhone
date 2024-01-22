@@ -1,98 +1,71 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import Script from '../Components/Script';
+import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
 
-import { cleanNumber } from '../Utils';
+const URL = 'https:	//dfg.freeboxos.fr:7000/api';
 
-const URL = 'http://192.168.1.17:7000/api';
-
-async function getNewClient(credentials: Credentials): Promise<{ client: User; script: string } | undefined> {
-	//return {
-	//	client: {
-	//		name: 'Caller 1',
-	//		number: '+33123456789',
-	//		callStatus: 'Todo',
-	//		callEnd: undefined,
-	//		callerNumber: undefined,
-	//		callStart: undefined,
-	//		scriptVersion: undefined
-	//	},
-	//	script: 'This is a script !'
-	//};
+async function getNewClient(
+	credentials: Credentials
+): Promise<{ status: boolean; data: { client: User; script: string } | undefined } | undefined> {
 	return new Promise(resolve => {
 		axios
 			.post(URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
-					resolve(result.data.data);
+					resolve({ status: true, data: result.data.data });
 				} else {
 					resolve(undefined);
 				}
 			})
 			.catch(err => {
-				console.error(err);
-				resolve(undefined);
+				if (err?.response?.data) {
+					if (err.response.data.message?.OK) {
+						resolve({ status: false, data: err.response.data });
+					} else {
+						resolve({ status: true, data: undefined });
+					}
+				} else {
+					console.error(err);
+					resolve(undefined);
+				}
 			});
 	});
 }
 
 function CallingMobile({ credentials }: { credentials: Credentials }) {
-	const [user, setUser] = useState<User | string | undefined>(undefined);
-	const [script, setScript] = useState<string | null>(null);
+	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
-	const time = Date.now();
+	const client = useRef<User>();
 
 	useEffect(() => {
+		const time = Date.now();
+
+		function endCall() {
+			if (client.current) {
+				setPage(<CallEndMobile credentials={credentials} client={client.current} time={Date.now() - time} />);
+			}
+		}
+
 		getNewClient(credentials).then(result => {
 			if (typeof result != 'undefined') {
-				setUser(result.client);
-				setScript(result.script);
+				if (result.data) {
+					client.current = result.data.client;
+					if (!result.status) {
+						setPage(<CallEndMobile credentials={credentials} client={client.current} time={0} />);
+					} else {
+						setPage(<InCallMobile client={client.current} script={result.data.script} endCall={endCall} />);
+					}
+				} else {
+					setPage(<div>La liste est vide !</div>);
+				}
 			} else {
-				setUser('Une erreur est survenue :/');
+				setPage(<div className="CallingError">Une erreur est survenue :/</div>);
 			}
 		});
 	}, [credentials]);
 
-	function endCall() {
-		alert((Date.now() - time) / 1000);
-	}
-
-	return (
-		<div className="Calling">
-			<div className="CallingHeader">
-				<h2>Prochain contact</h2>
-				{(() => {
-					if (typeof user == 'string') {
-						return <>{user}</>;
-					} else {
-						return user ? (
-							<div className="User">
-								<h2 className="UserName">{user.name}</h2>
-								<a href={'tel:' + user.phone} className="CallButton">
-									<div>{cleanNumber(user.phone)}</div>
-									<button>APPELER</button>
-								</a>
-							</div>
-						) : (
-							<></>
-						);
-					}
-				})()}
-			</div>
-			<div className="CallingEnd">
-				<div className="NavButton">
-					<button onClick={endCall}>PAS DE RÉPONSE</button>
-				</div>
-				<div className="NavButton">
-					<button onClick={endCall}>FIN D'APPEL</button>
-				</div>
-			</div>
-			{(() => {
-				return script ? <Script script={script} /> : <></>;
-			})()}
-		</div>
-	);
+	return <div className="Calling">{Page}</div>;
 }
 
 export default CallingMobile;

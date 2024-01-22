@@ -234,6 +234,16 @@ a {
 	flex-grow: 1;
 }
 
+.CallingError {
+	display: flex;
+	width: 100%;
+	padding: 200px 0;
+	align-items: center;
+	justify-content: center;
+	font-size: 3em;
+	font-weight: bold;
+}
+
 .Script {
 	font-size: 1em;
 	padding: 2em;
@@ -257,4 +267,52 @@ a {
 
 .ButtonIcon {
 	width: 14px;
+}
+
+.CallingEnded {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.CallingEnded>h2 {
+	font-size: 3em;
+}
+
+.UserEnded {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--color2a2);
+	min-width: 40%;
+	padding: 2em;
+	margin-top: 2em;
+	color: white;
+}
+
+.UserEnded>div {
+	font-size: 2em;
+}
+
+.UserNameEnded {
+	font-size: 2.4em;
+	font-weight: 400;
+}
+
+.CallingEndContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.CallingButtons {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2em;
 }
