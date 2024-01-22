@@ -37,7 +37,8 @@
 		font-size: 2.5em;
 	}
 
-	.LoginPage>.LoginPageMain>input {
+	.LoginPageMain>input,
+	.LoginPageMain>select {
 		font-size: 2em;
 		width: 15em;
 	}

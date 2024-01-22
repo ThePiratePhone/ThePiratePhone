@@ -4,11 +4,12 @@ import Footer from '../Components/Footer';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
-function Login(credentials: { number: string; pin: string; area: string }): Promise<LoginResponse> {
+function Login(credentials: Credentials): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		axios
-			.post(`${URL}/login`, { phone: credentials.number, pinCode: credentials.pin, area: credentials.area })
-			.catch(() => {
+			.post(`${URL}/login`, credentials)
+			.catch(err => {
+				console.error(err);
 				resolve({ OK: false, Message: 'Unknown error', data: undefined });
 			})
 			.then(response => {
@@ -36,30 +37,31 @@ async function testOldToken(): Promise<LoginResponse> {
 	});
 }
 
-function getAreas(): Promise<undefined | Array<{ name: string; id: string }>> {
-	return new Promise(resolve => {
-		resolve([
-			{ name: 'Zone 1', id: 't1es231d56f' },
-			{ name: 'Zone 2', id: 'dsfhce56s' }
-		]);
-	});
+function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
+	//return new Promise(resolve => {
+	//	resolve([
+	//		{ name: 'Zone 1', id: 't1es231d56f' },
+	//		{ name: 'Zone 2', id: 'dsfhce56s' }
+	//	]);
+	//});
 
 	return new Promise(resolve => {
 		axios
-			.get(`${URL}/getAreas`)
+			.get(`${URL}/getArea`)
 			.then(result => {
-				resolve(JSON.parse(result.data.data));
+				resolve(result.data.data);
 			})
-			.catch(() => {
+			.catch(err => {
+				console.error(err);
 				resolve(undefined);
 			});
 	});
 }
 
-function LoginPage({ render }: { render: (caller: Caller) => void }) {
+function LoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
 	const [ButtonEnabled, setButtonEnabled] = useState(false);
-	const [ButtonValue, setButtonValue] = useState('Connexion en cours...');
-	const [Areas, setAreas] = useState(Array<{ name: string; id: string }>());
+	const [ButtonValue, setButtonValue] = useState('Connexion...');
+	const [Areas, setAreas] = useState(Array<{ name: string; _id: string }>());
 
 	function loadButtonAndAreas() {
 		setButtonValue('Récupération en cours...');
@@ -69,7 +71,7 @@ function LoginPage({ render }: { render: (caller: Caller) => void }) {
 				setButtonValue('Se connecter');
 				setButtonEnabled(true);
 			} else {
-				setButtonValue('Échec de la connexion à Internet');
+				setButtonValue('Échec de la connexion au serveur');
 			}
 		});
 	}
@@ -77,17 +79,15 @@ function LoginPage({ render }: { render: (caller: Caller) => void }) {
 	useEffect(() => {
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
-				if (result.OK && result.data) return render(result.data);
+				if (result.OK && result.data)
+					return render(result.data, JSON.parse(window.localStorage.getItem('credentials') as string));
 				window.localStorage.removeItem('credentials');
-				setButtonValue('Récupération en cours...');
 				loadButtonAndAreas();
 			});
 		} else {
 			loadButtonAndAreas();
 		}
-	}, []);
-
-	console.log('Test');
+	}, [render]);
 
 	useEffect(() => {
 		const phone = document.getElementById('phone') as HTMLInputElement;
@@ -107,22 +107,18 @@ function LoginPage({ render }: { render: (caller: Caller) => void }) {
 	function click() {
 		if (!ButtonEnabled) return;
 		setButtonEnabled(false);
-		setButtonValue('Connection...');
-
-		const area = Areas.find(val => val.name == (document.getElementById('area') as HTMLInputElement).value)?.id;
-
-		if (!area) return;
+		setButtonValue('Connexion...');
 
 		const credentials = {
-			number: (document.getElementById('phone') as HTMLInputElement).value,
-			pin: (document.getElementById('pin') as HTMLInputElement).value as string,
-			area: area
+			phone: (document.getElementById('phone') as HTMLInputElement).value,
+			pinCode: (document.getElementById('pin') as HTMLInputElement).value as string,
+			area: (document.getElementById('area') as HTMLInputElement).value
 		};
 
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				render(result.data);
+				render(result.data, credentials);
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonEnabled(true);
@@ -131,22 +127,32 @@ function LoginPage({ render }: { render: (caller: Caller) => void }) {
 	}
 
 	function change() {
-		if (ButtonValue == 'Se connecter') return;
+		if (ButtonValue === 'Se connecter') return;
 		setButtonValue('Se connecter');
+	}
+
+	function enter(e: any) {
+		if (e.key === 'Enter') {
+			click();
+		}
 	}
 
 	return (
 		<div className="LoginPage">
 			<div className="LoginPageMain">
 				<h1>Bienvenue sur Call Sphere</h1>
-				<input id="area" list="AreaList" placeholder="Organisation" onChange={change} />
-				<datalist id="AreaList">
-					{Areas.map(value => {
-						return <option value={value.name}></option>;
+				<select id="area" onChange={change}>
+					{Areas.map((value, i) => {
+						return (
+							<option key={i} value={value._id}>
+								{value.name}
+							</option>
+						);
 					})}
-				</datalist>
+				</select>
+				<datalist id="AreaList"></datalist>
 				<input id="phone" type="tel" onChange={change} placeholder="Téléphone" />
-				<input id="pin" type="password" onChange={change} placeholder="Pin" />
+				<input maxLength={4} id="pin" type="tel" onChange={change} placeholder="Pin" onKeyDown={enter} />
 				<div className="NavButton">
 					<button onClick={click} className={ButtonEnabled ? '' : 'ButtonDisabled'}>
 						{ButtonValue}

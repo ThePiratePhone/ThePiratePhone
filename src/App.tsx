@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
@@ -17,9 +16,7 @@ function mobileCheck() {
 	});
 }
 
-function App({ caller }: { caller: Caller }) {
-	const [ActiveCaller, setActiveCaller] = useState(caller);
-
+function App({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
 	const elements = [
 		{
 			path: '/',
@@ -27,7 +24,7 @@ function App({ caller }: { caller: Caller }) {
 		},
 		{
 			path: '/Calling',
-			element: mobileCheck() ? <CallingMobile /> : <CallingDesktop />
+			element: mobileCheck() ? <CallingMobile credentials={credentials} /> : <CallingDesktop />
 		},
 		{
 			path: '/*',
@@ -38,7 +35,7 @@ function App({ caller }: { caller: Caller }) {
 	return (
 		<BrowserRouter>
 			<div className="Main">
-				<Header caller={ActiveCaller} />
+				<Header caller={caller} />
 				<div className="App">
 					<Routes>
 						{elements.map((element, i) => {

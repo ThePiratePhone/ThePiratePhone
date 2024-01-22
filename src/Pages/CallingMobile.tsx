@@ -5,96 +5,82 @@ import Script from '../Components/Script';
 
 import { cleanNumber } from '../Utils';
 
-async function getNewClient(): Promise<User | undefined> {
-	return {
-		name: 'Caller 1',
-		number: '+33123456789',
-		callStatus: 'Todo',
-		callEnd: undefined,
-		callerNumber: undefined,
-		callStart: undefined,
-		scriptVersion: undefined
-	};
+const URL = 'http://192.168.1.17:7000/api';
+
+async function getNewClient(credentials: Credentials): Promise<{ client: User; script: string } | undefined> {
+	//return {
+	//	client: {
+	//		name: 'Caller 1',
+	//		number: '+33123456789',
+	//		callStatus: 'Todo',
+	//		callEnd: undefined,
+	//		callerNumber: undefined,
+	//		callStart: undefined,
+	//		scriptVersion: undefined
+	//	},
+	//	script: 'This is a script !'
+	//};
 	return new Promise(resolve => {
 		axios
-			.post(URL + '/', {})
+			.post(URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
-					resolve(result.data.user);
+					resolve(result.data.data);
 				} else {
 					resolve(undefined);
 				}
 			})
-			.catch(() => {
+			.catch(err => {
+				console.error(err);
 				resolve(undefined);
 			});
 	});
 }
 
-async function getScript(): Promise<string | undefined> {
-	let script = '';
-
-	for (let i = 0; i < 200; i++) {
-		script += 'This is a script ! ';
-	}
-
-	return script;
-	return new Promise(resolve => {
-		axios
-			.post(URL + '/', {})
-			.then(result => {
-				if (result) {
-					resolve(result.data.user);
-				} else {
-					resolve(undefined);
-				}
-			})
-			.catch(() => {
-				resolve(undefined);
-			});
-	});
-}
-
-function CallingMobile() {
-	const [user, setUser] = useState(<></>);
-	const [script, setScript] = useState(<></>);
+function CallingMobile({ credentials }: { credentials: Credentials }) {
+	const [user, setUser] = useState<User | string | undefined>(undefined);
+	const [script, setScript] = useState<string | null>(null);
 
 	const time = Date.now();
 
 	useEffect(() => {
-		getScript().then(result => {
+		getNewClient(credentials).then(result => {
 			if (typeof result != 'undefined') {
-				setScript(<Script script={result} />);
+				setUser(result.client);
+				setScript(result.script);
 			} else {
-				setScript(<div>Une erreur est survenue :/</div>);
+				setUser('Une erreur est survenue :/');
 			}
 		});
-		getNewClient().then(result => {
-			if (typeof result != 'undefined') {
-				setUser(
-					<div className="User">
-						<h2 className="UserName">{result.name}</h2>{' '}
-						<a href={'tel:' + result.number} className="CallButton">
-							<div>{cleanNumber(result.number)}</div>
-							<button>APPELER</button>
-						</a>
-					</div>
-				);
-			} else {
-				setUser(<div>Une erreur est survenue :/</div>);
-			}
-		});
-	}, [setUser, setScript]);
+	}, [credentials]);
 
 	function endCall() {
 		alert((Date.now() - time) / 1000);
 	}
 
+	console.log('Test');
+
 	return (
 		<div className="Calling">
 			<div className="CallingHeader">
 				<h2>Prochain contact</h2>
-				{user}
+				{(() => {
+					if (typeof user == 'string') {
+						return <>{user}</>;
+					} else {
+						return user ? (
+							<div className="User">
+								<h2 className="UserName">{user.name}</h2>
+								<a href={'tel:' + user.number} className="CallButton">
+									<div>{cleanNumber(user.number)}</div>
+									<button>APPELER</button>
+								</a>
+							</div>
+						) : (
+							<></>
+						);
+					}
+				})()}
 			</div>
 			<div className="CallingEnd">
 				<div className="NavButton">
@@ -104,7 +90,9 @@ function CallingMobile() {
 					<button onClick={endCall}>FIN D'APPEL</button>
 				</div>
 			</div>
-			{script}
+			{(() => {
+				return script ? <Script script={script} /> : <></>;
+			})()}
 		</div>
 	);
 }

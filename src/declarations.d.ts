@@ -25,3 +25,9 @@ type User = {
 	callStart: Date | undefined;
 	callEnd: Date | undefined;
 };
+
+type Credentials = {
+	phone: string;
+	pinCode: string;
+	area: string;
+};

@@ -20,7 +20,7 @@ function Header({ caller }: { caller: Caller }) {
 				<img src={Logo} alt="Logo" />
 			</Link>
 			<NavButton link="calling" value="Appeler" image={Phone} />
-			<NavButton link="about" value="A propos" />
+			{/*<NavButton link="about" value="A propos" />*/}
 			<CallerIcon caller={caller} />
 		</div>
 	);
