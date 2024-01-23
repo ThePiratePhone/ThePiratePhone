@@ -8,13 +8,7 @@ import CallingMobile from './Pages/CallingMobile';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
 
-function mobileCheck() {
-	const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
-
-	return toMatch.some(toMatchItem => {
-		return navigator.userAgent.match(toMatchItem);
-	});
-}
+import { mobileCheck } from './Utils';
 
 function App({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
 	const elements = [

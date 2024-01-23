@@ -1,8 +1,18 @@
 import { Link } from 'react-router-dom';
 
-function NavButton({ value, link, image }: { value: string; link: string; image?: string }) {
+function NavButton({
+	value,
+	link,
+	image,
+	onclick
+}: {
+	value: string;
+	link: string;
+	image?: string;
+	onclick?: () => void;
+}) {
 	return (
-		<Link className="NavButton" to={'/' + link}>
+		<Link className="NavButton" to={'/' + link} onClick={onclick}>
 			<button>
 				{image ? <img className="ButtonIcon" src={image} /> : <></>}
 				{value}

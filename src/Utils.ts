@@ -11,11 +11,19 @@ function cleanNumber(number: string) {
 		newNumber += ' ' + numberArray[i] + numberArray[i + 1];
 	}
 
-	if (number.startsWith('+33')) {
-		number.split('');
+	if (newNumber.startsWith('+33')) {
+		newNumber.replace('+33', '0');
 	}
 
 	return newNumber;
 }
 
-export { cleanNumber };
+function mobileCheck() {
+	const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
+
+	return toMatch.some(toMatchItem => {
+		return navigator.userAgent.match(toMatchItem);
+	});
+}
+
+export { cleanNumber, mobileCheck };
