@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
 import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
+import { mobileCheck } from '../Utils';
 
 const URL = 'https:	//dfg.freeboxos.fr:7000/api';
 
@@ -57,7 +58,7 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 						setPage(<InCallMobile client={client.current} script={result.data.script} endCall={endCall} />);
 					}
 				} else {
-					setPage(<div>La liste est vide !</div>);
+					setPage(<div className="CallingError">La liste est vide !</div>);
 				}
 			} else {
 				setPage(<div className="CallingError">Une erreur est survenue :/</div>);
@@ -68,4 +69,44 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 	return <div className="Calling">{Page}</div>;
 }
 
-export default CallingMobile;
+function CallingDesktop({ credentials }: { credentials: Credentials }) {
+	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
+
+	const client = useRef<User>();
+
+	useEffect(() => {
+		const time = Date.now();
+		getNewClient(credentials).then(result => {
+			function endCall() {
+				if (client.current) {
+					setPage(
+						<CallEndMobile credentials={credentials} client={client.current} time={Date.now() - time} />
+					);
+				}
+			}
+			if (typeof result != 'undefined') {
+				if (result.data) {
+					client.current = result.data.client;
+					if (!result.status) {
+						setPage(<CallEndMobile credentials={credentials} client={client.current} time={0} />);
+					} else {
+						setPage(<InCallMobile client={client.current} script={result.data.script} endCall={endCall} />);
+					}
+					setPage(<div>WIP...</div>);
+				} else {
+					setPage(<div className="CallingError">La liste est vide !</div>);
+				}
+			} else {
+				setPage(<div className="CallingError">Une erreur est survenue :/</div>);
+			}
+		});
+	}, [credentials]);
+
+	return <div className="Calling">{Page}</div>;
+}
+
+function Calling({ credentials }: { credentials: Credentials }) {
+	return mobileCheck() ? <CallingMobile credentials={credentials} /> : <CallingDesktop credentials={credentials} />;
+}
+
+export default Calling;

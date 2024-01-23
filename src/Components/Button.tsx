@@ -14,7 +14,7 @@ function NavButton({
 	return (
 		<Link className="NavButton" to={'/' + link} onClick={onclick}>
 			<button>
-				{image ? <img className="ButtonIcon" src={image} /> : <></>}
+				{image ? <img className="ButtonIcon" src={image} alt="Button" /> : <></>}
 				{value}
 			</button>
 		</Link>

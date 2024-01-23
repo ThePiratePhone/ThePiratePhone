@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-import { cleanNumber } from '../Utils';
 import Script from './Script';
+
+import { cleanNumber } from '../Utils';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -29,7 +30,7 @@ function InCallMobile({ client, script, endCall }: { client: User; script: strin
 }
 
 function CallEndMobile({ client, time, credentials }: { client: User; time: number; credentials: Credentials }) {
-	async function post() {
+	async function post(satisfaction: number) {
 		return new Promise(resolve => {
 			axios
 				.post(URL + '/endCall', {
@@ -37,7 +38,7 @@ function CallEndMobile({ client, time, credentials }: { client: User; time: numb
 					pinCode: credentials.pinCode,
 					area: credentials.area,
 					timeInCall: time,
-					satisfaction: 0
+					satisfaction: satisfaction
 				})
 				.then(resolve)
 				.catch(error => {
@@ -58,18 +59,18 @@ function CallEndMobile({ client, time, credentials }: { client: User; time: numb
 			</div>
 			<div className="CallingButtons">
 				<div className="NavButton">
-					<button onClick={post}>Pas de réponse</button>
+					<button onClick={() => post(0)}>Pas de réponse</button>
 				</div>
 				<div className="NavButton">
-					<button>Voté pour nous</button>
+					<button onClick={() => post(2)}>Voté pour nous</button>
 				</div>
 				<div className="NavButton">
-					<button>Pas voté pour nous</button>
+					<button onClick={() => post(1)}>Pas voté pour nous</button>
 				</div>
 				<div className="NavButton">
-					<button>Pas interessé</button>
+					<button onClick={() => post(-1)}>Pas interessé</button>
 				</div>
-				<div className="NavButton">
+				<div className="NavButton RedButton">
 					<button>A retirer</button>
 				</div>
 			</div>

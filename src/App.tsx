@@ -3,22 +3,19 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
-import CallingDesktop from './Pages/CallingDesktop';
-import CallingMobile from './Pages/CallingMobile';
+import Calling from './Pages/Calling';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
-
-import { mobileCheck } from './Utils';
 
 function App({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard />
+			element: <Dashboard credentials={credentials} caller={caller} />
 		},
 		{
 			path: '/Calling',
-			element: mobileCheck() ? <CallingMobile credentials={credentials} /> : <CallingDesktop />
+			element: <Calling credentials={credentials} />
 		},
 		{
 			path: '/*',

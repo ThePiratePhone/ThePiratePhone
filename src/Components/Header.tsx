@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Logo from '../Assets/Logo.svg';
-import Phone from '../Assets/Phone.svg';
 import Burger from '../Assets/Burger.svg';
 
 import { mobileCheck } from '../Utils';
@@ -14,7 +13,7 @@ function DesktopHeader({ caller }: { caller: Caller }) {
 			<Link to="/" className="Logo">
 				<img src={Logo} alt="Logo" />
 			</Link>
-			<NavButton link="calling" value="Appeler" image={Phone} />
+			<NavButton link="calling" value="Appeler" />
 			<NavButton link="account" value={caller.name} />
 		</div>
 	);
@@ -40,7 +39,7 @@ function MobileHeader({ caller }: { caller: Caller }) {
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'}>
 				<NavButton link="" value="Accueil" onclick={() => setIsNavExpanded(false)} />
-				<NavButton link="calling" value="Appeler" image={Phone} onclick={() => setIsNavExpanded(false)} />
+				<NavButton link="calling" value="Appeler" onclick={() => setIsNavExpanded(false)} />
 				<NavButton link="account" value={caller.name} onclick={() => setIsNavExpanded(false)} />
 			</div>
 		</>

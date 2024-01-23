@@ -38,13 +38,6 @@ async function testOldToken(): Promise<LoginResponse> {
 }
 
 function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
-	//return new Promise(resolve => {
-	//	resolve([
-	//		{ name: 'Zone 1', id: 't1es231d56f' },
-	//		{ name: 'Zone 2', id: 'dsfhce56s' }
-	//	]);
-	//});
-
 	return new Promise(resolve => {
 		axios
 			.get(`${URL}/getArea`)
@@ -59,7 +52,7 @@ function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
 }
 
 function LoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
-	const [ButtonEnabled, setButtonEnabled] = useState(false);
+	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
 	const [Areas, setAreas] = useState(Array<{ name: string; _id: string }>());
 
@@ -69,7 +62,7 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 			if (vals) {
 				setAreas(vals);
 				setButtonValue('Se connecter');
-				setButtonEnabled(true);
+				setButtonDisabled(false);
 			} else {
 				setButtonValue('Échec de la connexion au serveur');
 			}
@@ -89,24 +82,9 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 		}
 	}, [render]);
 
-	useEffect(() => {
-		const phone = document.getElementById('phone') as HTMLInputElement;
-		const pin = document.getElementById('pin') as HTMLInputElement;
-		const areas = document.getElementById('area') as HTMLInputElement;
-		if (ButtonEnabled) {
-			phone.disabled = false;
-			pin.disabled = false;
-			areas.disabled = false;
-		} else {
-			phone.disabled = true;
-			pin.disabled = true;
-			areas.disabled = true;
-		}
-	}, [ButtonEnabled]);
-
 	function click() {
-		if (!ButtonEnabled) return;
-		setButtonEnabled(false);
+		if (ButtonDisabled) return;
+		setButtonDisabled(true);
 		setButtonValue('Connexion...');
 
 		const credentials = {
@@ -121,7 +99,7 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 				render(result.data, credentials);
 			} else {
 				setButtonValue('Identifiants invalides');
-				setButtonEnabled(true);
+				setButtonDisabled(false);
 			}
 		});
 	}
@@ -141,7 +119,7 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 		<div className="LoginPage">
 			<div className="LoginPageMain">
 				<h1>Bienvenue sur Call Sphere</h1>
-				<select id="area" onChange={change}>
+				<select disabled={ButtonDisabled} id="area" onChange={change}>
 					{Areas.map((value, i) => {
 						return (
 							<option key={i} value={value._id}>
@@ -150,11 +128,18 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 						);
 					})}
 				</select>
-				<datalist id="AreaList"></datalist>
-				<input id="phone" type="tel" onChange={change} placeholder="Téléphone" />
-				<input maxLength={4} id="pin" type="tel" onChange={change} placeholder="Pin" onKeyDown={enter} />
+				<input disabled={ButtonDisabled} id="phone" type="tel" onChange={change} placeholder="Téléphone" />
+				<input
+					disabled={ButtonDisabled}
+					maxLength={4}
+					id="pin"
+					type="tel"
+					onChange={change}
+					placeholder="Pin"
+					onKeyDown={enter}
+				/>
 				<div className="NavButton">
-					<button onClick={click} className={ButtonEnabled ? '' : 'ButtonDisabled'}>
+					<button onClick={click} className={ButtonDisabled ? 'ButtonDisabled' : ''}>
 						{ButtonValue}
 					</button>
 				</div>
