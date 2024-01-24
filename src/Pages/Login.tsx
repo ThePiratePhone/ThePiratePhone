@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 import Footer from '../Components/Footer';
+import { mobileCheck } from '../Utils';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -51,7 +53,7 @@ function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
 	});
 }
 
-function LoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
+function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
 	const [Areas, setAreas] = useState(Array<{ name: string; _id: string }>());
@@ -147,6 +149,19 @@ function LoginPage({ render }: { render: (caller: Caller, credentials: Credentia
 			<Footer />
 		</div>
 	);
+}
+
+function DesktopLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
+	return (
+		<div className="DesktopLoginPage">
+			A desktop version ?<br />
+			One day maybe 😏
+		</div>
+	);
+}
+
+function LoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
+	return mobileCheck() ? <MobileLoginPage render={render} /> : <DesktopLoginPage render={render} />;
 }
 
 export default LoginPage;

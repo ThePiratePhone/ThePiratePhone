@@ -6,16 +6,32 @@ import Header from './Components/Header';
 import Calling from './Pages/Calling';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
+import Account from './Pages/Account';
+import { mobileCheck } from './Utils';
 
-function App({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
+function App({
+	caller,
+	credentials,
+	renderLogin
+}: {
+	caller: Caller;
+	credentials: Credentials;
+	renderLogin: () => void;
+}) {
+	const isMobile = mobileCheck();
+
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard credentials={credentials} caller={caller} />
+			element: <Dashboard credentials={credentials} caller={caller} isMobile={isMobile} />
 		},
 		{
 			path: '/Calling',
-			element: <Calling credentials={credentials} />
+			element: <Calling credentials={credentials} isMobile={isMobile} />
+		},
+		{
+			path: '/Account',
+			element: <Account caller={caller} renderLogin={renderLogin} />
 		},
 		{
 			path: '/*',
@@ -26,7 +42,7 @@ function App({ caller, credentials }: { caller: Caller; credentials: Credentials
 	return (
 		<BrowserRouter>
 			<div className="Main">
-				<Header caller={caller} />
+				<Header isMobile={isMobile} />
 				<div className="App">
 					<Routes>
 						{elements.map((element, i) => {

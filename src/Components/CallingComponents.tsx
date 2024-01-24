@@ -3,6 +3,8 @@ import axios from 'axios';
 import Script from './Script';
 
 import { cleanNumber } from '../Utils';
+import NavButton from './Button';
+import { Link } from 'react-router-dom';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -20,32 +22,39 @@ function InCallMobile({ client, script, endCall }: { client: User; script: strin
 				</div>
 			</div>
 			<div className="CallingEnd">
-				<div className="NavButton">
-					<button onClick={endCall}>FIN D'APPEL</button>
-				</div>
+				<NavButton value="FIN D'APPEL" onclick={endCall} />
 			</div>
 			<Script script={script} />;
 		</>
 	);
 }
 
-function CallEndMobile({ client, time, credentials }: { client: User; time: number; credentials: Credentials }) {
+function CallEndMobile({
+	client,
+	time,
+	credentials,
+	nextCall
+}: {
+	client: User;
+	time: number;
+	credentials: Credentials;
+	nextCall: () => void;
+}) {
 	async function post(satisfaction: number) {
-		return new Promise(resolve => {
-			axios
-				.post(URL + '/endCall', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area,
-					timeInCall: time,
-					satisfaction: satisfaction
-				})
-				.then(resolve)
-				.catch(error => {
-					console.error(error);
-					resolve(false);
-				});
-		});
+		axios
+			.post(URL + '/endCall', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area,
+				timeInCall: time,
+				satisfaction: satisfaction
+			})
+			.then(() => {
+				nextCall();
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 
 	return (
@@ -78,4 +87,24 @@ function CallEndMobile({ client, time, credentials }: { client: User; time: numb
 	);
 }
 
-export { CallEndMobile, InCallMobile };
+function NextCallMobile({ newCall }: { newCall: () => void }) {
+	return (
+		<div className="CallingEndContainer">
+			<div className="CallingEnded">
+				<h2>
+					Bien joué !<br /> Un autre ?
+				</h2>
+			</div>
+			<div className="CallingButtons">
+				<div className="NavButton">
+					<button onClick={newCall}>C'est parti !</button>
+				</div>
+				<Link to="/" className="NavButton RedButton">
+					<button>Stop</button>
+				</Link>
+			</div>
+		</div>
+	);
+}
+
+export { CallEndMobile, InCallMobile, NextCallMobile };

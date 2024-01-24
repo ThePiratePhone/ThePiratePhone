@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import Logo from '../Assets/Logo.svg';
 import Burger from '../Assets/Burger.svg';
+import Logo from '../Assets/Logo.svg';
 
-import { mobileCheck } from '../Utils';
 import NavButton from './Button';
 
-function DesktopHeader({ caller }: { caller: Caller }) {
+function DesktopHeader() {
 	return (
 		<div className="Header">
-			<Link to="/" className="Logo">
+			<Link to="" className="Logo">
 				<img src={Logo} alt="Logo" />
 			</Link>
-			<NavButton link="calling" value="Appeler" />
-			<NavButton link="account" value={caller.name} />
+			<NavButton link="Calling" value="Appeler" />
+			<NavButton link="Account" value="Mon compte" />
 		</div>
 	);
 }
 
-function MobileHeader({ caller }: { caller: Caller }) {
+function MobileHeader() {
 	const [isNavExpanded, setIsNavExpanded] = useState(false);
 
 	return (
@@ -38,16 +37,16 @@ function MobileHeader({ caller }: { caller: Caller }) {
 				/>
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'}>
-				<NavButton link="" value="Accueil" onclick={() => setIsNavExpanded(false)} />
-				<NavButton link="calling" value="Appeler" onclick={() => setIsNavExpanded(false)} />
-				<NavButton link="account" value={caller.name} onclick={() => setIsNavExpanded(false)} />
+				<NavButton link="/" value="Accueil" onclick={() => setIsNavExpanded(false)} />
+				<NavButton link="Calling" value="Appeler" onclick={() => setIsNavExpanded(false)} />
+				<NavButton link="Account" value="Mon compte" onclick={() => setIsNavExpanded(false)} />
 			</div>
 		</>
 	);
 }
 
-function Header({ caller }: { caller: Caller }) {
-	return mobileCheck() ? <MobileHeader caller={caller} /> : <DesktopHeader caller={caller} />;
+function Header({ isMobile }: { isMobile: boolean }) {
+	return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
 
 export default Header;

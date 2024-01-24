@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
-import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
-import { mobileCheck } from '../Utils';
+import { CallEndMobile, InCallMobile, NextCallMobile } from '../Components/CallingComponents';
 
-const URL = 'https:	//dfg.freeboxos.fr:7000/api';
+const URL = 'https://dfg.freeboxos.fr:7000/api';
 
 async function getNewClient(
 	credentials: Credentials
@@ -21,7 +20,7 @@ async function getNewClient(
 			})
 			.catch(err => {
 				if (err?.response?.data) {
-					if (err.response.data.message?.OK) {
+					if (err.response.data?.OK) {
 						resolve({ status: false, data: err.response.data });
 					} else {
 						resolve({ status: true, data: undefined });
@@ -40,73 +39,61 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 	const client = useRef<User>();
 
 	useEffect(() => {
-		const time = Date.now();
+		function getNextClient() {
+			getNewClient(credentials).then(result => {
+				const time = Date.now();
+				if (typeof result != 'undefined') {
+					if (result.data) {
+						client.current = result.data.client;
+						if (!result.status) {
+							endCall();
+						} else {
+							setPage(
+								<InCallMobile
+									client={client.current}
+									script={result.data.script}
+									endCall={() => endCall(time)}
+								/>
+							);
+						}
+					} else {
+						setPage(<div className="CallingError">La liste est vide !</div>);
+					}
+				} else {
+					setPage(<div className="CallingError">Une erreur est survenue :/</div>);
+				}
+			});
+		}
 
-		function endCall() {
+		function nextCall() {
+			setPage(<NextCallMobile newCall={getNextClient} />);
+		}
+
+		function endCall(startTime?: number) {
 			if (client.current) {
-				setPage(<CallEndMobile credentials={credentials} client={client.current} time={Date.now() - time} />);
+				setPage(
+					<CallEndMobile
+						credentials={credentials}
+						client={client.current}
+						time={startTime ? Date.now() - startTime : 0}
+						nextCall={nextCall}
+					/>
+				);
 			}
 		}
 
-		getNewClient(credentials).then(result => {
-			if (typeof result != 'undefined') {
-				if (result.data) {
-					client.current = result.data.client;
-					if (!result.status) {
-						setPage(<CallEndMobile credentials={credentials} client={client.current} time={0} />);
-					} else {
-						setPage(<InCallMobile client={client.current} script={result.data.script} endCall={endCall} />);
-					}
-				} else {
-					setPage(<div className="CallingError">La liste est vide !</div>);
-				}
-			} else {
-				setPage(<div className="CallingError">Une erreur est survenue :/</div>);
-			}
-		});
+		getNextClient();
 	}, [credentials]);
 
 	return <div className="Calling">{Page}</div>;
 }
 
-function CallingDesktop({ credentials }: { credentials: Credentials }) {
-	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
-
-	const client = useRef<User>();
-
-	useEffect(() => {
-		const time = Date.now();
-		getNewClient(credentials).then(result => {
-			function endCall() {
-				if (client.current) {
-					setPage(
-						<CallEndMobile credentials={credentials} client={client.current} time={Date.now() - time} />
-					);
-				}
-			}
-			if (typeof result != 'undefined') {
-				if (result.data) {
-					client.current = result.data.client;
-					if (!result.status) {
-						setPage(<CallEndMobile credentials={credentials} client={client.current} time={0} />);
-					} else {
-						setPage(<InCallMobile client={client.current} script={result.data.script} endCall={endCall} />);
-					}
-					setPage(<div>WIP...</div>);
-				} else {
-					setPage(<div className="CallingError">La liste est vide !</div>);
-				}
-			} else {
-				setPage(<div className="CallingError">Une erreur est survenue :/</div>);
-			}
-		});
-	}, [credentials]);
-
-	return <div className="Calling">{Page}</div>;
+function CallingDesktop() {
+	return <div className="Calling">WIP...</div>;
 }
 
-function Calling({ credentials }: { credentials: Credentials }) {
-	return mobileCheck() ? <CallingMobile credentials={credentials} /> : <CallingDesktop credentials={credentials} />;
+function Calling({ credentials, isMobile }: { credentials: Credentials; isMobile: boolean }) {
+	return isMobile ? <CallingMobile credentials={credentials} /> : <CallingDesktop />;
 }
 
 export default Calling;

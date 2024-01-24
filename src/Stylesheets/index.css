@@ -30,6 +30,10 @@ a {
 	height: 8vh;
 }
 
+.NavButton {
+	width: fit-content;
+}
+
 .NavButton>button {
 	cursor: pointer;
 	border: none;
@@ -83,6 +87,18 @@ a {
 	background-color: var(--color2a2bg);
 }
 
+.DesktopLoginPage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	font-size: 3em;
+	font-weight: bold;
+	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
+	text-align: center;
+}
+
 .LoginPage {
 	height: 100vh;
 	width: 100%;
@@ -113,8 +129,8 @@ a {
 	border: none;
 	background-color: rgb(202, 202, 202);
 	padding: 0.5em 1em;
-	font-size: 1.2em;
-	width: 15em;
+	font-size: 2.4em;
+	width: 50vw;
 	border-radius: 0px;
 }
 
@@ -214,12 +230,14 @@ a {
 .CallingEnd {
 	display: flex;
 	position: sticky;
-	top: 14vh;
+	top: 8vh;
 	align-content: center;
 	justify-content: center;
 	margin-top: 2em;
 	width: 100%;
 	gap: 5%;
+	padding: 2vh 0;
+	background: linear-gradient(180deg, #ffffff 10%, #ffffff00 100%);
 }
 
 .CallingEnd>.NavButton {
@@ -368,6 +386,10 @@ a {
 	color: white;
 }
 
+.RedButton>button:hover {
+	background-color: var(--color2a1);
+}
+
 .Dashboard {
 	width: 100%;
 	display: flex;
@@ -381,4 +403,21 @@ a {
 	font-size: 3em;
 	margin: 0;
 	margin-top: 5vh;
+}
+
+.AccountPage {
+	display: flex;
+	flex-direction: column;
+	margin: 2% 5%;
+	gap: 2vh;
+}
+
+.AccountPage>h1 {
+	margin: 0;
+}
+
+.MobileProgress {
+	font-size: 2.6em;
+	padding: 0 5vw;
+	text-align: center;
 }

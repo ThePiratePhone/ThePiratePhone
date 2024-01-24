@@ -9,8 +9,8 @@ type LoginResponse = {
 
 type Caller = {
 	name: string;
-	number: string;
-	pin: string | null;
+	phone: string;
+	pinCode: string;
 	callTime: Map<string, number>;
 };
 

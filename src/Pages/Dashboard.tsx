@@ -5,7 +5,7 @@ import NavButton from '../Components/Button';
 
 import Phone from '../Assets/Phone.svg';
 
-const URL = 'https:	//dfg.freeboxos.fr:7000/api';
+const URL = 'https://dfg.freeboxos.fr:7000/api';
 
 function getProgress(credentials: Credentials) {
 	return new Promise<Array<number> | false>(resolve => {
@@ -19,14 +19,18 @@ function getProgress(credentials: Credentials) {
 	});
 }
 
-function Dashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
+function MobileDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
 	const [Progress, setProgress] = useState<string>('');
 
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
-			if (vals) {
+			if (vals && !isNaN(vals[0])) {
 				setProgress(
-					'La progression est de ' + vals[0] / vals[1] + '%. Il reste ' + (vals[1] - vals[0]) + ' numéros.'
+					'La progression est de ' +
+						((vals[0] / vals[1]) * 100).toFixed(0) +
+						'%. Il reste ' +
+						(vals[1] - vals[0]) +
+						' numéros.'
 				);
 			} else {
 				setProgress('Une erreur est survenue :/');
@@ -34,7 +38,33 @@ function Dashboard({ caller, credentials }: { caller: Caller; credentials: Crede
 		});
 	}, [credentials]);
 
-	console.log('Here !');
+	return (
+		<div className="Dashboard">
+			<h1>Bienvenue, {caller.name}</h1>
+			<div className="MobileProgress">{Progress}</div>
+			<NavButton link="calling" image={Phone} value="Appeler" />
+		</div>
+	);
+}
+
+function DesktopDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
+	const [Progress, setProgress] = useState<string>('');
+
+	useEffect(() => {
+		getProgress(credentials).then(vals => {
+			if (vals && !isNaN(vals[0])) {
+				setProgress(
+					'La progression est de ' +
+						((vals[0] / vals[1]) * 100).toFixed(0) +
+						'%. Il reste ' +
+						(vals[1] - vals[0]) +
+						' numéros.'
+				);
+			} else {
+				setProgress('Une erreur est survenue :/');
+			}
+		});
+	}, [credentials]);
 
 	return (
 		<div className="Dashboard">
@@ -42,6 +72,14 @@ function Dashboard({ caller, credentials }: { caller: Caller; credentials: Crede
 			{Progress}
 			<NavButton link="calling" image={Phone} value="Appeler" />
 		</div>
+	);
+}
+
+function Dashboard({ caller, credentials, isMobile }: { caller: Caller; credentials: Credentials; isMobile: boolean }) {
+	return isMobile ? (
+		<MobileDashboard caller={caller} credentials={credentials} />
+	) : (
+		<DesktopDashboard caller={caller} credentials={credentials} />
 	);
 }
 

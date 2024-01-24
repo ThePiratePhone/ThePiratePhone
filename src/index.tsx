@@ -14,14 +14,17 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 function renderApp(caller: Caller, credentials: Credentials) {
 	root.render(
 		<React.StrictMode>
-			<App credentials={credentials} caller={caller} />
+			<App credentials={credentials} caller={caller} renderLogin={renderLogin} />
 		</React.StrictMode>
 	);
 }
 
-root.render(
-	<React.StrictMode>
-		<LoginPage render={renderApp} />
-		{/*<App caller={{ name: 'Caller 1', callTime: new Map(), number: '0987654321', pin: '3026' }} />*/}
-	</React.StrictMode>
-);
+function renderLogin() {
+	root.render(
+		<React.StrictMode>
+			<LoginPage render={renderApp} />
+		</React.StrictMode>
+	);
+}
+
+renderLogin();

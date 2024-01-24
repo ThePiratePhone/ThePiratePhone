@@ -11,8 +11,8 @@ function cleanNumber(number: string) {
 		newNumber += ' ' + numberArray[i] + numberArray[i + 1];
 	}
 
-	if (newNumber.startsWith('+33')) {
-		newNumber.replace('+33', '0');
+	if (newNumber.startsWith('+33 ')) {
+		newNumber = newNumber.replace('+33 ', '0');
 	}
 
 	return newNumber;
