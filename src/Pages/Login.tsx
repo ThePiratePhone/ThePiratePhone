@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Footer from '../Components/Footer';
-import { mobileCheck } from '../Utils';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -28,13 +27,7 @@ async function testOldToken(): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		const oldCredentials = window.localStorage.getItem('credentials') as string;
 		Login(JSON.parse(oldCredentials as string))
-			.then(result => {
-				if (result.OK) {
-					resolve(result);
-				} else {
-					resolve(result);
-				}
-			})
+			.then(resolve)
 			.catch(() => resolve({ OK: false, Message: 'Unknown error', data: undefined }));
 	});
 }
@@ -56,13 +49,22 @@ function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
 function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
-	const [Areas, setAreas] = useState(Array<{ name: string; _id: string }>());
+	const [Areas, setAreas] = useState<Array<{ name: string; _id: string }>>([]);
 
-	function loadButtonAndAreas() {
+	function loadAreas() {
 		setButtonValue('Récupération en cours...');
 		getAreas().then(vals => {
 			if (vals) {
-				setAreas(vals);
+				setAreas(
+					vals.sort((a, b) => {
+						if (a.name > b.name) {
+							return 1;
+						} else if (a.name < b.name) {
+							return -1;
+						}
+						return 0;
+					})
+				);
 				setButtonValue('Se connecter');
 				setButtonDisabled(false);
 			} else {
@@ -77,10 +79,10 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 				if (result.OK && result.data)
 					return render(result.data, JSON.parse(window.localStorage.getItem('credentials') as string));
 				window.localStorage.removeItem('credentials');
-				loadButtonAndAreas();
+				loadAreas();
 			});
 		} else {
-			loadButtonAndAreas();
+			loadAreas();
 		}
 	}, [render]);
 
@@ -91,7 +93,7 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
-			pinCode: (document.getElementById('pin') as HTMLInputElement).value as string,
+			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
 			area: (document.getElementById('area') as HTMLInputElement).value
 		};
 
@@ -160,8 +162,14 @@ function DesktopLoginPage({ render }: { render: (caller: Caller, credentials: Cr
 	);
 }
 
-function LoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
-	return mobileCheck() ? <MobileLoginPage render={render} /> : <DesktopLoginPage render={render} />;
+function LoginPage({
+	render,
+	isMobile
+}: {
+	render: (caller: Caller, credentials: Credentials) => void;
+	isMobile: boolean;
+}) {
+	return isMobile ? <MobileLoginPage render={render} /> : <DesktopLoginPage render={render} />;
 }
 
 export default LoginPage;

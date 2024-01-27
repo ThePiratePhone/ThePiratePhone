@@ -8,6 +8,7 @@ import './declarations.d.ts';
 
 import App from './App';
 import LoginPage from './Pages/Login';
+import { mobileCheck } from './Utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -22,7 +23,7 @@ function renderApp(caller: Caller, credentials: Credentials) {
 function renderLogin() {
 	root.render(
 		<React.StrictMode>
-			<LoginPage render={renderApp} />
+			<LoginPage render={renderApp} isMobile={mobileCheck()} />
 		</React.StrictMode>
 	);
 }

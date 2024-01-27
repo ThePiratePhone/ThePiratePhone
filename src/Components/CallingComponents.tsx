@@ -49,12 +49,8 @@ function CallEndMobile({
 				timeInCall: time,
 				satisfaction: satisfaction
 			})
-			.then(() => {
-				nextCall();
-			})
-			.catch(error => {
-				console.error(error);
-			});
+			.then(nextCall)
+			.catch(console.error);
 	}
 
 	return (
@@ -80,7 +76,7 @@ function CallEndMobile({
 					<button onClick={() => post(-1)}>Pas interessé</button>
 				</div>
 				<div className="NavButton RedButton">
-					<button>A retirer</button>
+					<button onClick={() => post(-2)}>A retirer</button>
 				</div>
 			</div>
 		</div>
