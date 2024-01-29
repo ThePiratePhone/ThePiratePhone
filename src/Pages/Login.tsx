@@ -156,8 +156,9 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 function DesktopLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
 	return (
 		<div className="DesktopLoginPage">
-			A desktop version ?<br />
-			One day maybe 😏
+			Une version de bureau ?<br />
+			Un jour peut-être 😏 <br />
+			En attendant, rendez-vous sur mobile !
 		</div>
 	);
 }
