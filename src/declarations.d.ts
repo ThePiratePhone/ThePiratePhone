@@ -12,6 +12,16 @@ type LoginResponse = {
 		| undefined;
 };
 
+type ProgressResponse =
+	| {
+			count: number;
+			callCall: number;
+			callInThisCampaign: number;
+			timeInCallInThisCampaign: number;
+			total: number;
+	  }
+	| undefined;
+
 type Caller = {
 	name: string;
 	phone: string;

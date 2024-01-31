@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import NavButton from '../Components/Button';
@@ -6,17 +7,16 @@ import Phone from '../Assets/Phone.svg';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
-function getProgress(credentials: Credentials) {
-	return new Promise(resolve => resolve(undefined));
-	//return new Promise<Array<number> | false>(resolve => {
-	//	axios
-	//		.post(URL + '/getProgress', credentials)
-	//		.then(response => resolve(response.data.data))
-	//		.catch(err => {
-	//			console.error(err);
-	//			resolve(false);
-	//		});
-	//});
+function getProgress(credentials: Credentials): Promise<ProgressResponse> {
+	return new Promise(resolve => {
+		axios
+			.post(URL + '/getProgress', credentials)
+			.then(response => resolve(response.data.data))
+			.catch(err => {
+				console.error(err);
+				resolve(undefined);
+			});
+	});
 }
 
 function MobileDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
@@ -24,12 +24,12 @@ function MobileDashboard({ caller, credentials }: { caller: Caller; credentials:
 
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
-			if (vals && !isNaN(vals[0])) {
+			if (vals) {
 				setProgress(
 					'La progression est de ' +
-						((vals[0] / vals[1]) * 100).toFixed(0) +
+						((vals.count / vals.total) * 100).toFixed(0) +
 						'%. Il reste ' +
-						(vals[1] - vals[0]) +
+						(vals.total - vals.count) +
 						' numéros.'
 				);
 			} else {
