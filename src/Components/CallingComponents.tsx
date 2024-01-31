@@ -1,10 +1,10 @@
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import Script from './Script';
 
 import { cleanNumber } from '../Utils';
 import NavButton from './Button';
-import { Link } from 'react-router-dom';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -45,6 +45,7 @@ function CallEndMobile({
 			.post(URL + '/endCall', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
+				area: credentials.area,
 				timeInCall: time,
 				satisfaction: satisfaction
 			})

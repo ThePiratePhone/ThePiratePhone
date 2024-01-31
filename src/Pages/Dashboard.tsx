@@ -20,7 +20,7 @@ function getProgress(credentials: Credentials): Promise<ProgressResponse> {
 }
 
 function MobileDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
-	const [Progress, setProgress] = useState<string>('');
+	const [Progress, setProgress] = useState('');
 
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
