@@ -28,63 +28,44 @@ async function testOldToken(): Promise<LoginResponse> {
 		const oldCredentials = window.localStorage.getItem('credentials') as string;
 		Login(JSON.parse(oldCredentials as string))
 			.then(resolve)
-			.catch(() => resolve({ OK: false, Message: 'Unknown error', data: undefined }));
-	});
-}
-
-function getAreas(): Promise<undefined | Array<{ name: string; _id: string }>> {
-	return new Promise(resolve => {
-		axios
-			.get(`${URL}/getArea`)
-			.then(result => {
-				resolve(result.data.data);
-			})
 			.catch(err => {
 				console.error(err);
-				resolve(undefined);
+				resolve({ OK: false, Message: 'Unknown error', data: undefined });
 			});
 	});
 }
 
-function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
+function MobileLoginPage({
+	chooseArea
+}: {
+	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+}) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
-	const [Areas, setAreas] = useState<Array<{ name: string; _id: string }>>([]);
-
-	function loadAreas() {
-		setButtonValue('Récupération en cours...');
-		getAreas().then(vals => {
-			if (vals) {
-				setAreas(
-					vals.sort((a, b) => {
-						if (a.name > b.name) {
-							return 1;
-						} else if (a.name < b.name) {
-							return -1;
-						}
-						return 0;
-					})
-				);
-				setButtonValue('Se connecter');
-				setButtonDisabled(false);
-			} else {
-				setButtonValue('Échec de la connexion au serveur');
-			}
-		});
-	}
 
 	useEffect(() => {
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
-				if (result.OK && result.data)
-					return render(result.data, JSON.parse(window.localStorage.getItem('credentials') as string));
-				window.localStorage.removeItem('credentials');
-				loadAreas();
+				if (result.OK && result.data) {
+					return chooseArea(
+						result.data.caller,
+						JSON.parse(window.localStorage.getItem('credentials') as string),
+						result.data.areaCombo
+					);
+				} else {
+					window.localStorage.removeItem('credentials');
+					load();
+				}
 			});
 		} else {
-			loadAreas();
+			load();
 		}
-	}, [render]);
+	}, [chooseArea]);
+
+	function load() {
+		setButtonDisabled(false);
+		setButtonValue('Se connecter');
+	}
 
 	function click() {
 		if (ButtonDisabled) return;
@@ -94,19 +75,41 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
 			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
-			area: (document.getElementById('area') as HTMLInputElement).value
+			area: ''
 		};
 
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				render(result.data, credentials);
+				chooseArea(result.data.caller, credentials, result.data.areaCombo);
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonDisabled(false);
 			}
 		});
 	}
+
+	//function loadAreas() {
+	//	setButtonValue('Récupération en cours...');
+	//	getAreas().then(vals => {
+	//		if (vals) {
+	//			setAreas(
+	//				vals.sort((a, b) => {
+	//					if (a.name > b.name) {
+	//						return 1;
+	//					} else if (a.name < b.name) {
+	//						return -1;
+	//					}
+	//					return 0;
+	//				})
+	//			);
+	//			setButtonValue('Se connecter');
+	//			setButtonDisabled(false);
+	//		} else {
+	//			setButtonValue('Échec de la connexion au serveur');
+	//		}
+	//	});
+	//}
 
 	function change() {
 		if (ButtonValue === 'Se connecter') return;
@@ -123,15 +126,6 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 		<div className="LoginPage">
 			<div className="LoginPageMain">
 				<h1>Bienvenue sur Call Sphere</h1>
-				<select disabled={ButtonDisabled} id="area" onChange={change}>
-					{Areas.map((value, i) => {
-						return (
-							<option key={i} value={value._id}>
-								{value.name}
-							</option>
-						);
-					})}
-				</select>
 				<input disabled={ButtonDisabled} id="phone" type="tel" onChange={change} placeholder="Téléphone" />
 				<input
 					disabled={ButtonDisabled}
@@ -153,7 +147,7 @@ function MobileLoginPage({ render }: { render: (caller: Caller, credentials: Cre
 	);
 }
 
-function DesktopLoginPage({ render }: { render: (caller: Caller, credentials: Credentials) => void }) {
+function DesktopLoginPage() {
 	return (
 		<div className="DesktopLoginPage">
 			Une version de bureau ?<br />
@@ -164,13 +158,13 @@ function DesktopLoginPage({ render }: { render: (caller: Caller, credentials: Cr
 }
 
 function LoginPage({
-	render,
+	chooseArea,
 	isMobile
 }: {
-	render: (caller: Caller, credentials: Credentials) => void;
+	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
 	isMobile: boolean;
 }) {
-	return isMobile ? <MobileLoginPage render={render} /> : <DesktopLoginPage render={render} />;
+	return isMobile ? <MobileLoginPage chooseArea={chooseArea} /> : <DesktopLoginPage />;
 }
 
 export default LoginPage;

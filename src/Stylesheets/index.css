@@ -138,6 +138,13 @@ a {
 	outline: 2px solid black;
 }
 
+.AreaLogin {
+	font-size: 3em;
+	padding: 1em 2em;
+	background-color: lightgray;
+	cursor: pointer;
+}
+
 .Footer {
 	width: 80%;
 	padding: 5vh 10%;

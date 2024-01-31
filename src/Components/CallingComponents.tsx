@@ -45,7 +45,6 @@ function CallEndMobile({
 			.post(URL + '/endCall', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
-				area: credentials.area,
 				timeInCall: time,
 				satisfaction: satisfaction
 			})

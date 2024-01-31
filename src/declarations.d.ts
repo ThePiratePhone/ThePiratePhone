@@ -4,7 +4,12 @@ declare module '*.svg';
 type LoginResponse = {
 	OK: boolean;
 	Message: string;
-	data: Caller | undefined;
+	data:
+		| {
+				caller: Caller;
+				areaCombo: Arary<AreaCombo>;
+		  }
+		| undefined;
 };
 
 type Caller = {
@@ -30,4 +35,11 @@ type Credentials = {
 	phone: string;
 	pinCode: string;
 	area: string;
+};
+
+type AreaCombo = {
+	areaName: string;
+	areaId: string;
+	campaignName: string;
+	campaignId: string;
 };

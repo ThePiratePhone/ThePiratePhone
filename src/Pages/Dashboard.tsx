@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import NavButton from '../Components/Button';
@@ -8,15 +7,16 @@ import Phone from '../Assets/Phone.svg';
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
 function getProgress(credentials: Credentials) {
-	return new Promise<Array<number> | false>(resolve => {
-		axios
-			.post(URL + '/getProgress', credentials)
-			.then(response => resolve(response.data.data))
-			.catch(err => {
-				console.error(err);
-				resolve(false);
-			});
-	});
+	return new Promise(resolve => resolve(undefined));
+	//return new Promise<Array<number> | false>(resolve => {
+	//	axios
+	//		.post(URL + '/getProgress', credentials)
+	//		.then(response => resolve(response.data.data))
+	//		.catch(err => {
+	//			console.error(err);
+	//			resolve(false);
+	//		});
+	//});
 }
 
 function MobileDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {

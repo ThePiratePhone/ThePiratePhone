@@ -12,10 +12,12 @@ import { mobileCheck } from './Utils';
 function App({
 	caller,
 	credentials,
+	areas,
 	renderLogin
 }: {
 	caller: Caller;
 	credentials: Credentials;
+	areas: Array<AreaCombo>;
 	renderLogin: () => void;
 }) {
 	const isMobile = mobileCheck();
@@ -23,6 +25,10 @@ function App({
 	const elements = [
 		{
 			path: '/',
+			element: <Dashboard credentials={credentials} caller={caller} isMobile={isMobile} />
+		},
+		{
+			path: '/SwitchArea',
 			element: <Dashboard credentials={credentials} caller={caller} isMobile={isMobile} />
 		},
 		{

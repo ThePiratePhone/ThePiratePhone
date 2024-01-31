@@ -1,9 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+
 import NavButton from '../Components/Button';
 import { cleanNumber } from '../Utils';
 
 function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => void }) {
+	const navigate = useNavigate();
+
 	function logOut() {
 		window.localStorage.removeItem('credentials');
+		navigate('/', { replace: true });
 		renderLogin();
 	}
 
