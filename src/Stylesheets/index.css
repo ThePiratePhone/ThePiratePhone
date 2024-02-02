@@ -125,7 +125,7 @@ a {
 	font-size: 4em;
 }
 
-.LoginPage>.LoginPageMain>input {
+.inputField {
 	border: none;
 	background-color: rgb(202, 202, 202);
 	padding: 0.5em 1em;
@@ -424,6 +424,20 @@ a {
 	margin-top: 5vh;
 }
 
+.AreaSelector {
+	width: 80%;
+	margin-top: 20vh;
+	font-size: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 1vh;
+}
+
+.AreaSelector>h2 {
+	margin: 0;
+	font-size: 1.5em;
+}
+
 .AccountPage {
 	display: flex;
 	flex-direction: column;
@@ -439,4 +453,8 @@ a {
 	font-size: 2.6em;
 	padding: 0 5vw;
 	text-align: center;
+}
+
+.JoinSelect {
+	font-size: 3em;
 }

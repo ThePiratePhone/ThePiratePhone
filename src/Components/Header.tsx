@@ -36,10 +36,11 @@ function MobileHeader() {
 					className="BurgerIcon"
 				/>
 			</div>
-			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'}>
-				<NavButton link="/" value="Accueil" onclick={() => setIsNavExpanded(false)} />
-				<NavButton link="Calling" value="Appeler" onclick={() => setIsNavExpanded(false)} />
-				<NavButton link="Account" value="Mon compte" onclick={() => setIsNavExpanded(false)} />
+			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
+				<NavButton link="/" value="Accueil" />
+				<NavButton link="Calling" value="Appeler" />
+				<NavButton link="Join" value="Joindre une organisation" />
+				<NavButton link="Account" value="Mon compte" />
 			</div>
 		</>
 	);

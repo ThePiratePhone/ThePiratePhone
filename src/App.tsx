@@ -8,28 +8,50 @@ import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
 import Account from './Pages/Account';
 import { mobileCheck } from './Utils';
+import Join from './Pages/Join';
+import SwitchArea from './Pages/SwitchArea';
 
 function App({
 	caller,
 	credentials,
 	areas,
+	currentArea,
 	renderLogin
 }: {
 	caller: Caller;
 	credentials: Credentials;
 	areas: Array<AreaCombo>;
+	currentArea: AreaCombo;
 	renderLogin: () => void;
 }) {
 	const isMobile = mobileCheck();
 
+	function setCredentials(newCredentials: Credentials, newAreaCombo: AreaCombo) {
+		credentials = newCredentials;
+		currentArea = newAreaCombo;
+		areas.push(newAreaCombo);
+		areas = areas.sort((a, b) => {
+			if (a.areaName > b.areaName) {
+				return 1;
+			} else if (a.areaName < b.areaName) {
+				return -1;
+			}
+			return 0;
+		});
+	}
+
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard credentials={credentials} caller={caller} isMobile={isMobile} />
+			element: <Dashboard areaCombo={currentArea} credentials={credentials} caller={caller} isMobile={isMobile} />
 		},
 		{
 			path: '/SwitchArea',
-			element: <Dashboard credentials={credentials} caller={caller} isMobile={isMobile} />
+			element: <SwitchArea areas={areas} setCredentials={setCredentials} />
+		},
+		{
+			path: '/Join',
+			element: <Join credentials={credentials} setCredentials={setCredentials} areas={areas} />
 		},
 		{
 			path: '/Calling',

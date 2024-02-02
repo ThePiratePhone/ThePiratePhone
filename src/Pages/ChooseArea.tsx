@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-function ChooseArea({ renderApp, areas }: { renderApp: (area: string) => void; areas: Array<AreaCombo> }) {
+function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void; areas: Array<AreaCombo> }) {
 	areas = areas.sort((a, b) => {
 		if (a.areaName > b.areaName) {
 			return 1;
@@ -15,8 +15,9 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: string) => void; a
 			const credentials: Credentials = JSON.parse(
 				window.localStorage.getItem('credentials')?.toString() as string
 			);
-			if (areas.find(area => area.areaId === credentials.area) !== undefined) {
-				renderApp(credentials.area);
+			const area = areas.find(area => area.areaId === credentials.area);
+			if (area !== undefined) {
+				renderApp(area);
 			}
 		}
 	}, [renderApp, areas]);
@@ -27,7 +28,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: string) => void; a
 				<h1>Choisissez votre Organisation</h1>
 				{areas.map((area, i) => {
 					return (
-						<div className="AreaLogin" key={i} onClick={() => renderApp(area.areaId)}>
+						<div className="AreaLogin" key={i} onClick={() => renderApp(area)}>
 							{area.areaName}
 						</div>
 					);

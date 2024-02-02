@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import NavButton from '../Components/Button';
 
 import Phone from '../Assets/Phone.svg';
+import { Link } from 'react-router-dom';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
@@ -19,7 +20,15 @@ function getProgress(credentials: Credentials): Promise<ProgressResponse> {
 	});
 }
 
-function MobileDashboard({ caller, credentials }: { caller: Caller; credentials: Credentials }) {
+function MobileDashboard({
+	caller,
+	credentials,
+	areaCombo
+}: {
+	caller: Caller;
+	credentials: Credentials;
+	areaCombo: AreaCombo;
+}) {
 	const [Progress, setProgress] = useState('');
 
 	useEffect(() => {
@@ -43,6 +52,14 @@ function MobileDashboard({ caller, credentials }: { caller: Caller; credentials:
 			<h1>Bienvenue, {caller.name}</h1>
 			<div className="MobileProgress">{Progress}</div>
 			<NavButton link="calling" image={Phone} value="Appeler" />
+
+			<Link to="/SwitchArea" className="AreaSelector">
+				Vous opérez sur
+				<h2>
+					{areaCombo.areaName}: {areaCombo.campaignName}.
+				</h2>
+				Cliquez pour le changer
+			</Link>
 		</div>
 	);
 }
@@ -75,9 +92,19 @@ function DesktopDashboard({ caller, credentials }: { caller: Caller; credentials
 	);
 }
 
-function Dashboard({ caller, credentials, isMobile }: { caller: Caller; credentials: Credentials; isMobile: boolean }) {
+function Dashboard({
+	caller,
+	credentials,
+	isMobile,
+	areaCombo
+}: {
+	caller: Caller;
+	credentials: Credentials;
+	isMobile: boolean;
+	areaCombo: AreaCombo;
+}) {
 	return isMobile ? (
-		<MobileDashboard caller={caller} credentials={credentials} />
+		<MobileDashboard areaCombo={areaCombo} caller={caller} credentials={credentials} />
 	) : (
 		<DesktopDashboard caller={caller} credentials={credentials} />
 	);

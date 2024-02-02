@@ -61,7 +61,16 @@ function CreateAccount({ connect }: { connect: () => void }) {
 	useEffect(() => {
 		getAreas().then(vals => {
 			if (vals) {
-				setAreas(vals);
+				setAreas(
+					vals.sort((a, b) => {
+						if (a.name > b.name) {
+							return 1;
+						} else if (a.name < b.name) {
+							return -1;
+						}
+						return 0;
+					})
+				);
 				setButtonValue('Créer un compte');
 				setButtonDisabled(false);
 			} else {
@@ -95,13 +104,13 @@ function CreateAccount({ connect }: { connect: () => void }) {
 			.catch(err => {
 				if (err.response.data) {
 					const message = err.response.data.message;
-					if (message == 'caller already exist') {
+					if (message === 'caller already exist') {
 						setButtonValue('Numéro de téléphone déjà utilisé');
-					} else if (message == 'Invalid area password') {
+					} else if (message === 'Invalid area password') {
 						setButtonValue('Clé invalide');
-					} else if (message == 'Invalid pin code') {
+					} else if (message === 'Invalid pin code') {
 						setButtonValue('Code pin invalide');
-					} else if (message == 'Wrong phone number') {
+					} else if (message === 'Wrong phone number') {
 						setButtonValue('Numéro de téléphone invalide');
 					} else {
 						setButtonValue(message);
@@ -127,7 +136,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 	}
 
 	function next(e: any, id: string) {
-		if (e.key == 'Enter') {
+		if (e.key === 'Enter') {
 			document.getElementById(id)?.focus();
 		}
 	}
@@ -146,6 +155,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 			</select>
 			<input
 				disabled={ButtonDisabled}
+				className="inputField"
 				id="password"
 				type="password"
 				placeholder="Clé d'organisation"
@@ -156,6 +166,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 			/>
 			<input
 				disabled={ButtonDisabled}
+				className="inputField"
 				id="name"
 				type="text"
 				placeholder="Nom"
@@ -166,6 +177,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 			/>
 			<input
 				disabled={ButtonDisabled}
+				className="inputField"
 				id="phone"
 				type="tel"
 				placeholder="Téléphone"
@@ -176,15 +188,18 @@ function CreateAccount({ connect }: { connect: () => void }) {
 			/>
 			<input
 				disabled={ButtonDisabled}
-				maxLength={4}
+				className="inputField"
 				id="pin"
 				type="tel"
 				placeholder="Pin"
+				maxLength={4}
 				onChange={change}
 				onKeyUp={enter}
 			/>
 			<div className="NavButton" onClick={createAccount}>
-				<button disabled={ButtonDisabled}>{ButtonValue}</button>
+				<button className={ButtonDisabled ? 'ButtonDisabled' : ''} disabled={ButtonDisabled}>
+					{ButtonValue}
+				</button>
 			</div>
 			<div className="NoAccount">
 				Déjà un compte ?<div onClick={connect}>Par ici !</div>
@@ -207,6 +222,14 @@ function MobileLoginBoard({
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
 				if (result.OK && result.data) {
+					result.data.areaCombo = result.data.areaCombo.sort((a: AreaCombo, b: AreaCombo) => {
+						if (a.areaName > b.areaName) {
+							return 1;
+						} else if (a.areaName < b.areaName) {
+							return -1;
+						}
+						return 0;
+					});
 					return chooseArea(
 						result.data.caller,
 						JSON.parse(window.localStorage.getItem('credentials') as string),
@@ -263,8 +286,16 @@ function MobileLoginBoard({
 	return (
 		<div className="LoginPageMain">
 			<h1>Bienvenue sur Call Sphere</h1>
-			<input disabled={ButtonDisabled} id="phone" type="tel" onChange={change} placeholder="Téléphone" />
 			<input
+				className="inputField"
+				disabled={ButtonDisabled}
+				id="phone"
+				type="tel"
+				onChange={change}
+				placeholder="Téléphone"
+			/>
+			<input
+				className="inputField"
 				disabled={ButtonDisabled}
 				maxLength={4}
 				id="pin"

@@ -13,10 +13,16 @@ import { mobileCheck } from './Utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) {
+function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCombo>, areaCombo: AreaCombo) {
 	root.render(
 		<React.StrictMode>
-			<App credentials={credentials} caller={caller} areas={areas} renderLogin={renderLogin} />
+			<App
+				currentArea={areaCombo}
+				credentials={credentials}
+				caller={caller}
+				areas={areas}
+				renderLogin={renderLogin}
+			/>
 		</React.StrictMode>
 	);
 }
@@ -25,10 +31,10 @@ function chooseArea(caller: Caller, credentials: Credentials, areas: Array<AreaC
 	root.render(
 		<React.StrictMode>
 			<ChooseArea
-				renderApp={(area: string) => {
-					credentials.area = area;
+				renderApp={(area: AreaCombo) => {
+					credentials.area = area.areaId;
 					window.localStorage.setItem('credentials', JSON.stringify(credentials));
-					renderApp(caller, credentials, areas);
+					renderApp(caller, credentials, areas, area);
 				}}
 				areas={areas}
 			/>
