@@ -53,3 +53,8 @@ type AreaCombo = {
 	campaignName: string;
 	campaignId: string;
 };
+
+type Area = {
+	_id: string;
+	name: string;
+};

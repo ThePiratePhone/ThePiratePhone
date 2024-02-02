@@ -35,10 +35,170 @@ async function testOldToken(): Promise<LoginResponse> {
 	});
 }
 
-function MobileLoginPage({
-	chooseArea
+function CreateAccount({ connect }: { connect: () => void }) {
+	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
+	const [ButtonDisabled, setButtonDisabled] = useState(true);
+	const [Areas, setAreas] = useState<Array<Area>>([]);
+
+	function getAreas() {
+		return new Promise<Array<Area> | undefined>(resolve => {
+			axios
+				.get(URL + '/getArea')
+				.then(response => {
+					if (typeof response == 'undefined') {
+						resolve(undefined);
+					} else {
+						resolve(response.data.data);
+					}
+				})
+				.catch(err => {
+					console.error(err);
+					resolve(undefined);
+				});
+		});
+	}
+
+	useEffect(() => {
+		getAreas().then(vals => {
+			if (vals) {
+				setAreas(vals);
+				setButtonValue('Créer un compte');
+				setButtonDisabled(false);
+			} else {
+				setButtonValue('Une erreur est survenue');
+			}
+		});
+	}, []);
+
+	function createAccount() {
+		if (ButtonDisabled) return;
+		setButtonDisabled(true);
+		setButtonValue('Vérification...');
+
+		const credentials = {
+			phone: (document.getElementById('phone') as HTMLInputElement).value,
+			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
+			AreaPassword: (document.getElementById('password') as HTMLInputElement).value,
+			area: (document.getElementById('area') as HTMLInputElement).value,
+			CallerName: (document.getElementById('name') as HTMLInputElement).value
+		};
+
+		axios
+			.post(URL + '/createCaller', credentials)
+			.then(() => {
+				setButtonDisabled(false);
+				setButtonValue('Compte créé !');
+				setTimeout(() => {
+					connect();
+				}, 3000);
+			})
+			.catch(err => {
+				if (err.response.data) {
+					const message = err.response.data.message;
+					if (message == 'caller already exist') {
+						setButtonValue('Numéro de téléphone déjà utilisé');
+					} else if (message == 'Invalid area password') {
+						setButtonValue('Clé invalide');
+					} else if (message == 'Invalid pin code') {
+						setButtonValue('Code pin invalide');
+					} else if (message == 'Wrong phone number') {
+						setButtonValue('Numéro de téléphone invalide');
+					} else {
+						setButtonValue(message);
+						console.log(err);
+					}
+				} else {
+					setButtonValue('Une erreur est survenue');
+					console.log(err);
+				}
+				setButtonDisabled(false);
+			});
+	}
+
+	function change() {
+		if (ButtonValue === 'Créer un compte') return;
+		setButtonValue('Créer un compte');
+	}
+
+	function enter(e: any) {
+		if (e.key === 'Enter') {
+			createAccount();
+		}
+	}
+
+	function next(e: any, id: string) {
+		if (e.key == 'Enter') {
+			document.getElementById(id)?.focus();
+		}
+	}
+
+	return (
+		<div className="LoginPageMain">
+			<h1>Nouveau compte</h1>
+			<select disabled={ButtonDisabled} id="area">
+				{Areas.map((area, i) => {
+					return (
+						<option key={i} value={area._id}>
+							{area.name}
+						</option>
+					);
+				})}
+			</select>
+			<input
+				disabled={ButtonDisabled}
+				id="password"
+				type="password"
+				placeholder="Clé d'organisation"
+				onChange={change}
+				onKeyUp={e => {
+					next(e, 'name');
+				}}
+			/>
+			<input
+				disabled={ButtonDisabled}
+				id="name"
+				type="text"
+				placeholder="Nom"
+				onChange={change}
+				onKeyUp={e => {
+					next(e, 'phone');
+				}}
+			/>
+			<input
+				disabled={ButtonDisabled}
+				id="phone"
+				type="tel"
+				placeholder="Téléphone"
+				onChange={change}
+				onKeyUp={e => {
+					next(e, 'pin');
+				}}
+			/>
+			<input
+				disabled={ButtonDisabled}
+				maxLength={4}
+				id="pin"
+				type="tel"
+				placeholder="Pin"
+				onChange={change}
+				onKeyUp={enter}
+			/>
+			<div className="NavButton" onClick={createAccount}>
+				<button disabled={ButtonDisabled}>{ButtonValue}</button>
+			</div>
+			<div className="NoAccount">
+				Déjà un compte ?<div onClick={connect}>Par ici !</div>
+			</div>
+		</div>
+	);
+}
+
+function MobileLoginBoard({
+	chooseArea,
+	newAccount
 }: {
 	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+	newAccount: () => void;
 }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
@@ -67,7 +227,7 @@ function MobileLoginPage({
 		setButtonValue('Se connecter');
 	}
 
-	function click() {
+	function connect() {
 		if (ButtonDisabled) return;
 		setButtonDisabled(true);
 		setButtonValue('Connexion...');
@@ -89,28 +249,6 @@ function MobileLoginPage({
 		});
 	}
 
-	//function loadAreas() {
-	//	setButtonValue('Récupération en cours...');
-	//	getAreas().then(vals => {
-	//		if (vals) {
-	//			setAreas(
-	//				vals.sort((a, b) => {
-	//					if (a.name > b.name) {
-	//						return 1;
-	//					} else if (a.name < b.name) {
-	//						return -1;
-	//					}
-	//					return 0;
-	//				})
-	//			);
-	//			setButtonValue('Se connecter');
-	//			setButtonDisabled(false);
-	//		} else {
-	//			setButtonValue('Échec de la connexion au serveur');
-	//		}
-	//	});
-	//}
-
 	function change() {
 		if (ButtonValue === 'Se connecter') return;
 		setButtonValue('Se connecter');
@@ -118,30 +256,53 @@ function MobileLoginPage({
 
 	function enter(e: any) {
 		if (e.key === 'Enter') {
-			click();
+			connect();
 		}
 	}
 
 	return (
-		<div className="LoginPage">
-			<div className="LoginPageMain">
-				<h1>Bienvenue sur Call Sphere</h1>
-				<input disabled={ButtonDisabled} id="phone" type="tel" onChange={change} placeholder="Téléphone" />
-				<input
-					disabled={ButtonDisabled}
-					maxLength={4}
-					id="pin"
-					type="tel"
-					onChange={change}
-					placeholder="Pin"
-					onKeyDown={enter}
-				/>
-				<div className="NavButton">
-					<button onClick={click} className={ButtonDisabled ? 'ButtonDisabled' : ''}>
-						{ButtonValue}
-					</button>
-				</div>
+		<div className="LoginPageMain">
+			<h1>Bienvenue sur Call Sphere</h1>
+			<input disabled={ButtonDisabled} id="phone" type="tel" onChange={change} placeholder="Téléphone" />
+			<input
+				disabled={ButtonDisabled}
+				maxLength={4}
+				id="pin"
+				type="tel"
+				onChange={change}
+				placeholder="Pin"
+				onKeyDown={enter}
+			/>
+			<div className="NavButton">
+				<button onClick={connect} className={ButtonDisabled ? 'ButtonDisabled' : ''}>
+					{ButtonValue}
+				</button>
 			</div>
+			<div className="NoAccount">
+				Pas de compte ? <div onClick={newAccount}>Par ici !</div>
+			</div>
+		</div>
+	);
+}
+
+function MobileLoginPage({
+	chooseArea
+}: {
+	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+}) {
+	const [Page, setPage] = useState(<MobileLoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
+
+	function newAccount() {
+		setPage(<CreateAccount connect={connect} />);
+	}
+
+	function connect() {
+		setPage(<MobileLoginBoard chooseArea={chooseArea} newAccount={newAccount} />);
+	}
+
+	return (
+		<div className="LoginPage">
+			{Page}
 			<Footer />
 		</div>
 	);

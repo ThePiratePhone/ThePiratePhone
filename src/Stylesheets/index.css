@@ -145,6 +145,18 @@ a {
 	cursor: pointer;
 }
 
+.NoAccount {
+	font-size: 2em;
+	display: flex;
+	align-items: center;
+}
+
+.NoAccount>div {
+	text-decoration: underline;
+	padding: 1em;
+	cursor: pointer;
+}
+
 .Footer {
 	width: 80%;
 	padding: 5vh 10%;
