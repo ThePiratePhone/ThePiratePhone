@@ -12,6 +12,7 @@ import E404 from './Pages/E404';
 import Join from './Pages/Join';
 import Switch from './Pages/Switch';
 import { mobileCheck } from './Utils';
+import Recall from './Pages/Recall';
 
 function App({
 	caller,
@@ -67,6 +68,10 @@ function App({
 		{
 			path: '/Calling',
 			element: <Calling credentials={Credentials} isMobile={isMobile} />
+		},
+		{
+			path: '/Recall',
+			element: <Recall credentials={Credentials} />
 		},
 		{
 			path: '/Account',

@@ -12,8 +12,8 @@ function DesktopHeader() {
 			<Link to="" className="Logo">
 				<img src={Logo} alt="Logo" />
 			</Link>
-			<NavButton link="Calling" value="Appeler" />
-			<NavButton link="Account" value="Mon compte" />
+			<NavButton link="/Calling" value="Appeler" />
+			<NavButton link="/Account" value="Mon compte" />
 		</div>
 	);
 }
@@ -37,9 +37,9 @@ function MobileHeader() {
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
 				<NavButton link="/" value="Accueil" />
-				<NavButton link="Calling" value="Appeler" />
-				<NavButton link="Switch" value="Changer d'organisation" />
-				<NavButton link="Account" value="Mon compte" />
+				<NavButton link="/Calling" value="Appeler" />
+				<NavButton link="/Switch" value="Changer d'organisation" />
+				<NavButton link="/Account" value="Mon compte" />
 			</div>
 		</>
 	);

@@ -51,7 +51,8 @@ function MobileDashboard({
 		<div className="Dashboard">
 			<h1>Bienvenue, {caller.name}</h1>
 			<div className="MobileProgress">{Progress}</div>
-			<NavButton link="calling" image={Phone} value="Appeler" />
+			<NavButton link="/Calling" image={Phone} value="Appeler" />
+			<NavButton link="/Recall" value="Quelqu'un vous a rappelé ?" />
 
 			<Link to="/Switch" className="AreaSelector">
 				Vous opérez sur
@@ -87,7 +88,7 @@ function DesktopDashboard({ caller, credentials }: { caller: Caller; credentials
 		<div className="Dashboard">
 			<h1>Bienvenue, {caller.name}</h1>
 			{Progress}
-			<NavButton link="calling" image={Phone} value="Appeler" />
+			<NavButton link="/Calling" image={Phone} value="Appeler" />
 		</div>
 	);
 }

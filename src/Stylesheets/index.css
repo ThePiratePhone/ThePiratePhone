@@ -430,8 +430,8 @@ select {
 }
 
 .AreaSelector {
-	width: 80%;
-	margin-top: 20vh;
+	width: 90%;
+	margin-top: 6em;
 	font-size: 2em;
 	display: flex;
 	flex-direction: column;
