@@ -20,7 +20,6 @@ function DesktopHeader() {
 
 function MobileHeader() {
 	const [isNavExpanded, setIsNavExpanded] = useState(false);
-
 	return (
 		<>
 			<div className="MobileHeader">
@@ -39,7 +38,7 @@ function MobileHeader() {
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
 				<NavButton link="/" value="Accueil" />
 				<NavButton link="Calling" value="Appeler" />
-				<NavButton link="Join" value="Joindre une organisation" />
+				<NavButton link="Switch" value="Changer d'organisation" />
 				<NavButton link="Account" value="Mon compte" />
 			</div>
 		</>

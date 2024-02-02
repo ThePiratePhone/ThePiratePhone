@@ -5,7 +5,7 @@ import Footer from '../Components/Footer';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
-function Login(credentials: Credentials): Promise<LoginResponse> {
+function Login(credentials: { phone: string; pinCode: string }): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		axios
 			.post(`${URL}/login`, credentials)
@@ -25,8 +25,8 @@ function Login(credentials: Credentials): Promise<LoginResponse> {
 
 async function testOldToken(): Promise<LoginResponse> {
 	return new Promise(resolve => {
-		const oldCredentials = window.localStorage.getItem('credentials') as string;
-		Login(JSON.parse(oldCredentials as string))
+		const oldCredentials = JSON.parse(window.localStorage.getItem('credentials') as string);
+		Login(oldCredentials)
 			.then(resolve)
 			.catch(err => {
 				console.error(err);
@@ -212,7 +212,7 @@ function MobileLoginBoard({
 	chooseArea,
 	newAccount
 }: {
-	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
 	newAccount: () => void;
 }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
@@ -257,8 +257,7 @@ function MobileLoginBoard({
 
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
-			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
-			area: ''
+			pinCode: (document.getElementById('pin') as HTMLInputElement).value
 		};
 
 		Login(credentials).then(result => {
@@ -319,7 +318,7 @@ function MobileLoginBoard({
 function MobileLoginPage({
 	chooseArea
 }: {
-	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
 }) {
 	const [Page, setPage] = useState(<MobileLoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
 
@@ -353,7 +352,7 @@ function LoginPage({
 	chooseArea,
 	isMobile
 }: {
-	chooseArea: (caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
 	isMobile: boolean;
 }) {
 	return isMobile ? <MobileLoginPage chooseArea={chooseArea} /> : <DesktopLoginPage />;

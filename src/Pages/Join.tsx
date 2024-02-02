@@ -7,10 +7,12 @@ const URL = 'https://dfg.freeboxos.fr:7000/api';
 function Join({
 	credentials,
 	setCredentials,
+	addArea,
 	areas
 }: {
 	credentials: Credentials;
-	setCredentials: (newCredentials: Credentials, newAreaCombo: AreaCombo) => void;
+	setCredentials: (newCredentials: Credentials) => void;
+	addArea: (newArea: AreaCombo) => void;
 	areas: Array<AreaCombo>;
 }) {
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
@@ -62,7 +64,8 @@ function Join({
 		join(area, password).then(newAreaCombo => {
 			if (newAreaCombo) {
 				credentials.area = newAreaCombo.areaId;
-				setCredentials(credentials, newAreaCombo);
+				setCredentials(credentials);
+				addArea(newAreaCombo);
 				navigate('/');
 			} else {
 				setButtonValue('Clé invalide');
@@ -151,6 +154,7 @@ function Join({
 			<h1>Joindre une organisation</h1>
 			{AreasComp}
 			<input
+				disabled={ButtonDisabled}
 				className="inputField"
 				id="password"
 				type="password"

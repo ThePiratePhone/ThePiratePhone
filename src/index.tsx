@@ -27,14 +27,18 @@ function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCo
 	);
 }
 
-function chooseArea(caller: Caller, credentials: Credentials, areas: Array<AreaCombo>) {
+function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) {
 	root.render(
 		<React.StrictMode>
 			<ChooseArea
 				renderApp={(area: AreaCombo) => {
-					credentials.area = area.areaId;
-					window.localStorage.setItem('credentials', JSON.stringify(credentials));
-					renderApp(caller, credentials, areas, area);
+					const Credentials = {
+						phone: credentials.phone,
+						pinCode: credentials.pinCode,
+						area: area.areaId
+					};
+					window.localStorage.setItem('credentials', JSON.stringify(Credentials));
+					renderApp(caller, Credentials, areas, area);
 				}}
 				areas={areas}
 			/>

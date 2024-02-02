@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
+import Account from './Pages/Account';
 import Calling from './Pages/Calling';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
-import Account from './Pages/Account';
-import { mobileCheck } from './Utils';
 import Join from './Pages/Join';
-import SwitchArea from './Pages/SwitchArea';
+import Switch from './Pages/Switch';
+import { mobileCheck } from './Utils';
+import { useState } from 'react';
 
 function App({
 	caller,
@@ -26,10 +27,11 @@ function App({
 }) {
 	const isMobile = mobileCheck();
 
-	function setCredentials(newCredentials: Credentials, newAreaCombo: AreaCombo) {
-		credentials = newCredentials;
-		currentArea = newAreaCombo;
-		areas.push(newAreaCombo);
+	const [Credentials, setCredentials] = useState(credentials);
+	const [CurrentArea, setCurrentArea] = useState(currentArea);
+
+	function addArea(newArea: AreaCombo) {
+		areas.push(newArea);
 		areas = areas.sort((a, b) => {
 			if (a.areaName > b.areaName) {
 				return 1;
@@ -38,24 +40,32 @@ function App({
 			}
 			return 0;
 		});
+		setCurrentArea(newArea);
 	}
 
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard areaCombo={currentArea} credentials={credentials} caller={caller} isMobile={isMobile} />
+			element: <Dashboard areaCombo={CurrentArea} credentials={Credentials} caller={caller} isMobile={isMobile} />
 		},
 		{
-			path: '/SwitchArea',
-			element: <SwitchArea areas={areas} setCredentials={setCredentials} />
+			path: '/Switch',
+			element: (
+				<Switch
+					areas={areas}
+					setCredentials={setCredentials}
+					switchArea={setCurrentArea}
+					credentials={Credentials}
+				/>
+			)
 		},
 		{
 			path: '/Join',
-			element: <Join credentials={credentials} setCredentials={setCredentials} areas={areas} />
+			element: <Join credentials={Credentials} setCredentials={setCredentials} addArea={addArea} areas={areas} />
 		},
 		{
 			path: '/Calling',
-			element: <Calling credentials={credentials} isMobile={isMobile} />
+			element: <Calling credentials={Credentials} isMobile={isMobile} />
 		},
 		{
 			path: '/Account',

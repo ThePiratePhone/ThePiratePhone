@@ -53,7 +53,7 @@ function MobileDashboard({
 			<div className="MobileProgress">{Progress}</div>
 			<NavButton link="calling" image={Phone} value="Appeler" />
 
-			<Link to="/SwitchArea" className="AreaSelector">
+			<Link to="/Switch" className="AreaSelector">
 				Vous opérez sur
 				<h2>
 					{areaCombo.areaName}: {areaCombo.campaignName}.

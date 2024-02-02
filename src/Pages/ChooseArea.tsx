@@ -11,10 +11,9 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 	});
 
 	useEffect(() => {
-		if ((window.localStorage.getItem('credentials')?.toString() as string) != null) {
-			const credentials: Credentials = JSON.parse(
-				window.localStorage.getItem('credentials')?.toString() as string
-			);
+		if ((window.localStorage.getItem('credentials') as string) != null) {
+			const credentials: Credentials = JSON.parse(window.localStorage.getItem('credentials') as string);
+			console.log(credentials);
 			const area = areas.find(area => area.areaId === credentials.area);
 			if (area !== undefined) {
 				renderApp(area);
@@ -25,7 +24,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 	return (
 		<div className="LoginPage">
 			<div className="LoginPageMain">
-				<h1>Choisissez votre Organisation</h1>
+				<h1>Choisissez votre organisation</h1>
 				{areas.map((area, i) => {
 					return (
 						<div className="AreaLogin" key={i} onClick={() => renderApp(area)}>

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import NavButton from '../Components/Button';
 import { cleanNumber } from '../Utils';
@@ -8,7 +8,7 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 
 	function logOut() {
 		window.localStorage.removeItem('credentials');
-		navigate('/', { replace: true });
+		navigate('/');
 		renderLogin();
 	}
 
@@ -24,6 +24,9 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 			<div>
 				Pin: <b>{caller.pinCode}</b>
 			</div>
+			<Link to="/Join" className="NavButton">
+				<button>Joindre une organisation</button>
+			</Link>
 			<NavButton value="Se déconnecter" onclick={logOut} />
 		</div>
 	);
