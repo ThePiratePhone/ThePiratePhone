@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
@@ -5,12 +6,12 @@ import Header from './Components/Header';
 
 import Account from './Pages/Account';
 import Calling from './Pages/Calling';
+import ChangePassword from './Pages/ChangePassword';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
 import Join from './Pages/Join';
 import Switch from './Pages/Switch';
 import { mobileCheck } from './Utils';
-import { useState } from 'react';
 
 function App({
 	caller,
@@ -70,6 +71,15 @@ function App({
 		{
 			path: '/Account',
 			element: <Account caller={caller} renderLogin={renderLogin} />
+		},
+		{
+			path: '/ChangePassword',
+			element: (
+				<ChangePassword
+					credentials={Credentials}
+					setCredentials={(credentials: Credentials) => setCredentials(credentials)}
+				/>
+			)
 		},
 		{
 			path: '/*',

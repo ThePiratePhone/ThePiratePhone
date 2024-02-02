@@ -24,6 +24,9 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 			<div>
 				Pin: <b>{caller.pinCode}</b>
 			</div>
+			<Link to="/ChangePassword" className="NavButton">
+				<button>Changer votre pin</button>
+			</Link>
 			<Link to="/Join" className="NavButton">
 				<button>Joindre une organisation</button>
 			</Link>

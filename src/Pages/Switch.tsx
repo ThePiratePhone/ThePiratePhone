@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Switch({
 	areas,
@@ -36,6 +36,10 @@ function Switch({
 			<div className="NavButton" onClick={click}>
 				<button>Valider</button>
 			</div>
+
+			<Link to="/Join" className="JoinArea">
+				L'organisation n'apparait pas ? Rejoignez-là ici.
+			</Link>
 		</div>
 	);
 }

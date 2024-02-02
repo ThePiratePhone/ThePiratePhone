@@ -21,6 +21,11 @@ a {
 	color: black;
 }
 
+select {
+	outline: none;
+	border: solid 1px black;
+}
+
 .App {
 	min-height: 60vh;
 }
@@ -457,4 +462,9 @@ a {
 
 .JoinSelect {
 	font-size: 3em;
+}
+
+.JoinArea {
+	font-size: 2em;
+	padding: 1em;
 }
