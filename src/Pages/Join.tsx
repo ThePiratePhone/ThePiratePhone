@@ -32,7 +32,6 @@ function Join({
 					campaignPassword: password
 				})
 				.then(response => {
-					console.log(response);
 					resolve(response.data.data);
 				})
 				.catch(err => {

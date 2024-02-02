@@ -13,7 +13,6 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 	useEffect(() => {
 		if ((window.localStorage.getItem('credentials') as string) != null) {
 			const credentials: Credentials = JSON.parse(window.localStorage.getItem('credentials') as string);
-			console.log(credentials);
 			const area = areas.find(area => area.areaId === credentials.area);
 			if (area !== undefined) {
 				renderApp(area);

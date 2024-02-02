@@ -114,11 +114,11 @@ function CreateAccount({ connect }: { connect: () => void }) {
 						setButtonValue('Numéro de téléphone invalide');
 					} else {
 						setButtonValue(message);
-						console.log(err);
+						console.error(err);
 					}
 				} else {
 					setButtonValue('Une erreur est survenue');
-					console.log(err);
+					console.error(err);
 				}
 				setButtonDisabled(false);
 			});
