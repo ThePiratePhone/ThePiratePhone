@@ -34,13 +34,17 @@ function MobileDashboard({
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
 			if (vals) {
-				setProgress(
-					'La progression est de ' +
-						((vals.count / vals.total) * 100).toFixed(0) +
-						'%. Il reste ' +
-						(vals.total - vals.count) +
-						' numéros.'
-				);
+				if (vals.count == 0) {
+					setProgress('Il ne semble avoir aucun numéro à appeler...');
+				} else {
+					setProgress(
+						'La progression est de ' +
+							((vals.count / vals.total) * 100).toFixed(0) +
+							'%. Il reste ' +
+							(vals.total - vals.count) +
+							' numéros.'
+					);
+				}
 			} else {
 				setProgress('Une erreur est survenue :/');
 			}
