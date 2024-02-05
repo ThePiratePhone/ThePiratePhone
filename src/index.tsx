@@ -38,7 +38,7 @@ function chooseArea(caller: Caller, credentials: { phone: string; pinCode: strin
 		renderApp(caller, Credentials, areas, area);
 	}
 
-	if (areas.length == 1) {
+	if (areas.length === 1) {
 		callback(areas[0]);
 	}
 

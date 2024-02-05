@@ -34,7 +34,7 @@ function MobileDashboard({
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
 			if (vals) {
-				if (vals.count == 0) {
+				if (vals.totals === 0) {
 					setProgress('Il ne semble avoir aucun numéro à appeler...');
 				} else {
 					setProgress(
