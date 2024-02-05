@@ -20,7 +20,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 		}
 	}, [renderApp, areas]);
 
-	if (areas.length == 0) {
+	if (areas.length === 0) {
 		window.localStorage.removeItem('credentials');
 	}
 
