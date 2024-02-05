@@ -28,20 +28,23 @@ function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCo
 }
 
 function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) {
+	function callback(area: AreaCombo) {
+		const Credentials = {
+			phone: credentials.phone,
+			pinCode: credentials.pinCode,
+			area: area.areaId
+		};
+		window.localStorage.setItem('credentials', JSON.stringify(Credentials));
+		renderApp(caller, Credentials, areas, area);
+	}
+
+	if (areas.length == 1) {
+		callback(areas[0]);
+	}
+
 	root.render(
 		<React.StrictMode>
-			<ChooseArea
-				renderApp={(area: AreaCombo) => {
-					const Credentials = {
-						phone: credentials.phone,
-						pinCode: credentials.pinCode,
-						area: area.areaId
-					};
-					window.localStorage.setItem('credentials', JSON.stringify(Credentials));
-					renderApp(caller, Credentials, areas, area);
-				}}
-				areas={areas}
-			/>
+			<ChooseArea renderApp={callback} areas={areas} />
 		</React.StrictMode>
 	);
 }
