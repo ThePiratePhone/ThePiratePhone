@@ -42,6 +42,8 @@ function App({
 			}
 			return 0;
 		});
+
+		window.localStorage.setItem('credentials', JSON.stringify(credentials));
 		setCurrentArea(newArea);
 	}
 
@@ -55,8 +57,18 @@ function App({
 			element: (
 				<Switch
 					areas={areas}
-					setCredentials={setCredentials}
-					switchArea={setCurrentArea}
+					setCredentials={(credentials: Credentials) => {
+						setCredentials(credentials);
+						window.localStorage.setItem('credentials', JSON.stringify(credentials));
+					}}
+					switchArea={(area: AreaCombo) => {
+						setCredentials(old => {
+							old.area = area.areaId;
+							return old;
+						});
+						window.localStorage.setItem('credentials', JSON.stringify(credentials));
+						setCurrentArea(area);
+					}}
 					credentials={Credentials}
 				/>
 			)
