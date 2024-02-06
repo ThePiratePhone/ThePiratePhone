@@ -31,6 +31,7 @@ function App({
 
 	const [Credentials, setCredentials] = useState(credentials);
 	const [CurrentArea, setCurrentArea] = useState(currentArea);
+	const [Caller, setCaller] = useState(caller);
 
 	function addArea(newArea: AreaCombo) {
 		areas.push(newArea);
@@ -47,20 +48,26 @@ function App({
 		setCurrentArea(newArea);
 	}
 
+	function changeCredentials(credentials: Credentials) {
+		setCredentials(credentials);
+		setCaller(cal => {
+			cal.pinCode = credentials.pinCode;
+			return cal;
+		});
+		window.localStorage.setItem('credentials', JSON.stringify(credentials));
+	}
+
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard areaCombo={CurrentArea} credentials={Credentials} caller={caller} isMobile={isMobile} />
+			element: <Dashboard areaCombo={CurrentArea} credentials={Credentials} caller={Caller} isMobile={isMobile} />
 		},
 		{
 			path: '/Switch',
 			element: (
 				<Switch
 					areas={areas}
-					setCredentials={(credentials: Credentials) => {
-						setCredentials(credentials);
-						window.localStorage.setItem('credentials', JSON.stringify(credentials));
-					}}
+					setCredentials={changeCredentials}
 					switchArea={(area: AreaCombo) => {
 						setCredentials(old => {
 							old.area = area.areaId;
@@ -75,7 +82,9 @@ function App({
 		},
 		{
 			path: '/Join',
-			element: <Join credentials={Credentials} setCredentials={setCredentials} addArea={addArea} areas={areas} />
+			element: (
+				<Join credentials={Credentials} setCredentials={changeCredentials} addArea={addArea} areas={areas} />
+			)
 		},
 		{
 			path: '/Calling',
@@ -87,16 +96,11 @@ function App({
 		},
 		{
 			path: '/Account',
-			element: <Account caller={caller} renderLogin={renderLogin} />
+			element: <Account caller={Caller} renderLogin={renderLogin} />
 		},
 		{
 			path: '/ChangePassword',
-			element: (
-				<ChangePassword
-					credentials={Credentials}
-					setCredentials={(credentials: Credentials) => setCredentials(credentials)}
-				/>
-			)
+			element: <ChangePassword credentials={Credentials} setCredentials={changeCredentials} />
 		},
 		{
 			path: '/*',
