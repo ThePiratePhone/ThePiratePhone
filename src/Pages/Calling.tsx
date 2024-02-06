@@ -13,7 +13,7 @@ async function getNewClient(
 			.post(URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
-					if (result?.data?.data?.OK) {
+					if (result?.data?.OK) {
 						resolve({ status: true, data: result.data.data });
 					} else {
 						resolve({ status: false, data: undefined });
