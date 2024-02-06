@@ -10,9 +10,9 @@ import ChangePassword from './Pages/ChangePassword';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
 import Join from './Pages/Join';
+import Recall from './Pages/Recall';
 import Switch from './Pages/Switch';
 import { mobileCheck } from './Utils';
-import Recall from './Pages/Recall';
 
 function App({
 	caller,
