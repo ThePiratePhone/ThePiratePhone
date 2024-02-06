@@ -13,7 +13,11 @@ async function getNewClient(
 			.post(URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
-					resolve({ status: true, data: result.data.data });
+					if (result?.data?.data?.OK) {
+						resolve({ status: true, data: result.data.data });
+					} else {
+						resolve({ status: false, data: undefined });
+					}
 				} else {
 					resolve(undefined);
 				}
@@ -57,7 +61,11 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 							);
 						}
 					} else {
-						setPage(<div className="CallingError">La liste est vide !</div>);
+						if (result.status) {
+							setPage(<div className="CallingError">La liste est vide !</div>);
+						} else {
+							setPage(<div className="CallingError">Aucune campagne n'est en cours</div>);
+						}
 					}
 				} else {
 					setPage(<div className="CallingError">Une erreur est survenue :/</div>);

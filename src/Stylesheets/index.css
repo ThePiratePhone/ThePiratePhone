@@ -149,6 +149,7 @@ select {
 	background-color: lightgray;
 	margin: 0 4vw;
 	cursor: pointer;
+	text-align: center;
 }
 
 .NoAccount {

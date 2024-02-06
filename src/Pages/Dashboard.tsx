@@ -8,14 +8,18 @@ import { Link } from 'react-router-dom';
 
 const URL = 'https://dfg.freeboxos.fr:7000/api';
 
-function getProgress(credentials: Credentials): Promise<ProgressResponse> {
+function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
 	return new Promise(resolve => {
 		axios
 			.post(URL + '/getProgress', credentials)
 			.then(response => resolve(response.data.data))
 			.catch(err => {
-				console.error(err);
-				resolve(undefined);
+				if (err?.response?.data?.message) {
+					resolve(err.response.data.message);
+				} else {
+					console.error(err);
+					resolve(undefined);
+				}
 			});
 	});
 }
@@ -33,7 +37,9 @@ function MobileDashboard({
 
 	useEffect(() => {
 		getProgress(credentials).then(vals => {
-			if (vals) {
+			if (typeof vals == 'string') {
+				setProgress("Aucune campagne n'est en cours");
+			} else if (vals) {
 				if (vals.total === 0) {
 					setProgress('Il ne semble avoir aucun numéro à appeler...');
 				} else {
