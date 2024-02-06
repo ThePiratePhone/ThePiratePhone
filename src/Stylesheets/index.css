@@ -143,15 +143,6 @@ select {
 	outline: 2px solid black;
 }
 
-.AreaLogin {
-	font-size: 3em;
-	padding: 1em 2em;
-	background-color: lightgray;
-	margin: 0 4vw;
-	cursor: pointer;
-	text-align: center;
-}
-
 .NoAccount {
 	font-size: 2em;
 	display: flex;

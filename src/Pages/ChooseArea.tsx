@@ -24,17 +24,28 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 		window.localStorage.removeItem('credentials');
 	}
 
+	function click() {
+		const areaId = (document.getElementById('area') as HTMLInputElement).value;
+		const area = areas.find(val => val.areaId === areaId) as AreaCombo;
+		renderApp(area);
+	}
+
 	return (
 		<div className="LoginPage">
 			<div className="LoginPageMain">
 				<h1>Choisissez votre organisation</h1>
-				{areas.map((area, i) => {
-					return (
-						<div className="AreaLogin" key={i} onClick={() => renderApp(area)}>
-							{area.areaName}
-						</div>
-					);
-				})}
+				<select className="JoinSelect" id="area">
+					{areas.map((area, i) => {
+						return (
+							<option key={i} value={area.areaId}>
+								{area.areaName}
+							</option>
+						);
+					})}
+				</select>
+				<div className="NavButton" onClick={click}>
+					<button>Valider</button>
+				</div>
 			</div>
 		</div>
 	);
