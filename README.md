@@ -1,3 +1,3 @@
-# Call Sphere
+# CallSphere
 
-Welcome to Call Sphere, the call list management system.
+Welcome to CallSphere, the call list management system.

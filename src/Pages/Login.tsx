@@ -286,7 +286,7 @@ function MobileLoginBoard({
 
 	return (
 		<div className="LoginPageMain">
-			<h1>Bienvenue sur Call Sphere</h1>
+			<h1>Bienvenue sur Callsphere</h1>
 			<input
 				className="inputField"
 				disabled={ButtonDisabled}
