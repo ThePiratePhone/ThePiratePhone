@@ -13,11 +13,11 @@ import { mobileCheck } from './Utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCombo>, areaCombo: AreaCombo) {
+function renderApp(caller: Caller, credentials: Credentials, areas: Array<Campaign>, campaign: Campaign) {
 	root.render(
 		<React.StrictMode>
 			<App
-				currentArea={areaCombo}
+				currentCampaign={campaign}
 				credentials={credentials}
 				caller={caller}
 				areas={areas}
@@ -27,8 +27,8 @@ function renderApp(caller: Caller, credentials: Credentials, areas: Array<AreaCo
 	);
 }
 
-function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) {
-	function callback(area: AreaCombo) {
+function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) {
+	function callback(area: Campaign) {
 		const Credentials = {
 			phone: credentials.phone,
 			pinCode: credentials.pinCode,

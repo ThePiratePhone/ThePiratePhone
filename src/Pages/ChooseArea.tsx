@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void; areas: Array<AreaCombo> }) {
+function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void; areas: Array<Campaign> }) {
 	areas = areas.sort((a, b) => {
 		if (a.areaName > b.areaName) {
 			return 1;
@@ -26,7 +26,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: AreaCombo) => void
 
 	function click() {
 		const areaId = (document.getElementById('area') as HTMLInputElement).value;
-		const area = areas.find(val => val.areaId === areaId) as AreaCombo;
+		const area = areas.find(val => val.areaId === areaId) as Campaign;
 		renderApp(area);
 	}
 

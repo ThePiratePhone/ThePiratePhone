@@ -6,9 +6,9 @@ function Switch({
 	switchArea,
 	credentials
 }: {
-	areas: Array<AreaCombo>;
+	areas: Array<Campaign>;
 	setCredentials: (newCredentials: Credentials) => void;
-	switchArea: (area: AreaCombo) => void;
+	switchArea: (area: Campaign) => void;
 	credentials: Credentials;
 }) {
 	const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Switch({
 	function click() {
 		const areaId = (document.getElementById('area') as HTMLInputElement).value;
 		credentials.area = areaId;
-		const area = areas.find(val => val.areaId === areaId) as AreaCombo;
+		const area = areas.find(val => val.areaId === areaId) as Campaign;
 		setCredentials(credentials);
 		switchArea(area);
 		navigate('/');

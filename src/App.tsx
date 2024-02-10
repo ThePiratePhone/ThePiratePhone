@@ -18,23 +18,23 @@ function App({
 	caller,
 	credentials,
 	areas,
-	currentArea,
+	currentCampaign,
 	renderLogin
 }: {
 	caller: Caller;
 	credentials: Credentials;
-	areas: Array<AreaCombo>;
-	currentArea: AreaCombo;
+	areas: Array<Campaign>;
+	currentCampaign: Campaign;
 	renderLogin: () => void;
 }) {
 	const isMobile = mobileCheck();
 
 	const [Credentials, setCredentials] = useState(credentials);
-	const [CurrentArea, setCurrentArea] = useState(currentArea);
+	const [CurrentCampaign, setCurrentCampaign] = useState(currentCampaign);
 	const [Caller, setCaller] = useState(caller);
 
-	function addArea(newArea: AreaCombo) {
-		areas.push(newArea);
+	function addCampaign(newCampaign: Campaign) {
+		areas.push(newCampaign);
 		areas = areas.sort((a, b) => {
 			if (a.areaName > b.areaName) {
 				return 1;
@@ -45,7 +45,7 @@ function App({
 		});
 
 		window.localStorage.setItem('credentials', JSON.stringify(credentials));
-		setCurrentArea(newArea);
+		setCurrentCampaign(newCampaign);
 	}
 
 	function changeCredentials(credentials: Credentials) {
@@ -60,7 +60,9 @@ function App({
 	const elements = [
 		{
 			path: '/',
-			element: <Dashboard areaCombo={CurrentArea} credentials={Credentials} caller={Caller} isMobile={isMobile} />
+			element: (
+				<Dashboard campaign={CurrentCampaign} credentials={Credentials} caller={Caller} isMobile={isMobile} />
+			)
 		},
 		{
 			path: '/Switch',
@@ -68,13 +70,13 @@ function App({
 				<Switch
 					areas={areas}
 					setCredentials={changeCredentials}
-					switchArea={(area: AreaCombo) => {
+					switchArea={(area: Campaign) => {
 						setCredentials(old => {
 							old.area = area.areaId;
 							return old;
 						});
 						window.localStorage.setItem('credentials', JSON.stringify(credentials));
-						setCurrentArea(area);
+						setCurrentCampaign(area);
 					}}
 					credentials={Credentials}
 				/>
@@ -83,7 +85,12 @@ function App({
 		{
 			path: '/Join',
 			element: (
-				<Join credentials={Credentials} setCredentials={changeCredentials} addArea={addArea} areas={areas} />
+				<Join
+					credentials={Credentials}
+					setCredentials={changeCredentials}
+					addCampaign={addCampaign}
+					areas={areas}
+				/>
 			)
 		},
 		{

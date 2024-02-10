@@ -212,7 +212,7 @@ function MobileLoginBoard({
 	chooseArea,
 	newAccount
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
 	newAccount: () => void;
 }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
@@ -222,18 +222,20 @@ function MobileLoginBoard({
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
 				if (result.OK && result.data) {
-					result.data.areaCombo = result.data.areaCombo.sort((a: AreaCombo, b: AreaCombo) => {
-						if (a.areaName > b.areaName) {
-							return 1;
-						} else if (a.areaName < b.areaName) {
-							return -1;
+					result.data.areas.camaignAvailable = result.data.areas.camaignAvailable.sort(
+						(a: Campaign, b: Campaign) => {
+							if (a.areaName > b.areaName) {
+								return 1;
+							} else if (a.areaName < b.areaName) {
+								return -1;
+							}
+							return 0;
 						}
-						return 0;
-					});
+					);
 					return chooseArea(
 						result.data.caller,
 						JSON.parse(window.localStorage.getItem('credentials') as string),
-						result.data.areaCombo
+						result.data.areas.camaignAvailable
 					);
 				} else {
 					window.localStorage.removeItem('credentials');
@@ -263,7 +265,7 @@ function MobileLoginBoard({
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				chooseArea(result.data.caller, credentials, result.data.areaCombo);
+				chooseArea(result.data.caller, credentials, result.data.areas.camaignAvailable);
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonDisabled(false);
@@ -318,7 +320,7 @@ function MobileLoginBoard({
 function MobileLoginPage({
 	chooseArea
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
 }) {
 	const [Page, setPage] = useState(<MobileLoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
 
@@ -352,7 +354,7 @@ function LoginPage({
 	chooseArea,
 	isMobile
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<AreaCombo>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
 	isMobile: boolean;
 }) {
 	return isMobile ? <MobileLoginPage chooseArea={chooseArea} /> : <DesktopLoginPage />;

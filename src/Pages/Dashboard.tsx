@@ -27,11 +27,11 @@ function getProgress(credentials: Credentials): Promise<ProgressResponse | strin
 function MobileDashboard({
 	caller,
 	credentials,
-	areaCombo
+	campaign
 }: {
 	caller: Caller;
 	credentials: Credentials;
-	areaCombo: AreaCombo;
+	campaign: Campaign;
 }) {
 	const [Progress, setProgress] = useState('');
 
@@ -67,7 +67,7 @@ function MobileDashboard({
 			<Link to="/Switch" className="AreaSelector">
 				Vous opérez sur
 				<h2>
-					{areaCombo.areaName}: {areaCombo.campaignName}.
+					{campaign.areaName}: {campaign.name}.
 				</h2>
 				Cliquez pour le changer
 			</Link>
@@ -107,15 +107,15 @@ function Dashboard({
 	caller,
 	credentials,
 	isMobile,
-	areaCombo
+	campaign
 }: {
 	caller: Caller;
 	credentials: Credentials;
 	isMobile: boolean;
-	areaCombo: AreaCombo;
+	campaign: Campaign;
 }) {
 	return isMobile ? (
-		<MobileDashboard areaCombo={areaCombo} caller={caller} credentials={credentials} />
+		<MobileDashboard campaign={campaign} caller={caller} credentials={credentials} />
 	) : (
 		<DesktopDashboard caller={caller} credentials={credentials} />
 	);

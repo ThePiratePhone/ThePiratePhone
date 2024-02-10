@@ -37,7 +37,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		setButtonDisabled(true);
 		setState('Vérification...');
 
-		const phone = (document.getElementById('phone') as HTMLInputElement).value;
+		const phone = (document.getElementById('phone') as HTMLInputElement).value.replaceAll(' ', '');
 
 		send(satisfaction, phone).then(value => {
 			if (value) {

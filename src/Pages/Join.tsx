@@ -7,13 +7,13 @@ const URL = 'https://dfg.freeboxos.fr:7000/api';
 function Join({
 	credentials,
 	setCredentials,
-	addArea,
+	addCampaign,
 	areas
 }: {
 	credentials: Credentials;
 	setCredentials: (newCredentials: Credentials) => void;
-	addArea: (newArea: AreaCombo) => void;
-	areas: Array<AreaCombo>;
+	addCampaign: (newCampaign: Campaign) => void;
+	areas: Array<Campaign>;
 }) {
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
 	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
@@ -23,7 +23,7 @@ function Join({
 	const navigate = useNavigate();
 
 	function join(area: string, password: string) {
-		return new Promise<AreaCombo | undefined>(resolve => {
+		return new Promise<Campaign | undefined>(resolve => {
 			axios
 				.post(URL + '/joinCampaign', {
 					area: area,
@@ -60,11 +60,11 @@ function Join({
 		setButtonDisabled(true);
 		setButtonValue('Vérification en cours...');
 
-		join(area, password).then(newAreaCombo => {
-			if (newAreaCombo) {
-				credentials.area = newAreaCombo.areaId;
+		join(area, password).then(newCampaign => {
+			if (newCampaign) {
+				credentials.area = newCampaign.areaId;
 				setCredentials(credentials);
-				addArea(newAreaCombo);
+				addCampaign(newCampaign);
 				navigate('/');
 			} else {
 				setButtonValue('Clé invalide');
