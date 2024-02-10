@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const URL = 'https://dfg.freeboxos.fr:7000/api';
+const URL = 'https://cs.mpqa.fr:7000/api';
 
 function Recall({ credentials }: { credentials: Credentials }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(false);

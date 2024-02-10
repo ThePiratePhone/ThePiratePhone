@@ -6,7 +6,7 @@ import NavButton from '../Components/Button';
 import Phone from '../Assets/Phone.svg';
 import { Link } from 'react-router-dom';
 
-const URL = 'https://dfg.freeboxos.fr:7000/api';
+const URL = 'https://cs.mpqa.fr:7000/api';
 
 function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
 	return new Promise(resolve => {

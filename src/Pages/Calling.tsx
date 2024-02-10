@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { CallEndMobile, InCallMobile, NextCallMobile } from '../Components/CallingComponents';
 
-const URL = 'https://dfg.freeboxos.fr:7000/api';
+const URL = 'https://cs.mpqa.fr:7000/api';
 
 async function getNewClient(
 	credentials: Credentials

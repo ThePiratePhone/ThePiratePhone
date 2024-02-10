@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Footer from '../Components/Footer';
 
-const URL = 'https://dfg.freeboxos.fr:7000/api';
+const URL = 'https://cs.mpqa.fr:7000/api';
 
 function Login(credentials: { phone: string; pinCode: string }): Promise<LoginResponse> {
 	return new Promise(resolve => {

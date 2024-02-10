@@ -6,7 +6,7 @@ import Script from './Script';
 import { cleanNumber } from '../Utils';
 import NavButton from './Button';
 
-const URL = 'https://dfg.freeboxos.fr:7000/api';
+const URL = 'https://cs.mpqa.fr:7000/api';
 
 function InCallMobile({ client, script, endCall }: { client: User; script: string; endCall: () => void }) {
 	return (
