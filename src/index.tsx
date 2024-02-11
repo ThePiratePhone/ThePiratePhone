@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './Stylesheets/index.css';
-import './Stylesheets/mobile.css';
 
 import './declarations.d.ts';
 
@@ -52,9 +51,19 @@ function chooseArea(caller: Caller, credentials: { phone: string; pinCode: strin
 function renderLogin() {
 	root.render(
 		<React.StrictMode>
-			<LoginPage chooseArea={chooseArea} isMobile={mobileCheck()} />
+			<LoginPage chooseArea={chooseArea} />
 		</React.StrictMode>
 	);
 }
 
-renderLogin();
+if (mobileCheck()) {
+	renderLogin();
+} else {
+	root.render(
+		<div className="DesktopHomePage">
+			Une version de bureau ?<br />
+			Un jour peut-être 😏 <br />
+			En attendant, rendez-vous sur mobile !
+		</div>
+	);
+}

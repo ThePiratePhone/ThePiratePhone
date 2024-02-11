@@ -12,7 +12,6 @@ import E404 from './Pages/E404';
 import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import Switch from './Pages/Switch';
-import { mobileCheck } from './Utils';
 
 function App({
 	caller,
@@ -27,8 +26,6 @@ function App({
 	currentCampaign: Campaign;
 	renderLogin: () => void;
 }) {
-	const isMobile = mobileCheck();
-
 	const [Credentials, setCredentials] = useState(credentials);
 	const [CurrentCampaign, setCurrentCampaign] = useState(currentCampaign);
 	const [Caller, setCaller] = useState(caller);
@@ -60,9 +57,7 @@ function App({
 	const elements = [
 		{
 			path: '/',
-			element: (
-				<Dashboard campaign={CurrentCampaign} credentials={Credentials} caller={Caller} isMobile={isMobile} />
-			)
+			element: <Dashboard credentials={Credentials} />
 		},
 		{
 			path: '/Switch',
@@ -95,7 +90,7 @@ function App({
 		},
 		{
 			path: '/Calling',
-			element: <Calling credentials={Credentials} isMobile={isMobile} />
+			element: <Calling credentials={Credentials} />
 		},
 		{
 			path: '/Recall',
@@ -118,7 +113,7 @@ function App({
 	return (
 		<BrowserRouter>
 			<div className="Main">
-				<Header isMobile={isMobile} />
+				<Header areaName={CurrentCampaign.areaName} />
 				<div className="App">
 					<Routes>
 						{elements.map((element, i) => {

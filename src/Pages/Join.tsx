@@ -161,7 +161,7 @@ function Join({
 				onKeyUp={enter}
 				placeholder="Clé d'organisation"
 			/>
-			<div className="NavButton" onClick={click}>
+			<div className="Button" onClick={click}>
 				<button className={ButtonDisabled ? 'ButtonDisabled' : ''} disabled={ButtonDisabled}>
 					{ButtonValue}
 				</button>

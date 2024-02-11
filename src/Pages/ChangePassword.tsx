@@ -80,7 +80,7 @@ function ChangePassword({
 				onKeyUp={enter}
 				onChange={change}
 			/>
-			<div className={ButtonDisabled ? 'NavButton ButtonDisabled' : 'NavButton'} onClick={click}>
+			<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'} onClick={click}>
 				<button disabled={ButtonDisabled}>{ButtonValue}</button>
 			</div>
 		</div>

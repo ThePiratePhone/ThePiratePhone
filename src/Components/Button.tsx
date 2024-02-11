@@ -1,35 +1,29 @@
 import { Link } from 'react-router-dom';
 
-function NavButton({
+function Button({
 	value,
 	link,
-	image,
+	type,
 	onclick
 }: {
 	value: string;
+	type?: 'RedButton';
 	link?: string;
-	image?: string;
 	onclick?: () => void;
 }) {
 	if (link) {
 		return (
-			<Link className="NavButton" to={link} onClick={onclick}>
-				<button>
-					{image ? <img className="ButtonIcon" src={image} alt="Button" /> : <></>}
-					{value}
-				</button>
+			<Link className={type ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
+				<button>{value}</button>
 			</Link>
 		);
 	} else {
 		return (
-			<div className="NavButton" onClick={onclick}>
-				<button>
-					{image ? <img className="ButtonIcon" src={image} alt="Button" /> : <></>}
-					{value}
-				</button>
+			<div className={type ? 'Button ' + type : 'Button'} onClick={onclick}>
+				<button>{value}</button>
 			</div>
 		);
 	}
 }
 
-export default NavButton;
+export default Button;

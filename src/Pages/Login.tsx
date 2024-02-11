@@ -102,7 +102,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 				}, 3000);
 			})
 			.catch(err => {
-				if (err.response.data) {
+				if (err.response.data?.message) {
 					const message = err.response.data.message;
 					if (message === 'caller already exist') {
 						setButtonValue('Numéro de téléphone déjà utilisé');
@@ -196,7 +196,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 				onChange={change}
 				onKeyUp={enter}
 			/>
-			<div className="NavButton" onClick={createAccount}>
+			<div className="Button" onClick={createAccount}>
 				<button className={ButtonDisabled ? 'ButtonDisabled' : ''} disabled={ButtonDisabled}>
 					{ButtonValue}
 				</button>
@@ -208,7 +208,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 	);
 }
 
-function MobileLoginBoard({
+function LoginBoard({
 	chooseArea,
 	newAccount
 }: {
@@ -305,7 +305,7 @@ function MobileLoginBoard({
 				placeholder="Pin"
 				onKeyDown={enter}
 			/>
-			<div className="NavButton">
+			<div className="Button">
 				<button onClick={connect} className={ButtonDisabled ? 'ButtonDisabled' : ''}>
 					{ButtonValue}
 				</button>
@@ -317,19 +317,19 @@ function MobileLoginBoard({
 	);
 }
 
-function MobileLoginPage({
+function LoginPage({
 	chooseArea
 }: {
 	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
 }) {
-	const [Page, setPage] = useState(<MobileLoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
+	const [Page, setPage] = useState(<LoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
 
 	function newAccount() {
 		setPage(<CreateAccount connect={connect} />);
 	}
 
 	function connect() {
-		setPage(<MobileLoginBoard chooseArea={chooseArea} newAccount={newAccount} />);
+		setPage(<LoginBoard chooseArea={chooseArea} newAccount={newAccount} />);
 	}
 
 	return (
@@ -338,26 +338,6 @@ function MobileLoginPage({
 			<Footer />
 		</div>
 	);
-}
-
-function DesktopLoginPage() {
-	return (
-		<div className="DesktopLoginPage">
-			Une version de bureau ?<br />
-			Un jour peut-être 😏 <br />
-			En attendant, rendez-vous sur mobile !
-		</div>
-	);
-}
-
-function LoginPage({
-	chooseArea,
-	isMobile
-}: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
-	isMobile: boolean;
-}) {
-	return isMobile ? <MobileLoginPage chooseArea={chooseArea} /> : <DesktopLoginPage />;
 }
 
 export default LoginPage;

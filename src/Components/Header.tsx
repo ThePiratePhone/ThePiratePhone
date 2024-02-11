@@ -2,23 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Burger from '../Assets/Burger.svg';
+import Cross from '../Assets/Cross.svg';
 import Logo from '../Assets/Logo.svg';
 
-import NavButton from './Button';
-
-function DesktopHeader() {
-	return (
-		<div className="Header">
-			<Link to="" className="Logo">
-				<img src={Logo} alt="Logo" />
-			</Link>
-			<NavButton link="/Calling" value="Appeler" />
-			<NavButton link="/Account" value="Mon compte" />
-		</div>
-	);
-}
-
-function MobileHeader() {
+function Header({ areaName }: { areaName: string }) {
 	const [isNavExpanded, setIsNavExpanded] = useState(false);
 
 	const LINKS = [
@@ -30,17 +17,20 @@ function MobileHeader() {
 
 	return (
 		<>
-			<div className="MobileHeader">
-				<div className="MobileLogo">
-					<img src={Logo} alt="Logo" />
-				</div>
+			<div className="Header">
+				<Link to="/" className="Logo" onClick={() => setIsNavExpanded(false)}>
+					<img className="Logo" src={Logo} alt="Logo" />
+				</Link>
+				<Link to="/Switch" className="AreaName" onClick={() => setIsNavExpanded(false)}>
+					{areaName}
+				</Link>
 				<img
 					onClick={() => {
 						setIsNavExpanded(!isNavExpanded);
 					}}
-					src={Burger}
-					alt="Burger Menu"
-					className="BurgerIcon"
+					src={isNavExpanded ? Cross : Burger}
+					alt="Open menu"
+					className="MenuIcon"
 				/>
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
@@ -54,10 +44,6 @@ function MobileHeader() {
 			</div>
 		</>
 	);
-}
-
-function Header({ isMobile }: { isMobile: boolean }) {
-	return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
 
 export default Header;

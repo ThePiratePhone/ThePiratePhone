@@ -33,7 +33,7 @@ function Switch({
 					);
 				})}
 			</select>
-			<div className="NavButton" onClick={click}>
+			<div className="Button" onClick={click}>
 				<button>Valider</button>
 			</div>
 

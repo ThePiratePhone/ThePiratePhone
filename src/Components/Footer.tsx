@@ -1,9 +1,9 @@
 function Footer() {
 	return (
 		<div className="Footer">
-			<div className="FooterElement">Call Sphere © 2024</div>
-			<div className="FooterElement">Un projet de l'Union Étudiante</div>
-			<div className="FooterElement">Réalisé avec ❤️ depuis Grenoble</div>
+			<span className="FooterElement">Call Sphere © 2024</span>
+			<span className="FooterElement">Un projet de l'Union Étudiante</span>
+			<span className="FooterElement">Réalisé avec ❤️ depuis Grenoble</span>
 		</div>
 	);
 }

@@ -37,7 +37,7 @@ async function getNewClient(
 	});
 }
 
-function CallingMobile({ credentials }: { credentials: Credentials }) {
+function Calling({ credentials }: { credentials: Credentials }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
 	const client = useRef<User>();
@@ -94,14 +94,6 @@ function CallingMobile({ credentials }: { credentials: Credentials }) {
 	}, [credentials]);
 
 	return <div className="Calling">{Page}</div>;
-}
-
-function CallingDesktop() {
-	return <div className="Calling">WIP...</div>;
-}
-
-function Calling({ credentials, isMobile }: { credentials: Credentials; isMobile: boolean }) {
-	return isMobile ? <CallingMobile credentials={credentials} /> : <CallingDesktop />;
 }
 
 export default Calling;

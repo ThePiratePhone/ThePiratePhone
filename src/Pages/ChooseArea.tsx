@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import Button from '../Components/Button';
 
 function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void; areas: Array<Campaign> }) {
 	areas = areas.sort((a, b) => {
@@ -43,9 +44,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void;
 						);
 					})}
 				</select>
-				<div className="NavButton" onClick={click}>
-					<button>Valider</button>
-				</div>
+				<Button value="Valier" onclick={click} />
 			</div>
 		</div>
 	);

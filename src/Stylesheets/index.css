@@ -10,6 +10,13 @@
 	--color2a1: #A182B0;
 	--color2a2: #79568A;
 	--color2a2bg: #EDE7EF;
+
+	--boxradius: 8px;
+}
+
+html {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
 }
 
 body {
@@ -38,44 +45,33 @@ select {
 	height: 8vh;
 }
 
-.NavButton {
+.Button {
 	width: fit-content;
 }
 
-.NavButton>button {
+.Button>button {
 	cursor: pointer;
 	border: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	gap: 0.5em;
 	background-color: var(--color1a1);
 	transition-duration: 150ms;
-	font-size: 1.1em;
+	font-size: 1em;
 	padding: 0.6em 1.2em;
-	border: 3px solid black;
-	box-shadow: 5px 5px 0 black;
+	border: 2px solid black;
 	color: black;
-	border-radius: 15px;
+	border-radius: var(--boxradius);
 }
 
-.NavButton>button>img {
-	width: 20px;
-}
-
-.NavButton:hover>button {
-	background-color: var(--color1a2);
-	box-shadow: 0 0 0 black;
-}
-
-.NavButton>.ButtonDisabled {
+.Button>.ButtonDisabled {
 	background-color: rgb(139, 139, 139);
 	box-shadow: none;
 	cursor: not-allowed;
 }
 
-.NavButton>.ButtonDisabled:hover {
+.Button>.ButtonDisabled:hover {
 	background-color: rgb(139, 139, 139);
 }
 
@@ -96,7 +92,7 @@ select {
 	background-color: var(--color2a2bg);
 }
 
-.DesktopLoginPage {
+.DesktopHomePage {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -119,7 +115,7 @@ select {
 	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
 }
 
-.LoginPage>.LoginPageMain {
+.LoginPageMain {
 	margin-top: 10vh;
 	display: flex;
 	justify-content: space-between;
@@ -128,28 +124,28 @@ select {
 	gap: 2vh;
 }
 
-.LoginPage>.LoginPageMain>h1 {
+.LoginPageMain>h1 {
 	margin: 5vh 0;
 	text-align: center;
-	font-size: 4em;
+	font-size: 2em;
 }
 
 .inputField {
 	box-sizing: content-box;
 	border: none;
 	background-color: rgb(202, 202, 202);
-	padding: 0.5em 1em;
-	font-size: 2.4em;
+	padding: 0.25em 0.5em;
+	font-size: 1.2em;
 	width: 50vw;
-	border-radius: 15px;
+	border-radius: var(--boxradius);
 }
 
-.LoginPage>.LoginPageMain>input:focus {
+.inputField:focus {
 	outline: 2px solid black;
 }
 
 .NoAccount {
-	font-size: 2em;
+	font-size: 1em;
 	display: flex;
 	align-items: center;
 }
@@ -168,11 +164,14 @@ select {
 	color: white;
 	position: relative;
 	bottom: 0;
-	font-size: 1em;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	gap: 3vh;
+}
+
+.FooterElement {
+	font-size: 1em;
 }
 
 .Calling {
@@ -189,33 +188,43 @@ select {
 	align-items: center;
 	background-color: var(--color2a2);
 	color: white;
+	padding: 2%;
+	border-radius: 0 0 0 var(--boxradius);
+	max-width: 50%;
+}
+
+.CallActions {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 2%;
+	width: 50%;
+	gap: 2vh;
 }
 
 .UserName {
 	text-align: center;
 	word-break: break-all;
-	font-size: 2em;
-	padding: 1em;
+	font-size: 1em;
 }
 
 .User>a {
 	display: flex;
 	flex-direction: column;
-	gap: 1em;
-	padding: 2em;
-	padding-left: 0;
+	gap: 0.5em;
 }
 
 .User>a>div {
 	color: white;
-	font-size: 1.8em;
+	font-size: 1em;
 	white-space: nowrap;
 	text-align: center;
 }
 
 .CallingHeader>h2,
 .Calling>h2 {
-	font-size: 2em;
+	font-size: 1em;
 	text-align: center;
 	text-align: center;
 	flex-grow: 1;
@@ -226,52 +235,17 @@ select {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
+	height: fit-content;
 }
 
 .CallButton {
-	display: none;
+	padding: 3vw;
 }
 
 .CallButton>button {
-	cursor: pointer;
-	border: none;
 	background-color: var(--color2a1);
-	transition-duration: 150ms;
-	font-size: 1.6em;
-	padding: 0.6em 1.2em;
-	border: 3px solid white;
-	box-shadow: 5px 5px 0 white;
+	border: 2px solid white;
 	color: white;
-}
-
-.CallButton:hover>button {
-	background-color: var(--color2a2);
-	box-shadow: 0 0 0 white;
-}
-
-.CallingEnd {
-	display: flex;
-	position: sticky;
-	top: 8vh;
-	align-content: center;
-	justify-content: center;
-	margin-top: 2em;
-	width: 100%;
-	gap: 5%;
-	padding: 2vh 0;
-	background: linear-gradient(180deg, #ffffff 10%, #ffffff00 100%);
-}
-
-.CallingEnd>.NavButton {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.CallingEnd>.NavButton>button {
-	font-weight: bold;
-	letter-spacing: 0.1em;
-	flex-grow: 1;
 }
 
 .CallingError {
@@ -317,7 +291,8 @@ select {
 }
 
 .CallingEnded>h2 {
-	font-size: 3em;
+	text-align: center;
+	font-size: 1.5em;
 }
 
 .UserEnded {
@@ -327,17 +302,18 @@ select {
 	justify-content: center;
 	background-color: var(--color2a2);
 	min-width: 40%;
-	padding: 2em;
-	margin-top: 2em;
+	padding: 1em;
+	margin-top: 1em;
 	color: white;
+	border-radius: var(--boxradius);
 }
 
 .UserEnded>div {
-	font-size: 2em;
+	font-size: 1em;
 }
 
 .UserNameEnded {
-	font-size: 2.4em;
+	font-size: 1.2em;
 	font-weight: 400;
 }
 
@@ -354,30 +330,40 @@ select {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 2em;
+	gap: 1em;
+	margin-bottom: 2vh;
 }
 
-.MobileHeader {
+.Header {
 	position: sticky;
 	top: 0;
 	width: 98%;
 	padding: 1vh 1%;
-	border-bottom: 3px solid black;
+	border-bottom: 1px solid black;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: left;
 	gap: 2vw;
 	background-color: var(--color2a2bg);
 	z-index: 2;
-}
-
-.MobileLogo,
-.MobileLogo>img {
 	height: 6vh;
 }
 
+.Logo,
+.Logo>img {
+	height: 6vh;
+}
+
+.AreaName {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
 .NavMenu {
-	transition-duration: 250ms;
+	transition-duration: 200ms;
 	transform: translateY(-100vh);
 	background-color: rgb(231, 231, 231);
 	position: fixed;
@@ -387,15 +373,14 @@ select {
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
-	border-bottom: 2px solid black;
 }
 
 .NavMenuButton {
 	width: 100%;
 	padding: 3vh 2vh;
-	letter-spacing: 0.2em;
+	letter-spacing: 0.15em;
 	font-weight: 600;
-	font-size: 2.5em;
+	font-size: 1.2em;
 	border-bottom: solid 1px black;
 }
 
@@ -403,19 +388,16 @@ select {
 	transform: none;
 }
 
-.BurgerIcon {
-	width: 6vw;
+.MenuIcon {
+	width: 8vw;
 	padding: 2vw;
 	margin-right: 5vw;
+	margin-left: auto;
 }
 
 .RedButton>button {
 	background-color: var(--color2a2);
 	color: white;
-}
-
-.RedButton>button:hover {
-	background-color: var(--color2a1);
 }
 
 .Dashboard {
@@ -424,19 +406,17 @@ select {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 5vh;
+	gap: 2vh;
 }
 
-.Dashboard>h1 {
-	font-size: 3em;
-	margin: 0;
-	margin-top: 5vh;
+.Dashboard {
+	text-align: center;
 }
 
 .AreaSelector {
 	width: 90%;
-	margin: 6em 0;
-	font-size: 2em;
+	margin: 6vh 0;
+	font-size: 1em;
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
@@ -458,13 +438,13 @@ select {
 	margin: 0;
 }
 
-.MobileProgress {
-	font-size: 2.6em;
+.Progress {
+	font-size: 1.2em;
 	padding: 0 5vw;
 	text-align: center;
 }
 
 .JoinArea {
-	font-size: 2em;
-	padding: 1em;
+	font-size: 1em;
+	padding: 0.5em;
 }

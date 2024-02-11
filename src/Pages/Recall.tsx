@@ -57,22 +57,22 @@ function Recall({ credentials }: { credentials: Credentials }) {
 			<h1>Rappel</h1>
 			<input disabled={ButtonDisabled} className="inputField" id="phone" type="tel" placeholder="Téléphone" />
 			<div className="CallingButtons">
-				<div className={ButtonDisabled ? 'NavButton ButtonDisabled' : 'NavButton'}>
+				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
 					<button disabled={ButtonDisabled} onClick={() => click(2)}>
 						Voté pour nous
 					</button>
 				</div>
-				<div className={ButtonDisabled ? 'NavButton ButtonDisabled' : 'NavButton'}>
+				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
 					<button disabled={ButtonDisabled} onClick={() => click(1)}>
 						Pas voté pour nous
 					</button>
 				</div>
-				<div className={ButtonDisabled ? 'NavButton ButtonDisabled' : 'NavButton'}>
+				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
 					<button disabled={ButtonDisabled} onClick={() => click(-1)}>
 						Pas interessé
 					</button>
 				</div>
-				<div className={ButtonDisabled ? 'NavButton RedButton ButtonDisabled' : 'NavButton RedButton'}>
+				<div className={ButtonDisabled ? 'Button RedButton ButtonDisabled' : 'Button RedButton'}>
 					<button disabled={ButtonDisabled} onClick={() => click(-2)}>
 						A retirer
 					</button>
