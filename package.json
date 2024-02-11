@@ -12,6 +12,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
+		"deploy": "ssh Dave rm -r /var/www/callsphere/* && scp -r build/* Dave:/var/www/callsphere/",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
