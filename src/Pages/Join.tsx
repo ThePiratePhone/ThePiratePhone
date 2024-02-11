@@ -136,7 +136,7 @@ function Join({
 			return;
 		}
 		setAreasComp(
-			<select className="JoinSelect" id="area">
+			<select className="inputField" id="area">
 				{Areas.map((area, i) => {
 					return (
 						<option key={i} value={area._id}>
