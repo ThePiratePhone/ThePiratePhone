@@ -382,15 +382,21 @@ select {
 	background-color: rgb(231, 231, 231);
 	position: fixed;
 	top: 8vh;
-	width: calc(100% - 4vh);
-	height: calc(100vh - 8vh - 4vh);
-	padding: 2vh;
+	width: 100%;
+	height: calc(100vh - 8vh);
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	gap: 2vh;
 	border-bottom: 2px solid black;
+}
+
+.NavMenuButton {
+	width: 100%;
+	padding: 3vh 2vh;
+	letter-spacing: 0.2em;
+	font-weight: 600;
+	font-size: 2.5em;
+	border-bottom: solid 1px black;
 }
 
 .expanded {

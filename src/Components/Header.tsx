@@ -20,6 +20,14 @@ function DesktopHeader() {
 
 function MobileHeader() {
 	const [isNavExpanded, setIsNavExpanded] = useState(false);
+
+	const LINKS = [
+		{ value: 'Accueil', link: '/' },
+		{ value: 'Appeler', link: '/Calling' },
+		{ value: "Changer d'organisation", link: '/Switch' },
+		{ value: 'Mon compte', link: '/Account' }
+	];
+
 	return (
 		<>
 			<div className="MobileHeader">
@@ -36,10 +44,13 @@ function MobileHeader() {
 				/>
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
-				<NavButton link="/" value="Accueil" />
-				<NavButton link="/Calling" value="Appeler" />
-				<NavButton link="/Switch" value="Changer d'organisation" />
-				<NavButton link="/Account" value="Mon compte" />
+				{LINKS.map((val, i) => {
+					return (
+						<Link className="NavMenuButton" to={val.link} key={i}>
+							{val.value}
+						</Link>
+					);
+				})}
 			</div>
 		</>
 	);
