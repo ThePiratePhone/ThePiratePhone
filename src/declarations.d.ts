@@ -7,7 +7,7 @@ type LoginResponse = {
 	data:
 		| {
 				caller: Caller;
-				areas: AreaCombo;
+				areaCombo: AreaCombo;
 		  }
 		| undefined;
 };
@@ -49,7 +49,7 @@ type Credentials = {
 
 type AreaCombo = {
 	area: Area;
-	camaignAvailable: Array<Campaign>;
+	campaignAvailable: Array<Campaign>;
 };
 
 type Campaign = {

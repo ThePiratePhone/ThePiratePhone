@@ -144,7 +144,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 	return (
 		<div className="LoginPageMain">
 			<h1>Nouveau compte</h1>
-			<select disabled={ButtonDisabled} id="area">
+			<select disabled={ButtonDisabled} id="area" className="inputField">
 				{Areas.map((area, i) => {
 					return (
 						<option key={i} value={area._id}>
@@ -222,7 +222,7 @@ function MobileLoginBoard({
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken().then(result => {
 				if (result.OK && result.data) {
-					result.data.areas.camaignAvailable = result.data.areas.camaignAvailable.sort(
+					result.data.areaCombo.campaignAvailable = result.data.areaCombo.campaignAvailable.sort(
 						(a: Campaign, b: Campaign) => {
 							if (a.areaName > b.areaName) {
 								return 1;
@@ -235,7 +235,7 @@ function MobileLoginBoard({
 					return chooseArea(
 						result.data.caller,
 						JSON.parse(window.localStorage.getItem('credentials') as string),
-						result.data.areas.camaignAvailable
+						result.data.areaCombo.campaignAvailable
 					);
 				} else {
 					window.localStorage.removeItem('credentials');
@@ -265,7 +265,7 @@ function MobileLoginBoard({
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				chooseArea(result.data.caller, credentials, result.data.areas.camaignAvailable);
+				chooseArea(result.data.caller, credentials, result.data.areaCombo.campaignAvailable);
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonDisabled(false);
