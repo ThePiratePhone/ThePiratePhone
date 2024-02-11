@@ -251,10 +251,11 @@ select {
 .CallingError {
 	display: flex;
 	width: 100%;
-	padding: 200px 0;
+	margin-top: 20vh;
+	text-align: center;
 	align-items: center;
 	justify-content: center;
-	font-size: 3em;
+	font-size: 1.7em;
 	font-weight: bold;
 }
 
@@ -401,6 +402,7 @@ select {
 }
 
 .Dashboard {
+	padding: 2vh 0;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
