@@ -24,7 +24,7 @@ function Switch({
 	return (
 		<div className="Dashboard">
 			<h1>Changer d'organisation</h1>
-			<select className="JoinSelect" id="area">
+			<select className="inputField" id="area">
 				{areas.map((area, i) => {
 					return (
 						<option key={i} value={area.areaId}>
