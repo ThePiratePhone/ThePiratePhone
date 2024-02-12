@@ -150,7 +150,7 @@ function Join({
 
 	return (
 		<div className="Dashboard">
-			<h1>Joindre une organisation</h1>
+			<h1>Rejoindre une organisation</h1>
 			{AreasComp}
 			<input
 				disabled={ButtonDisabled}

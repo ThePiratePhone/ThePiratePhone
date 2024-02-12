@@ -3,6 +3,16 @@
 	src: url("../Assets/Raleway.ttf");
 }
 
+@font-face {
+	font-family: 'Phudu';
+	src: url("../Assets/Phudu.ttf");
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	src: url("../Assets/Montserrat.ttf");
+}
+
 :root {
 	--color1a1: #04F1C2;
 	--color1a2: #03CEA4;
@@ -361,6 +371,8 @@ select {
 	white-space: nowrap;
 	font-weight: bold;
 	font-size: 1.5em;
+	font-family: 'Phudu';
+	font-weight: 500;
 }
 
 .NavMenu {
@@ -379,9 +391,8 @@ select {
 .NavMenuButton {
 	width: 100%;
 	padding: 3vh 2vh;
-	letter-spacing: 0.15em;
 	font-weight: 600;
-	font-size: 1.2em;
+	font-size: 1.3em;
 	border-bottom: solid 1px black;
 }
 
@@ -436,6 +447,10 @@ select {
 	gap: 2vh;
 }
 
+.AccountPage>div>b {
+	font-weight: 600;
+}
+
 .AccountPage>h1 {
 	margin: 0;
 }
@@ -449,4 +464,8 @@ select {
 .JoinArea {
 	font-size: 1em;
 	padding: 0.5em;
+}
+
+.PhoneNumber {
+	font-family: 'Montserrat';
 }

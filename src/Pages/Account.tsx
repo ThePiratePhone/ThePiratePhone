@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
 import { cleanNumber } from '../Utils';
@@ -19,13 +19,12 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 				Nom: <b>{caller.name}</b>
 			</div>
 			<div>
-				Numéro: <b>{cleanNumber(caller.phone)}</b>
+				Numéro: <b className="PhoneNumber">{cleanNumber(caller.phone)}</b>
 			</div>
 			<div>
-				Pin: <b>{caller.pinCode}</b>
+				Pin: <b className="PhoneNumber">{caller.pinCode}</b>
 			</div>
 			<Button value="Changer votre pin" link="/ChangePassword" />
-			<Button value="Joindre une organisation" link="/Join" />
 			<Button value="Se déconnecter" onclick={logOut} />
 		</div>
 	);
