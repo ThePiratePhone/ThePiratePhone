@@ -19,7 +19,7 @@ function InCallMobile({ client, script, endCall }: { client: User; script: strin
 				<div className="User">
 					<h2 className="UserName">{client.name}</h2>
 					<a href={'tel:' + client.phone} className="Button CallButton">
-						<div className='PhoneNumber'>{cleanNumber(client.phone)}</div>
+						<div className="PhoneNumber">{cleanNumber(client.phone)}</div>
 						<button>Appeler</button>
 					</a>
 				</div>
@@ -61,7 +61,7 @@ function CallEndMobile({
 
 	async function cancel() {
 		axios
-			.post(URL + '/', {
+			.post(URL + '/giveUp', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
 				area: credentials.area
