@@ -13,7 +13,7 @@ function Button({
 }) {
 	if (link) {
 		return (
-			<Link className={type != '' ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
+			<Link className={type !== '' ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
 				<button>{value}</button>
 			</Link>
 		);

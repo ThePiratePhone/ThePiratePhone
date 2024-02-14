@@ -4,7 +4,6 @@ import Button from './Button';
 import Script from './Script';
 
 import { cleanNumber } from '../Utils';
-import { useState } from 'react';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
@@ -88,7 +87,7 @@ function CallEndMobile({
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 
-		if (comment == '') {
+		if (comment === '') {
 			comment = undefined;
 		}
 

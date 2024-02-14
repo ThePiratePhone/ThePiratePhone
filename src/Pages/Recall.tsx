@@ -1,13 +1,11 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
 function Recall({ credentials }: { credentials: Credentials }) {
-	const [ButtonDisabled, setButtonDisabled] = useState(false);
-
 	const VALUES = [
 		{ name: 'Voté pour nous', value: 2 },
 		{ name: 'Pas voté pour nous', value: 1 },
@@ -43,7 +41,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 
-		if (comment == '') {
+		if (comment === '') {
 			comment = undefined;
 		}
 
@@ -56,7 +54,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	return (
 		<div className="Dashboard">
 			<h1>Rappel</h1>
-			<input disabled={ButtonDisabled} className="inputField" id="phone" type="tel" placeholder="Téléphone" />
+			<input className="inputField" id="phone" type="tel" placeholder="Téléphone" />
 			<div className="CallingButtons">
 				<select className="inputField" id="satisfaction">
 					{VALUES.map((value, i) => {
