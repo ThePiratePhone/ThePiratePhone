@@ -12,6 +12,7 @@ import E404 from './Pages/E404';
 import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import Switch from './Pages/Switch';
+import ThemeProvider from './Components/ThemeProvider';
 
 function App({
 	caller,
@@ -112,17 +113,19 @@ function App({
 
 	return (
 		<BrowserRouter>
-			<div className="Main">
-				<Header areaName={CurrentCampaign.areaName} />
-				<div className="App">
-					<Routes>
-						{elements.map((element, i) => {
-							return <Route path={element.path} element={element.element} key={i} />;
-						})}
-					</Routes>
+			<ThemeProvider themeId="">
+				<div className="Main">
+					<Header areaName={CurrentCampaign.areaName} />
+					<div className="App">
+						<Routes>
+							{elements.map((element, i) => {
+								return <Route path={element.path} element={element.element} key={i} />;
+							})}
+						</Routes>
+					</div>
+					<Footer />
 				</div>
-				<Footer />
-			</div>
+			</ThemeProvider>
 		</BrowserRouter>
 	);
 }

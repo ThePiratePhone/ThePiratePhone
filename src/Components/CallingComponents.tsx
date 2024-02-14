@@ -1,19 +1,56 @@
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
 
-import Script from './Script';
 import Button from './Button';
+import Script from './Script';
 
 import { cleanNumber } from '../Utils';
+import { useState } from 'react';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
-function InCallMobile({ client, script, endCall }: { client: User; script: string; endCall: () => void }) {
+function post(credentials: Credentials, satisfaction: number, time: number, comment?: string) {
+	return new Promise<boolean>(resolve => {
+		axios
+			.post(URL + '/endCall', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area,
+				timeInCall: time,
+				comment: comment,
+				satisfaction: satisfaction
+			})
+			.then(() => resolve(true))
+			.catch(err => {
+				if (err.response?.data?.message) {
+					resolve(true);
+				} else {
+					console.error(err);
+					resolve(false);
+				}
+			});
+	});
+}
+
+function InCallMobile({
+	client,
+	script,
+	endCall,
+	newCall,
+	cancel,
+	credentials
+}: {
+	client: User;
+	script: string;
+	endCall: () => void;
+	newCall: () => void;
+	cancel: () => void;
+	credentials: Credentials;
+}) {
 	return (
 		<>
 			<div className="CallingHeader">
 				<div className="CallActions">
-					<Button value="Annuler" type="RedButton" />
+					<Button value="Annuler" type="RedButton" onclick={cancel} />
 					<Button value="Fin d'appel" onclick={endCall} />
 				</div>
 				<div className="User">
@@ -40,43 +77,27 @@ function CallEndMobile({
 	credentials: Credentials;
 	nextCall: () => void;
 }) {
-	async function post(satisfaction: number) {
-		axios
-			.post(URL + '/endCall', {
-				phone: credentials.phone,
-				pinCode: credentials.pinCode,
-				area: credentials.area,
-				timeInCall: time,
-				satisfaction: satisfaction
-			})
-			.then(nextCall)
-			.catch(err => {
-				if (err.response?.data?.message) {
-					nextCall();
-				} else {
-					console.error(err);
-				}
-			});
-	}
+	const VALUES = [
+		{ name: 'Voté pour nous', value: 2 },
+		{ name: 'Pas voté pour nous', value: 1 },
+		{ name: 'Pas interessé', value: -1 },
+		{ name: 'A retirer', value: -2 }
+	];
 
-	async function cancel() {
-		axios
-			.post(URL + '/giveUp', {
-				phone: credentials.phone,
-				pinCode: credentials.pinCode,
-				area: credentials.area
-			})
-			.then(() => navigate('/'))
-			.catch(err => {
-				if (err.response?.data?.message) {
-					navigate('/');
-				} else {
-					console.error(err);
-				}
-			});
-	}
+	function click() {
+		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
+		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 
-	const navigate = useNavigate();
+		if (comment == '') {
+			comment = undefined;
+		}
+
+		post(credentials, satisfaction, time, comment).then(res => {
+			if (res) {
+				nextCall();
+			}
+		});
+	}
 
 	return (
 		<div className="CallingEndContainer">
@@ -88,35 +109,21 @@ function CallEndMobile({
 				<h2>Comment s'est passé cet appel ?</h2>
 			</div>
 			<div className="CallingButtons">
-				<Button value="Pas de réponse" onclick={() => post(0)} />
-				<Button value="Voté pour nous" onclick={() => post(2)} />
-				<Button value="Pas voté pour nous" onclick={() => post(1)} />
-				<Button value="Pas interessé" onclick={() => post(-1)} />
-				<Button value="A retirer" onclick={() => post(-2)} />
-				<Button value="Annuler l'appel" type="RedButton" onclick={cancel} />
+				<select className="inputField" id="satisfaction">
+					{VALUES.map((value, i) => {
+						return (
+							<option key={i} value={value.value}>
+								{value.name}
+							</option>
+						);
+					})}
+				</select>
+				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
+				<Button value="Confirmer" onclick={click} />
+				<Button value="Pas de réponse" onclick={click} type="RedButton" />
 			</div>
 		</div>
 	);
 }
 
-function NextCallMobile({ newCall }: { newCall: () => void }) {
-	return (
-		<div className="CallingEndContainer">
-			<div className="CallingEnded">
-				<h2>
-					Bien joué !<br /> Un autre ?
-				</h2>
-			</div>
-			<div className="CallingButtons">
-				<div className="Button">
-					<button onClick={newCall}>C'est parti !</button>
-				</div>
-				<Link to="/" className="Button RedButton">
-					<button>Stop</button>
-				</Link>
-			</div>
-		</div>
-	);
-}
-
-export { CallEndMobile, InCallMobile, NextCallMobile };
+export { CallEndMobile, InCallMobile };

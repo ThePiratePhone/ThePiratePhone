@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
@@ -46,10 +47,7 @@ function ChangePassword({
 			if (res) {
 				credentials.pinCode = pin;
 				setCredentials(credentials);
-				setButtonValue('Pin modifié !');
-				setTimeout(() => {
-					navigate('/');
-				}, 3000);
+				navigate('/Account');
 			} else {
 				setButtonValue('Une erreur est survenue');
 			}
@@ -80,9 +78,7 @@ function ChangePassword({
 				onKeyUp={enter}
 				onChange={change}
 			/>
-			<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'} onClick={click}>
-				<button disabled={ButtonDisabled}>{ButtonValue}</button>
-			</div>
+			<Button value={ButtonValue} onclick={click} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
 		</div>
 	);
 }

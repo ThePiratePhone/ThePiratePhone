@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { CallEndMobile, InCallMobile, NextCallMobile } from '../Components/CallingComponents';
+import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
@@ -42,7 +43,26 @@ function Calling({ credentials }: { credentials: Credentials }) {
 
 	const client = useRef<User>();
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
+		async function cancel() {
+			axios
+				.post(URL + '/giveUp', {
+					phone: credentials.phone,
+					pinCode: credentials.pinCode,
+					area: credentials.area
+				})
+				.then(() => navigate('/'))
+				.catch(err => {
+					if (err.response?.data?.message) {
+						navigate('/');
+					} else {
+						console.error(err);
+					}
+				});
+		}
+
 		function getNextClient() {
 			getNewClient(credentials).then(result => {
 				const time = Date.now();
@@ -57,6 +77,9 @@ function Calling({ credentials }: { credentials: Credentials }) {
 									client={client.current}
 									script={result.data.script}
 									endCall={() => endCall(time)}
+									cancel={cancel}
+									credentials={credentials}
+									newCall={getNextClient}
 								/>
 							);
 						}
@@ -73,10 +96,6 @@ function Calling({ credentials }: { credentials: Credentials }) {
 			});
 		}
 
-		function nextCall() {
-			setPage(<NextCallMobile newCall={getNextClient} />);
-		}
-
 		function endCall(startTime?: number) {
 			if (client.current) {
 				setPage(
@@ -84,14 +103,14 @@ function Calling({ credentials }: { credentials: Credentials }) {
 						credentials={credentials}
 						client={client.current}
 						time={startTime ? Date.now() - startTime : 0}
-						nextCall={nextCall}
+						nextCall={getNextClient}
 					/>
 				);
 			}
 		}
 
 		getNextClient();
-	}, [credentials]);
+	}, [credentials, navigate]);
 
 	return <div className="Calling">{Page}</div>;
 }

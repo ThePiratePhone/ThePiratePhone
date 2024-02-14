@@ -29,7 +29,7 @@ function Header({ areaName }: { areaName: string }) {
 						setIsNavExpanded(!isNavExpanded);
 					}}
 					src={isNavExpanded ? Cross : Burger}
-					alt="Open menu"
+					alt="Navigation menu"
 					className="MenuIcon"
 				/>
 			</div>

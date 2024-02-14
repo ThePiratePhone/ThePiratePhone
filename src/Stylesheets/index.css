@@ -16,10 +16,23 @@
 :root {
 	--color1a1: #04F1C2;
 	--color1a2: #03CEA4;
+	--color1atext: black;
 
 	--color2a1: #A182B0;
 	--color2a2: #79568A;
-	--color2a2bg: #EDE7EF;
+	--color2atext: white;
+
+	--inputColor: rgb(202, 202, 202);
+	--inputOutline: black;
+
+	--disabledButton: rgb(139, 139, 139);
+
+	--footerbg: black;
+	--footerText: white;
+
+	--headerColor: #EDE7EF;
+	--headerBorder: black;
+	--navButtonBorder: black;
 
 	--boxradius: 8px;
 }
@@ -43,11 +56,12 @@ a {
 
 select {
 	outline: none;
-	border: solid 1px black;
+	border: solid 1px var(--inputColor);
+	background-color: var(--inputColor);
 }
 
 .App {
-	min-height: 60vh;
+	min-height: 80vh;
 }
 
 .Logo,
@@ -70,19 +84,19 @@ select {
 	transition-duration: 150ms;
 	font-size: 1em;
 	padding: 0.6em 1.2em;
-	border: 2px solid black;
-	color: black;
+	border: 2px solid var(--color1atext);
+	color: var(--color1atext);
 	border-radius: var(--boxradius);
 }
 
-.Button>.ButtonDisabled {
-	background-color: rgb(139, 139, 139);
+.ButtonDisabled>button {
+	background-color: var(--disabledButton);
 	box-shadow: none;
 	cursor: not-allowed;
 }
 
-.Button>.ButtonDisabled:hover {
-	background-color: rgb(139, 139, 139);
+.ButtonDisabled>button:hover {
+	background-color: var(--disabledButton);
 }
 
 .Header>*:last-child {
@@ -95,11 +109,11 @@ select {
 	width: 98%;
 	padding: 1vh 1%;
 	height: calc(8vh - 3px);
-	border-bottom: 3px solid black;
+	border-bottom: 3px solid var(--headerBorder);
 	display: flex;
 	align-items: center;
 	gap: 2vw;
-	background-color: var(--color2a2bg);
+	background-color: var(--headerColor);
 }
 
 .DesktopHomePage {
@@ -143,7 +157,7 @@ select {
 .inputField {
 	box-sizing: content-box;
 	border: none;
-	background-color: rgb(202, 202, 202);
+	background-color: var(--inputColor);
 	padding: 0.25em 0.5em;
 	font-size: 1.2em;
 	width: 50vw;
@@ -151,13 +165,22 @@ select {
 }
 
 .inputField:focus {
-	outline: 2px solid black;
+	outline: 2px solid var(--inputOutline);
+}
+
+.comment {
+	font-family: 'Raleway';
+	font-size: 0.8em;
+	width: 100%;
+	box-sizing: border-box;
+	height: 10vh;
 }
 
 .NoAccount {
 	font-size: 1em;
 	display: flex;
 	align-items: center;
+	text-align: justify;
 }
 
 .NoAccount>div {
@@ -170,8 +193,8 @@ select {
 	width: 80%;
 	padding: 5vh 10%;
 	min-height: 20vh;
-	background-color: black;
-	color: white;
+	background-color: var(--footerbg);
+	color: var(--footerText);
 	position: relative;
 	bottom: 0;
 	display: flex;
@@ -197,20 +220,20 @@ select {
 	flex-direction: column;
 	align-items: center;
 	background-color: var(--color2a2);
-	color: white;
+	color: var(--color2atext);
 	padding: 2%;
 	border-radius: 0 0 0 var(--boxradius);
-	max-width: 50%;
+	width: 50%;
+	height: 25vh;
 }
 
 .CallActions {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	margin: 2%;
+	justify-content: space-evenly;
 	width: 50%;
-	gap: 2vh;
+	height: 25vh;
 }
 
 .UserName {
@@ -245,6 +268,7 @@ select {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
+	height: 25vh;
 	height: fit-content;
 }
 
@@ -254,8 +278,8 @@ select {
 
 .CallButton>button {
 	background-color: var(--color2a1);
-	border: 2px solid white;
-	color: white;
+	border: 2px solid var(--color2atext);
+	color: var(--color2atext);
 }
 
 .CallingError {
@@ -315,7 +339,7 @@ select {
 	min-width: 40%;
 	padding: 1em;
 	margin-top: 1em;
-	color: white;
+	color: var(--color2atext);
 	border-radius: var(--boxradius);
 }
 
@@ -350,12 +374,12 @@ select {
 	top: 0;
 	width: 98%;
 	padding: 1vh 1%;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--headerBorder);
 	display: flex;
 	align-items: center;
 	justify-content: left;
 	gap: 2vw;
-	background-color: var(--color2a2bg);
+	background-color: var(--headerColor);
 	z-index: 2;
 	height: 6vh;
 }
@@ -378,7 +402,7 @@ select {
 .NavMenu {
 	transition-duration: 200ms;
 	transform: translateY(-100vh);
-	background-color: rgb(231, 231, 231);
+	background-color: var(--headerColor);
 	position: fixed;
 	top: 8vh;
 	width: 100%;
@@ -393,7 +417,7 @@ select {
 	padding: 3vh 2vh;
 	font-weight: 600;
 	font-size: 1.3em;
-	border-bottom: solid 1px black;
+	border-bottom: solid 1px var(--navButtonBorder);
 }
 
 .expanded {
@@ -405,11 +429,12 @@ select {
 	padding: 2vw;
 	margin-right: 5vw;
 	margin-left: auto;
+	cursor: pointer;
 }
 
 .RedButton>button {
 	background-color: var(--color2a2);
-	color: white;
+	color: var(--color2atext);
 }
 
 .Dashboard {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
@@ -161,11 +162,7 @@ function Join({
 				onKeyUp={enter}
 				placeholder="Clé d'organisation"
 			/>
-			<div className="Button" onClick={click}>
-				<button className={ButtonDisabled ? 'ButtonDisabled' : ''} disabled={ButtonDisabled}>
-					{ButtonValue}
-				</button>
-			</div>
+			<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : ''} onclick={click} />
 		</div>
 	);
 }

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import Button from '../Components/Button';
 
 function Switch({
 	areas,
@@ -33,9 +34,7 @@ function Switch({
 					);
 				})}
 			</select>
-			<div className="Button" onClick={click}>
-				<button>Valider</button>
-			</div>
+			<Button value="Valider" onclick={click} />
 
 			<Link to="/Join" className="JoinArea">
 				L'organisation n'apparait pas ? Rejoignez-là ici.

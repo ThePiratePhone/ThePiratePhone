@@ -7,13 +7,13 @@ function Button({
 	onclick
 }: {
 	value: string;
-	type?: 'RedButton';
+	type?: '' | 'RedButton' | 'ButtonDisabled';
 	link?: string;
 	onclick?: () => void;
 }) {
 	if (link) {
 		return (
-			<Link className={type ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
+			<Link className={type != '' ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
 				<button>{value}</button>
 			</Link>
 		);

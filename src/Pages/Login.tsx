@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Footer from '../Components/Footer';
+import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
@@ -95,11 +96,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 		axios
 			.post(URL + '/createCaller', credentials)
 			.then(() => {
-				setButtonDisabled(false);
-				setButtonValue('Compte créé !');
-				setTimeout(() => {
-					connect();
-				}, 3000);
+				connect();
 			})
 			.catch(err => {
 				if (err.response.data?.message) {
@@ -196,11 +193,7 @@ function CreateAccount({ connect }: { connect: () => void }) {
 				onChange={change}
 				onKeyUp={enter}
 			/>
-			<div className="Button" onClick={createAccount}>
-				<button className={ButtonDisabled ? 'ButtonDisabled' : ''} disabled={ButtonDisabled}>
-					{ButtonValue}
-				</button>
-			</div>
+			<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : ''} onclick={createAccount} />
 			<div className="NoAccount">
 				Déjà un compte ?<div onClick={connect}>Par ici !</div>
 			</div>
@@ -305,11 +298,7 @@ function LoginBoard({
 				placeholder="Pin"
 				onKeyDown={enter}
 			/>
-			<div className="Button">
-				<button onClick={connect} className={ButtonDisabled ? 'ButtonDisabled' : ''}>
-					{ButtonValue}
-				</button>
-			</div>
+			<Button value={ButtonValue} onclick={connect} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
 			<div className="NoAccount">
 				Pas de compte ? <div onClick={newAccount}>Par ici !</div>
 			</div>

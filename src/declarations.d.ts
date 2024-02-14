@@ -63,3 +63,8 @@ type Area = {
 	_id: string;
 	name: string;
 };
+
+type Theme = {
+	name: string;
+	CSS: React.CSSProperties;
+};

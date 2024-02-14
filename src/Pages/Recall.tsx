@@ -1,16 +1,23 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
 
 function Recall({ credentials }: { credentials: Credentials }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(false);
-	const [State, setState] = useState('');
+
+	const VALUES = [
+		{ name: 'Voté pour nous', value: 2 },
+		{ name: 'Pas voté pour nous', value: 1 },
+		{ name: 'Pas interessé', value: -1 },
+		{ name: 'A retirer', value: -2 }
+	];
 
 	const navigate = useNavigate();
 
-	function send(satisfaction: number, phone: string) {
+	function post(satisfaction: number, phone: string, comment?: string) {
 		return new Promise<boolean>(resolve => {
 			axios
 				.post(URL + '/validatePhoneNumber', {
@@ -18,10 +25,10 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					pinCode: credentials.pinCode,
 					area: credentials.area,
 					satisfaction: satisfaction,
-					phoneNumber: phone
+					phoneNumber: phone,
+					comment: comment
 				})
-				.then(res => {
-					console.log(res);
+				.then(() => {
 					resolve(true);
 				})
 				.catch(err => {
@@ -31,54 +38,39 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		});
 	}
 
-	function click(satisfaction: number) {
-		if (ButtonDisabled) return;
+	function click() {
+		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
+		const phone = (document.getElementById('phone') as HTMLInputElement).value;
+		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 
-		setButtonDisabled(true);
-		setState('Vérification...');
+		if (comment == '') {
+			comment = undefined;
+		}
 
-		const phone = (document.getElementById('phone') as HTMLInputElement).value.replaceAll(' ', '');
-
-		send(satisfaction, phone).then(value => {
-			if (value) {
-				setState('Enregistré !');
-				setTimeout(() => {
-					navigate('/');
-				}, 3000);
-			} else {
-				setState('Mauvais numéro de téléphone');
-				setButtonDisabled(false);
+		post(satisfaction, phone, comment).then(res => {
+			if (res) {
+				navigate('/');
 			}
 		});
 	}
-
 	return (
 		<div className="Dashboard">
 			<h1>Rappel</h1>
 			<input disabled={ButtonDisabled} className="inputField" id="phone" type="tel" placeholder="Téléphone" />
 			<div className="CallingButtons">
-				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
-					<button disabled={ButtonDisabled} onClick={() => click(2)}>
-						Voté pour nous
-					</button>
-				</div>
-				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
-					<button disabled={ButtonDisabled} onClick={() => click(1)}>
-						Pas voté pour nous
-					</button>
-				</div>
-				<div className={ButtonDisabled ? 'Button ButtonDisabled' : 'Button'}>
-					<button disabled={ButtonDisabled} onClick={() => click(-1)}>
-						Pas interessé
-					</button>
-				</div>
-				<div className={ButtonDisabled ? 'Button RedButton ButtonDisabled' : 'Button RedButton'}>
-					<button disabled={ButtonDisabled} onClick={() => click(-2)}>
-						A retirer
-					</button>
-				</div>
+				<select className="inputField" id="satisfaction">
+					{VALUES.map((value, i) => {
+						return (
+							<option key={i} value={value.value}>
+								{value.name}
+							</option>
+						);
+					})}
+				</select>
+				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
+				<Button value="Confirmer" onclick={click} />
+				<Button value="Pas de réponse" onclick={click} type="RedButton" />
 			</div>
-			<h2>{State}</h2>
 		</div>
 	);
 }
