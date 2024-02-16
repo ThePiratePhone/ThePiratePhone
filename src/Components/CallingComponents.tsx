@@ -4,46 +4,20 @@ import Button from './Button';
 import Script from './Script';
 
 import { cleanNumber } from '../Utils';
+import { useNavigate } from 'react-router-dom';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
-
-function post(credentials: Credentials, satisfaction: number, time: number, comment?: string) {
-	return new Promise<boolean>(resolve => {
-		axios
-			.post(URL + '/endCall', {
-				phone: credentials.phone,
-				pinCode: credentials.pinCode,
-				area: credentials.area,
-				timeInCall: time,
-				comment: comment,
-				satisfaction: satisfaction
-			})
-			.then(() => resolve(true))
-			.catch(err => {
-				if (err.response?.data?.message) {
-					resolve(true);
-				} else {
-					console.error(err);
-					resolve(false);
-				}
-			});
-	});
-}
 
 function InCallMobile({
 	client,
 	script,
 	endCall,
-	newCall,
-	cancel,
-	credentials
+	cancel
 }: {
 	client: User;
 	script: string;
 	endCall: () => void;
-	newCall: () => void;
 	cancel: () => void;
-	credentials: Credentials;
 }) {
 	return (
 		<>
@@ -80,8 +54,11 @@ function CallEndMobile({
 		{ name: 'Voté pour nous', value: 2 },
 		{ name: 'Pas voté pour nous', value: 1 },
 		{ name: 'Pas interessé', value: -1 },
-		{ name: 'A retirer', value: -2 }
+		{ name: 'A retirer', value: -2 },
+		{ name: 'Pas de réponse', value: 0 }
 	];
+
+	const navigate = useNavigate();
 
 	function click() {
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
@@ -91,21 +68,61 @@ function CallEndMobile({
 			comment = undefined;
 		}
 
-		post(credentials, satisfaction, time, comment).then(res => {
+		post(satisfaction, time, comment).then(res => {
 			if (res) {
 				nextCall();
 			}
 		});
 	}
 
+	function post(satisfaction: number, time: number, comment?: string) {
+		return new Promise<boolean>(resolve => {
+			axios
+				.post(URL + '/endCall', {
+					phone: credentials.phone,
+					pinCode: credentials.pinCode,
+					area: credentials.area,
+					timeInCall: time,
+					comment: comment,
+					satisfaction: satisfaction
+				})
+				.then(() => resolve(true))
+				.catch(err => {
+					if (err.response?.data?.message) {
+						resolve(true);
+					} else {
+						console.error(err);
+						resolve(false);
+					}
+				});
+		});
+	}
+
+	function cancel() {
+		return new Promise<boolean>(resolve => {
+			axios
+				.post(URL + '/giveUp', {
+					phone: credentials.phone,
+					pinCode: credentials.pinCode,
+					area: credentials.area
+				})
+				.then(() => resolve(true))
+				.catch(err => {
+					console.error(err);
+					resolve(false);
+				});
+		});
+	}
+
 	return (
 		<div className="CallingEndContainer">
 			<div className="CallingEnded">
+				{time == 0 ? <h3>Ancien appel récupéré !</h3> : <></>}
 				<div className="UserEnded">
 					<h2 className="UserNameEnded">{client.name}</h2>
 					<div>{cleanNumber(client.phone)}</div>
 				</div>
-				<h2>Comment s'est passé cet appel ?</h2>
+				<h3>Comment s'est passé cet appel ?</h3>
 			</div>
 			<div className="CallingButtons">
 				<select className="inputField" id="satisfaction">
@@ -119,7 +136,17 @@ function CallEndMobile({
 				</select>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
-				<Button value="Pas de réponse" onclick={click} type="RedButton" />
+				<Button
+					value="Annuler"
+					onclick={() => {
+						cancel().then(res => {
+							if (res) {
+								navigate('/');
+							}
+						});
+					}}
+					type="RedButton"
+				/>
 			</div>
 		</div>
 	);
