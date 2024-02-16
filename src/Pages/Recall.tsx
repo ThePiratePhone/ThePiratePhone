@@ -51,6 +51,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 			}
 		});
 	}
+
 	return (
 		<div className="Dashboard">
 			<h1>Rappel</h1>
@@ -67,7 +68,6 @@ function Recall({ credentials }: { credentials: Credentials }) {
 				</select>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
-				<Button value="Pas de réponse" onclick={click} type="RedButton" />
 			</div>
 		</div>
 	);

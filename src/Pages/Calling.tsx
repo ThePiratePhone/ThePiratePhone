@@ -78,8 +78,6 @@ function Calling({ credentials }: { credentials: Credentials }) {
 									script={result.data.script}
 									endCall={() => endCall(time)}
 									cancel={cancel}
-									credentials={credentials}
-									newCall={getNextClient}
 								/>
 							);
 						}

@@ -224,7 +224,6 @@ select {
 	padding: 2%;
 	border-radius: 0 0 0 var(--boxradius);
 	width: 50%;
-	height: 25vh;
 }
 
 .CallActions {
@@ -233,7 +232,7 @@ select {
 	align-items: center;
 	justify-content: space-evenly;
 	width: 50%;
-	height: 25vh;
+	gap: 3vh;
 }
 
 .UserName {
