@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import Button from '../Components/Button';
 
 const URL = 'https://cs.mpqa.fr:7000/api';
@@ -13,7 +14,7 @@ function ChangePassword({
 	setCredentials: (credentials: Credentials) => void;
 }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(false);
-	const [ButtonValue, setButtonValue] = useState('Modifier');
+	const [ButtonValue, setButtonValue] = useState('Changer');
 
 	const navigate = useNavigate();
 
@@ -62,8 +63,8 @@ function ChangePassword({
 	}
 
 	function change() {
-		if (ButtonValue === 'Modifier') return;
-		setButtonValue('Modifier');
+		if (ButtonValue === 'Changer') return;
+		setButtonValue('Changer');
 	}
 
 	return (
