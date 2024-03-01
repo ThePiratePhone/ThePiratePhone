@@ -1,11 +1,14 @@
 import theme1 from '../Themes/bnw';
+import deepocean from '../Themes/deepocean';
 
 const Themes = new Map<string, Theme>();
 
+Themes.set('default', { CSS: {}, name: 'Défaut' });
+Themes.set('deepocean', { CSS: deepocean, name: 'Océan profond' });
 Themes.set('bnw', { CSS: theme1, name: 'Noir et blanc' });
 
 function getThemes() {
-	return Themes.values();
+	return Array.from(Themes, ([name, value]) => ({ name, value }));
 }
 
 function getTheme(themeId: string) {

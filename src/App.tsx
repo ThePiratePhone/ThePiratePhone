@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
@@ -13,6 +13,7 @@ import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import Switch from './Pages/Switch';
 import ThemeProvider from './Components/ThemeProvider';
+import ChangeTheme from './Pages/ChangeTheme';
 
 function App({
 	caller,
@@ -29,6 +30,7 @@ function App({
 }) {
 	const [Credentials, setCredentials] = useState(credentials);
 	const [CurrentCampaign, setCurrentCampaign] = useState(currentCampaign);
+	const [Theme, setTheme] = useState('default');
 	const [Caller, setCaller] = useState(caller);
 
 	function addCampaign(newCampaign: Campaign) {
@@ -106,14 +108,23 @@ function App({
 			element: <ChangePassword credentials={Credentials} setCredentials={changeCredentials} />
 		},
 		{
+			path: '/ChangeTheme',
+			element: <ChangeTheme Theme={Theme} setTheme={setTheme} />
+		},
+		{
 			path: '/*',
 			element: <E404 />
 		}
 	];
 
+	useEffect(() => {
+		const themeID = JSON.parse(window.localStorage.getItem('theme') as string);
+		setTheme(themeID);
+	}, [setTheme]);
+
 	return (
 		<BrowserRouter>
-			<ThemeProvider themeId="">
+			<ThemeProvider themeId={Theme}>
 				<div className="Main">
 					<Header areaName={CurrentCampaign.areaName} />
 					<div className="App">

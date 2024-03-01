@@ -24,6 +24,7 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 			<div>
 				Pin: <b className="PhoneNumber">{caller.pinCode}</b>
 			</div>
+			<Button value="Changer le theme" link="/ChangeTheme" />
 			<Button value="Changer votre pin" link="/ChangePassword" />
 			<Button value="Se déconnecter" onclick={logOut} />
 		</div>

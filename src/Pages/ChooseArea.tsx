@@ -35,7 +35,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void;
 		<div className="LoginPage">
 			<div className="LoginPageMain">
 				<h1>Choisissez votre organisation</h1>
-				<select className="JoinSelect" id="area">
+				<select className="inputField" id="area">
 					{areas.map((area, i) => {
 						return (
 							<option key={i} value={area.areaId}>
@@ -44,7 +44,7 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void;
 						);
 					})}
 				</select>
-				<Button value="Valier" onclick={click} />
+				<Button value="Valider" onclick={click} />
 			</div>
 		</div>
 	);

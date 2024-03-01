@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import Burger from '../Assets/Burger.svg';
-import Cross from '../Assets/Cross.svg';
 import Logo from '../Assets/Logo.svg';
 
 function Header({ areaName }: { areaName: string }) {
@@ -24,14 +22,22 @@ function Header({ areaName }: { areaName: string }) {
 				<Link to="/Switch" className="AreaName" onClick={() => setIsNavExpanded(false)}>
 					{areaName}
 				</Link>
-				<img
-					onClick={() => {
-						setIsNavExpanded(!isNavExpanded);
-					}}
-					src={isNavExpanded ? Cross : Burger}
-					alt="Navigation menu"
+
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="64"
+					height="64"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 					className="MenuIcon"
-				/>
+					onClick={() => setIsNavExpanded(!isNavExpanded)}
+				>
+					{isNavExpanded ? <path d="M20 20L4 4m16 0L4 20" /> : <path d="M5 6h14M5 12h14M5 18h14" />}
+				</svg>
 			</div>
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
 				{LINKS.map((val, i) => {

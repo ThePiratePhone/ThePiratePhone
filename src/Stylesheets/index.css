@@ -23,6 +23,7 @@
 	--color2atext: white;
 
 	--inputColor: rgb(202, 202, 202);
+	--inputText: black;
 	--inputOutline: black;
 
 	--disabledButton: rgb(139, 139, 139);
@@ -31,8 +32,12 @@
 	--footerText: white;
 
 	--headerColor: #EDE7EF;
+	--headerText: black;
 	--headerBorder: black;
 	--navButtonBorder: black;
+
+	--backgroundcolor: white;
+	--backgroundcolortext: black;
 
 	--boxradius: 8px;
 }
@@ -49,6 +54,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+* {
+	transition-duration: 150ms;
+}
+
 a {
 	text-decoration: none;
 	color: black;
@@ -56,12 +65,17 @@ a {
 
 select {
 	outline: none;
-	border: solid 1px var(--inputColor);
+	border: solid 1px var(--inputOutline);
 	background-color: var(--inputColor);
 }
 
 .App {
 	min-height: 80vh;
+}
+
+.Main {
+	background-color: var(--backgroundcolor);
+	color: var(--backgroundcolortext);
 }
 
 .Logo,
@@ -162,6 +176,7 @@ select {
 	font-size: 1.2em;
 	width: 50vw;
 	border-radius: var(--boxradius);
+	color: var(--inputText);
 }
 
 .inputField:focus {
@@ -396,6 +411,7 @@ select {
 	font-size: 1.5em;
 	font-family: 'Phudu';
 	font-weight: 500;
+	color: var(--headerText);
 }
 
 .NavMenu {
@@ -417,6 +433,7 @@ select {
 	font-weight: 600;
 	font-size: 1.3em;
 	border-bottom: solid 1px var(--navButtonBorder);
+	color: var(--headerText);
 }
 
 .expanded {
@@ -425,6 +442,7 @@ select {
 
 .MenuIcon {
 	width: 8vw;
+	height: 8vw;
 	padding: 2vw;
 	margin-right: 5vw;
 	margin-left: auto;
@@ -488,6 +506,7 @@ select {
 .JoinArea {
 	font-size: 1em;
 	padding: 0.5em;
+	color: var(--backgroundcolortext);
 }
 
 .PhoneNumber {
