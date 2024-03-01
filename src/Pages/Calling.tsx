@@ -83,7 +83,7 @@ function Calling({ credentials }: { credentials: Credentials }) {
 						}
 					} else {
 						if (result.status) {
-							setPage(<div className="CallingError">La liste est vide !</div>);
+							setPage(<div className="CallingError">Aucun numéro disponible</div>);
 						} else {
 							setPage(<div className="CallingError">Aucune campagne n'est en cours</div>);
 						}
