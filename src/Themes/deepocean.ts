@@ -11,16 +11,14 @@ export default {
 	'--inputText': 'white',
 	'--inputOutline': '#EEEEEE',
 
-	'--disabledButton': 'rgb(139, 139, 139)',
-
 	'--footerbg': 'black',
 	'--footerText': '#EEEEEE',
 
 	'--headerColor': '#393E46',
 	'--headerText': '#EEEEEE',
 	'--headerBorder': 'white',
-
 	'--navButtonBorder': 'white',
+
 	'--backgroundcolor': '#222831',
 	'--backgroundcolortext': '#EEEEEE'
 } as React.CSSProperties;

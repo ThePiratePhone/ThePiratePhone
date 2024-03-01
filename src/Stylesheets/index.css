@@ -98,7 +98,7 @@ select {
 	transition-duration: 150ms;
 	font-size: 1em;
 	padding: 0.6em 1.2em;
-	border: 2px solid var(--color1atext);
+	border: 2px solid var(--inputOutline);
 	color: var(--color1atext);
 	border-radius: var(--boxradius);
 }

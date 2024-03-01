@@ -5,13 +5,11 @@ export default {
 
 	'--color2a1': '#CE2E36',
 	'--color2a2': '#b82b32',
-	'--color2atext': '#EEEEEE',
+	'--color2atext': 'white',
 
 	'--inputColor': 'rgb(202, 202, 202)',
 	'--inputText': 'black',
 	'--inputOutline': 'black',
-
-	'--disabledButton': 'rgb(139, 139, 139)',
 
 	'--footerbg': 'black',
 	'--footerText': 'white',
@@ -19,8 +17,8 @@ export default {
 	'--headerColor': '#DCFCB0',
 	'--headerText': 'black',
 	'--headerBorder': 'black',
-
 	'--navButtonBorder': 'black',
+
 	'--backgroundcolor': '#650245',
 	'--backgroundcolortext': 'white'
 } as React.CSSProperties;

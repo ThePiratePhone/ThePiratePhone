@@ -1,11 +1,13 @@
 import theme1 from '../Themes/bnw';
 import deepocean from '../Themes/deepocean';
+import twilightradiance from '../Themes/twilightradiance';
 import ourse from '../Themes/ourse';
 
 const Themes = new Map<string, Theme>();
 
 Themes.set('default', { CSS: {}, name: 'Défaut' });
 Themes.set('deepocean', { CSS: deepocean, name: 'Océan profond' });
+Themes.set('twilightradiance', { CSS: twilightradiance, name: 'Éclat crépusculaire' });
 Themes.set('ourse', { CSS: ourse, name: 'OURSE' });
 Themes.set('bnw', { CSS: theme1, name: 'Noir et blanc' });
 

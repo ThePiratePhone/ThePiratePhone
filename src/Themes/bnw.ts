@@ -10,8 +10,6 @@ export default {
 	'--inputColor': 'rgb(202, 202, 202)',
 	'--inputOutline': 'black',
 
-	'--disabledButton': 'rgb(139, 139, 139)',
-
 	'--footerbg': 'black',
 	'--footerText': 'white',
 
