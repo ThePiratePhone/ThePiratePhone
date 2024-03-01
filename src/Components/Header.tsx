@@ -10,7 +10,7 @@ function Header({ areaName }: { areaName: string }) {
 		{ value: 'Accueil', link: '/' },
 		{ value: 'Appeler', link: '/Calling' },
 		{ value: "Changer d'organisation", link: '/Switch' },
-		{ value: 'Mon compte', link: '/Account' }
+		{ value: 'Paramètes', link: '/Settings' }
 	];
 
 	return (

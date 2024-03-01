@@ -69,6 +69,11 @@ select {
 	background-color: var(--inputColor);
 }
 
+h1,
+h2 {
+	margin: 0;
+}
+
 .App {
 	min-height: 80vh;
 }
@@ -478,23 +483,18 @@ select {
 }
 
 .AreaSelector>h2 {
-	margin: 0;
 	font-size: 1.5em;
 }
 
-.AccountPage {
+.SettingsPage {
 	display: flex;
 	flex-direction: column;
 	margin: 2% 5%;
 	gap: 2vh;
 }
 
-.AccountPage>div>b {
+.SettingsPage>div>b {
 	font-weight: 600;
-}
-
-.AccountPage>h1 {
-	margin: 0;
 }
 
 .Progress {

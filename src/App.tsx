@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
-import Account from './Pages/Account';
+import Settings from './Pages/Settings';
 import Calling from './Pages/Calling';
 import ChangePassword from './Pages/ChangePassword';
 import Dashboard from './Pages/Dashboard';
@@ -100,8 +100,8 @@ function App({
 			element: <Recall credentials={Credentials} />
 		},
 		{
-			path: '/Account',
-			element: <Account caller={Caller} renderLogin={renderLogin} />
+			path: '/Settings',
+			element: <Settings caller={Caller} renderLogin={renderLogin} />
 		},
 		{
 			path: '/ChangePassword',

@@ -17,12 +17,12 @@ function ChangeTheme({ Theme, setTheme }: { Theme: string; setTheme: (themeID: s
 
 	function cancel() {
 		setTheme(oldTheme.current);
-		navigate('/Account');
+		navigate('/Settings');
 	}
 
 	function click() {
 		change();
-		navigate('/Account');
+		navigate('/Settings');
 	}
 
 	return (

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import { cleanNumber } from '../Utils';
 
-function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => void }) {
+function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => void }) {
 	const navigate = useNavigate();
 
 	function logOut() {
@@ -13,8 +13,8 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 	}
 
 	return (
-		<div className="AccountPage">
-			<h1>Mon compte</h1>
+		<div className="SettingsPage">
+			<h1>Paramètres</h1>
 			<div>
 				Nom: <b>{caller.name}</b>
 			</div>
@@ -31,4 +31,4 @@ function Account({ caller, renderLogin }: { caller: Caller; renderLogin: () => v
 	);
 }
 
-export default Account;
+export default Settings;

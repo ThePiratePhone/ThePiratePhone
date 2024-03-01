@@ -47,7 +47,7 @@ function ChangePassword({
 			if (res) {
 				credentials.pinCode = pin;
 				setCredentials(credentials);
-				navigate('/Account');
+				navigate('/Settings');
 			} else {
 				setButtonValue('Une erreur est survenue');
 			}
