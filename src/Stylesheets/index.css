@@ -447,6 +447,7 @@ select {
 	margin-right: 5vw;
 	margin-left: auto;
 	cursor: pointer;
+	color: var(--headerText);
 }
 
 .RedButton>button {
