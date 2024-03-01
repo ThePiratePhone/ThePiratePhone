@@ -105,7 +105,6 @@ select {
 
 .ButtonDisabled>button {
 	background-color: var(--disabledButton);
-	box-shadow: none;
 	cursor: not-allowed;
 }
 
