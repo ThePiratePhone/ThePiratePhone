@@ -142,7 +142,7 @@ h2 {
 	height: 100vh;
 	font-size: 3em;
 	font-weight: bold;
-	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
+	background: white;
 	text-align: center;
 }
 
@@ -154,7 +154,7 @@ h2 {
 	align-items: center;
 	justify-content: space-between;
 	gap: 2vh;
-	background: linear-gradient(45deg, #A182B065 0%, white 50%, #A182B065 100%);
+	background: white;
 }
 
 .LoginPageMain {
