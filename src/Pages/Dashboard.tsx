@@ -33,25 +33,25 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 			setProgress('Une erreur est survenue :/');
 			return;
 		}
-		if (vals.total === 0) {
+		if (vals.totalUser === 0) {
 			setProgress("Il n'y a aucun numéro dans votre campagne.");
 			return;
 		}
-		if (vals.count - vals.total === 0) {
-			setProgress(vals.count + ' sur ' + vals.count + '.');
+		if (vals.totalDiscution - vals.totalUser === 0) {
+			setProgress(vals.totalClientCalled + ' sur ' + vals.totalClientCalled + '.');
 		}
-		if (vals.count < 5) {
-			setProgress(vals.count + ' appels effectués.');
-		} else if (vals.count < 20) {
-			setProgress('Déjà ' + vals.count + ' coups de fils passés ?');
-		} else if (vals.count < 50) {
-			setProgress(vals.count + ' appels ! Ça monte vite !');
-		} else if (vals.count < 100) {
-			setProgress('Oh la la. Mon compteur affiche ' + vals.count + ' appels !');
-		} else if (vals.count < 150) {
-			setProgress(vals.count + ' ! Encore encore encore !');
+		if (vals.totalClientCalled < 5) {
+			setProgress(vals.totalClientCalled + ' appels effectués.');
+		} else if (vals.totalClientCalled < 20) {
+			setProgress('Déjà ' + vals.totalClientCalled + ' coups de fils passés ?');
+		} else if (vals.totalClientCalled < 50) {
+			setProgress(vals.totalClientCalled + ' appels ! Ça monte vite !');
+		} else if (vals.totalClientCalled < 100) {
+			setProgress('Oh la la. Mon compteur affiche ' + vals.totalClientCalled + ' appels !');
+		} else if (vals.totalClientCalled < 150) {
+			setProgress(vals.totalClientCalled + ' ! Encore encore encore !');
 		} else {
-			setProgress('Woah. ' + vals.count + "! Ça s'arrête jamais...");
+			setProgress('Woah. ' + vals.totalClientCalled + "! Ça s'arrête jamais...");
 		}
 	}
 

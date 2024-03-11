@@ -14,11 +14,12 @@ type LoginResponse = {
 
 type ProgressResponse =
 	| {
-			count: number;
-			callCall: number;
-			callInThisCampaign: number;
-			timeInCallInThisCampaign: number;
-			total: number;
+			totalClientCalled: number;
+			totalDiscution: number;
+			totalCall: number;
+			totalUser: number;
+			totalConvertion: number;
+			timeInCall: number;
 	  }
 	| undefined;
 
