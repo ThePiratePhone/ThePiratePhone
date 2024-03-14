@@ -12,7 +12,10 @@ import { mobileCheck } from './Utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+const URL = 'https://cs.mpqa.fr:7000/api/';
+
 function renderApp(caller: Caller, credentials: Credentials, areas: Array<Campaign>, campaign: Campaign) {
+	credentials.URL = URL;
 	root.render(
 		<React.StrictMode>
 			<App
@@ -31,7 +34,8 @@ function chooseArea(caller: Caller, credentials: { phone: string; pinCode: strin
 		const Credentials = {
 			phone: credentials.phone,
 			pinCode: credentials.pinCode,
-			area: area.areaId
+			area: area.areaId,
+			URL: URL
 		};
 		window.localStorage.setItem('credentials', JSON.stringify(Credentials));
 		renderApp(caller, Credentials, areas, area);
@@ -51,7 +55,7 @@ function chooseArea(caller: Caller, credentials: { phone: string; pinCode: strin
 function renderLogin() {
 	root.render(
 		<React.StrictMode>
-			<LoginPage chooseArea={chooseArea} />
+			<LoginPage URL={URL} chooseArea={chooseArea} />
 		</React.StrictMode>
 	);
 }

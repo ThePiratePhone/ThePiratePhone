@@ -4,12 +4,10 @@ import { useEffect, useState } from 'react';
 import Footer from '../Components/Footer';
 import Button from '../Components/Button';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
-function Login(credentials: { phone: string; pinCode: string }): Promise<LoginResponse> {
+function Login(credentials: { phone: string; pinCode: string; URL: string }): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		axios
-			.post(`${URL}/login`, credentials)
+			.post(credentials.URL + '/login', credentials)
 			.catch(err => {
 				console.error(err);
 				resolve({ OK: false, Message: 'Unknown error', data: undefined });
@@ -24,9 +22,10 @@ function Login(credentials: { phone: string; pinCode: string }): Promise<LoginRe
 	});
 }
 
-async function testOldToken(): Promise<LoginResponse> {
+async function testOldToken(URL: string): Promise<LoginResponse> {
 	return new Promise(resolve => {
 		const oldCredentials = JSON.parse(window.localStorage.getItem('credentials') as string);
+		oldCredentials.URL = URL;
 		Login(oldCredentials)
 			.then(resolve)
 			.catch(err => {
@@ -36,7 +35,7 @@ async function testOldToken(): Promise<LoginResponse> {
 	});
 }
 
-function CreateAccount({ connect }: { connect: () => void }) {
+function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
@@ -203,17 +202,19 @@ function CreateAccount({ connect }: { connect: () => void }) {
 
 function LoginBoard({
 	chooseArea,
-	newAccount
+	newAccount,
+	URL
 }: {
 	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
 	newAccount: () => void;
+	URL: string;
 }) {
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
 
 	useEffect(() => {
 		if (window.localStorage.getItem('credentials') != null) {
-			testOldToken().then(result => {
+			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
 					result.data.areaCombo.campaignAvailable = result.data.areaCombo.campaignAvailable.sort(
 						(a: Campaign, b: Campaign) => {
@@ -252,7 +253,8 @@ function LoginBoard({
 
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
-			pinCode: (document.getElementById('pin') as HTMLInputElement).value
+			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
+			URL: URL
 		};
 
 		Login(credentials).then(result => {
@@ -307,18 +309,20 @@ function LoginBoard({
 }
 
 function LoginPage({
-	chooseArea
+	chooseArea,
+	URL
 }: {
 	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
+	URL: string;
 }) {
-	const [Page, setPage] = useState(<LoginBoard newAccount={newAccount} chooseArea={chooseArea} />);
+	const [Page, setPage] = useState(<LoginBoard URL={URL} newAccount={newAccount} chooseArea={chooseArea} />);
 
 	function newAccount() {
-		setPage(<CreateAccount connect={connect} />);
+		setPage(<CreateAccount URL={URL} connect={connect} />);
 	}
 
 	function connect() {
-		setPage(<LoginBoard chooseArea={chooseArea} newAccount={newAccount} />);
+		setPage(<LoginBoard URL={URL} chooseArea={chooseArea} newAccount={newAccount} />);
 	}
 
 	return (

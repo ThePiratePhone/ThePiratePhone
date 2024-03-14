@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 
 import Button from '../Components/Button';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
 	return new Promise(resolve => {
 		axios
-			.post(URL + '/getProgress', credentials)
+			.post(credentials.URL + '/getProgress', credentials)
 			.then(response => resolve(response.data.data))
 			.catch(err => {
 				if (err?.response?.data?.message) {

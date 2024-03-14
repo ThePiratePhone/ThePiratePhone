@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 function Recall({ credentials }: { credentials: Credentials }) {
 	const VALUES = [
 		{ name: 'Voté pour nous', value: 2 },
@@ -18,7 +16,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	function post(satisfaction: number, phone: string, comment?: string) {
 		return new Promise<boolean>(resolve => {
 			axios
-				.post(URL + '/validatePhoneNumber', {
+				.post(credentials.URL + '/validatePhoneNumber', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,

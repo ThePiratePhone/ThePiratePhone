@@ -46,6 +46,7 @@ type Credentials = {
 	phone: string;
 	pinCode: string;
 	area: string;
+	URL: string;
 };
 
 type AreaCombo = {

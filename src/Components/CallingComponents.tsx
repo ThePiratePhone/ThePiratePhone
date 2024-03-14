@@ -6,8 +6,6 @@ import Script from './Script';
 import { cleanNumber } from '../Utils';
 import { useNavigate } from 'react-router-dom';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 function InCallMobile({
 	client,
 	script,
@@ -78,7 +76,7 @@ function CallEndMobile({
 	function post(satisfaction: number, time: number, comment?: string) {
 		return new Promise<boolean>(resolve => {
 			axios
-				.post(URL + '/endCall', {
+				.post(credentials.URL + '/endCall', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,
@@ -101,7 +99,7 @@ function CallEndMobile({
 	function cancel() {
 		return new Promise<boolean>(resolve => {
 			axios
-				.post(URL + '/giveUp', {
+				.post(credentials.URL + '/giveUp', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area

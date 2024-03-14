@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 function Join({
 	credentials,
 	setCredentials,
@@ -26,7 +24,7 @@ function Join({
 	function join(area: string, password: string) {
 		return new Promise<Campaign | undefined>(resolve => {
 			axios
-				.post(URL + '/joinCampaign', {
+				.post(credentials.URL + '/joinCampaign', {
 					area: area,
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
@@ -78,7 +76,7 @@ function Join({
 		function getArea() {
 			return new Promise<Array<Area> | undefined>(resolve => {
 				axios
-					.get(URL + '/getArea')
+					.get(credentials.URL + '/getArea')
 					.then(response => {
 						response.data.data = response.data.data.filter((area: Area) => {
 							if (areas.find(val => val.areaId === area._id)) {

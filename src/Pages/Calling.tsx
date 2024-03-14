@@ -4,14 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 async function getNewClient(
 	credentials: Credentials
 ): Promise<{ status: boolean; data: { client: User; script: string } | undefined } | undefined> {
 	return new Promise(resolve => {
 		axios
-			.post(URL + '/getPhoneNumber', credentials)
+			.post(credentials.URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
 					if (result?.data?.OK) {
@@ -48,7 +46,7 @@ function Calling({ credentials }: { credentials: Credentials }) {
 	useEffect(() => {
 		async function cancel() {
 			axios
-				.post(URL + '/giveUp', {
+				.post(credentials.URL + '/giveUp', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area

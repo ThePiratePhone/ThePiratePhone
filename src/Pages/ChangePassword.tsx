@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
 
-const URL = 'https://cs.mpqa.fr:7000/api';
-
 function ChangePassword({
 	credentials,
 	setCredentials
@@ -21,7 +19,7 @@ function ChangePassword({
 	function modify(pinCode: string) {
 		return new Promise<boolean>(resolve => {
 			axios
-				.post(URL + '/changePassword', {
+				.post(credentials.URL + '/changePassword', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,
