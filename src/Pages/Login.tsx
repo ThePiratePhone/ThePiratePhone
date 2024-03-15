@@ -89,7 +89,7 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
 			AreaPassword: (document.getElementById('password') as HTMLInputElement).value,
 			area: (document.getElementById('area') as HTMLInputElement).value,
-			CallerName: (document.getElementById('name') as HTMLInputElement).value
+			CallerName: (document.getElementById('firstname') as HTMLInputElement).value
 		};
 
 		axios
@@ -157,13 +157,13 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 				placeholder="Clé d'organisation"
 				onChange={change}
 				onKeyUp={e => {
-					next(e, 'name');
+					next(e, 'firstname');
 				}}
 			/>
 			<input
 				disabled={ButtonDisabled}
 				className="inputField"
-				id="name"
+				id="firstname"
 				type="text"
 				placeholder="Nom"
 				onChange={change}
