@@ -27,12 +27,12 @@ function ChangeTheme({ Theme, setTheme }: { Theme: string; setTheme: (themeID: s
 
 	return (
 		<div className="Dashboard">
-			<h1>Changement de thème</h1>
-			<select className="inputField" id="theme" onChange={change}>
-				{themes.map((area, i) => {
+			<h1>Changer de thème</h1>
+			<select className="inputField" id="theme" onChange={change} defaultValue={oldTheme.current}>
+				{themes.map((theme, i) => {
 					return (
-						<option key={i} value={area.name}>
-							{area.value.name}
+						<option key={i} value={theme.name}>
+							{theme.value.name}
 						</option>
 					);
 				})}

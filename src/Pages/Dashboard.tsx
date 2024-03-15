@@ -20,36 +20,66 @@ function getProgress(credentials: Credentials): Promise<ProgressResponse | strin
 }
 
 function Dashboard({ credentials }: { credentials: Credentials }) {
-	const [Progress, setProgress] = useState('');
+	const [Progress, setProgress] = useState(<></>);
 
 	function DynamicProgress(vals: string | ProgressResponse) {
 		if (typeof vals == 'string') {
-			setProgress("Aucune campagne n'est en cours.");
+			setProgress(<>Aucune campagne n'est en cours.</>);
 			return;
 		}
 		if (!vals) {
-			setProgress('Une erreur est survenue :/');
+			setProgress(<>Une erreur est survenue :/</>);
 			return;
 		}
 		if (vals.totalUser === 0) {
-			setProgress("Il n'y a aucun numéro dans votre campagne.");
+			setProgress(<>Il n'y a aucun numéro dans votre campagne.</>);
 			return;
 		}
 		if (vals.totalDiscution - vals.totalUser === 0) {
-			setProgress(vals.totalClientCalled + ' sur ' + vals.totalClientCalled + '.');
+			setProgress(
+				<>
+					<span className="PhoneNumber">{vals.totalClientCalled}</span> sur{' '}
+					<span className="PhoneNumber">{vals.totalClientCalled}</span>.
+				</>
+			);
 		}
 		if (vals.totalClientCalled < 5) {
-			setProgress(vals.totalClientCalled + ' appels effectués.');
+			setProgress(
+				<>
+					<span className="PhoneNumber">{vals.totalClientCalled}</span> appels effectués.
+				</>
+			);
 		} else if (vals.totalClientCalled < 20) {
-			setProgress('Déjà ' + vals.totalClientCalled + ' coups de fils passés ?');
+			setProgress(
+				<>
+					Déjà <span className="PhoneNumber">{vals.totalClientCalled}</span> coups de fils passés ?
+				</>
+			);
 		} else if (vals.totalClientCalled < 50) {
-			setProgress(vals.totalClientCalled + ' appels ! Ça monte vite !');
+			setProgress(
+				<>
+					<span className="PhoneNumber">{vals.totalClientCalled}</span> appels ! Ça monte vite !
+				</>
+			);
 		} else if (vals.totalClientCalled < 100) {
-			setProgress('Oh la la. Mon compteur affiche ' + vals.totalClientCalled + ' appels !');
+			setProgress(
+				<>
+					Oh la la. Mon compteur affiche <span className="PhoneNumber">{vals.totalClientCalled}</span> appels
+					!
+				</>
+			);
 		} else if (vals.totalClientCalled < 150) {
-			setProgress(vals.totalClientCalled + ' ! Encore encore encore !');
+			setProgress(
+				<>
+					<span className="PhoneNumber">{vals.totalClientCalled}</span>! Encore encore encore !
+				</>
+			);
 		} else {
-			setProgress('Woah. ' + vals.totalClientCalled + "! Ça s'arrête jamais...");
+			setProgress(
+				<>
+					Woah. <span className="PhoneNumber">{vals.totalClientCalled}</span>! Ça s'arrête jamais...
+				</>
+			);
 		}
 	}
 

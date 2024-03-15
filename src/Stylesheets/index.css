@@ -14,30 +14,35 @@
 }
 
 :root {
-	--color1a1: #04F1C2;
-	--color1a2: #03CEA4;
-	--color1atext: black;
+	--color1v1: #00ba96;
+	--color1v2: #00836e;
+	--color1v1Border: #00a485;
+	--color1v2Border: #006758;
+	--color1Text: white;
 
-	--color2a1: #A182B0;
-	--color2a2: #79568A;
-	--color2atext: white;
+	--color2v1: #ae90bc;
+	--color2v2: #a182b0;
+	--color2v1Border: #a182b0;
+	--color2v2Border: #816090;
+	--color2Text: white;
 
-	--inputColor: rgb(202, 202, 202);
+	--inputColor: #cacaca;
 	--inputText: black;
-	--inputOutline: black;
 
-	--disabledButton: rgb(139, 139, 139);
+	--disabledButton: #8b8b8b;
+	--disabledButtonBorder: #6d6d6d;
+	--disabledButtonText: white;
 
 	--footerbg: black;
 	--footerText: white;
 
-	--headerColor: #EDE7EF;
+	--headerColor: #ede7ef;
 	--headerText: black;
 	--headerBorder: black;
 	--navButtonBorder: black;
 
-	--backgroundcolor: white;
-	--backgroundcolortext: black;
+	--backgroundColor: white;
+	--backgroundColorText: black;
 
 	--boxradius: 8px;
 }
@@ -74,13 +79,18 @@ h2 {
 	margin: 0;
 }
 
+.PhoneNumber {
+	font-family: 'Montserrat';
+}
+
+
 .App {
 	min-height: 80vh;
 }
 
 .Main {
-	background-color: var(--backgroundcolor);
-	color: var(--backgroundcolortext);
+	background-color: var(--backgroundColor);
+	color: var(--backgroundColorText);
 }
 
 .Logo,
@@ -94,22 +104,22 @@ h2 {
 
 .Button>button {
 	cursor: pointer;
-	border: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	background-color: var(--color1a1);
-	transition-duration: 150ms;
+	background-color: var(--color1v1);
 	font-size: 1em;
 	padding: 0.6em 1.2em;
-	border: 2px solid var(--inputOutline);
-	color: var(--color1atext);
+	border: 2px solid var(--color1v1Border);
+	color: var(--color1Text);
 	border-radius: var(--boxradius);
 }
 
 .ButtonDisabled>button {
 	background-color: var(--disabledButton);
+	color: var(--disabledButtonText);
+	border: 2px solid var(--disabledButtonBorder);
 	cursor: not-allowed;
 }
 
@@ -183,10 +193,6 @@ h2 {
 	color: var(--inputText);
 }
 
-.inputField:focus {
-	outline: 2px solid var(--inputOutline);
-}
-
 .comment {
 	font-family: 'Raleway';
 	font-size: 0.8em;
@@ -238,10 +244,12 @@ h2 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: var(--color2a2);
-	color: var(--color2atext);
+	background-color: var(--color2v2);
+	color: var(--color2Text);
 	padding: 2%;
 	border-radius: 0 0 0 var(--boxradius);
+	border-left: 2px solid var(--color2v2Border);
+	border-bottom: 2px solid var(--color2v2Border);
 	width: 50%;
 }
 
@@ -292,12 +300,6 @@ h2 {
 
 .CallButton {
 	padding: 3vw;
-}
-
-.CallButton>button {
-	background-color: var(--color2a1);
-	border: 2px solid var(--color2atext);
-	color: var(--color2atext);
 }
 
 .CallingError {
@@ -353,11 +355,11 @@ h2 {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--color2a2);
+	background-color: var(--color2v2);
 	min-width: 40%;
 	padding: 1em;
 	margin-top: 1em;
-	color: var(--color2atext);
+	color: var(--color2Text);
 	border-radius: var(--boxradius);
 }
 
@@ -455,8 +457,9 @@ h2 {
 }
 
 .RedButton>button {
-	background-color: var(--color2a2);
-	color: var(--color2atext);
+	background-color: var(--color2v2);
+	border: 2px solid var(--color2v2Border);
+	color: var(--color2Text);
 }
 
 .Dashboard {
@@ -506,9 +509,5 @@ h2 {
 .JoinArea {
 	font-size: 1em;
 	padding: 0.5em;
-	color: var(--backgroundcolortext);
-}
-
-.PhoneNumber {
-	font-family: 'Montserrat';
+	color: var(--backgroundColorText);
 }

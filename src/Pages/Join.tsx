@@ -34,18 +34,16 @@ function Join({
 					resolve(response.data.data);
 				})
 				.catch(err => {
-					if (err.response.data.data) {
-						const message = err.response.data.data;
+					if (err.response.data.message) {
+						const message = err.response.data.message;
 						if (message === 'Wrong campaign password') {
 							setButtonValue('Clé invalide');
-						} else {
-							setButtonValue(message);
+							setButtonDisabled(false);
 						}
 					} else {
 						console.error(err);
 						setButtonValue('Une erreur est survenue');
 					}
-					setButtonDisabled(false);
 					resolve(undefined);
 				});
 		});
@@ -65,9 +63,6 @@ function Join({
 				setCredentials(credentials);
 				addCampaign(newCampaign);
 				navigate('/');
-			} else {
-				setButtonValue('Clé invalide');
-				setButtonDisabled(false);
 			}
 		});
 	}

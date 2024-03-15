@@ -37,7 +37,7 @@ function Switch({
 			<Button value="Valider" onclick={click} />
 
 			<Link to="/Join" className="JoinArea">
-				L'organisation n'apparait pas ? Rejoignez-là ici.
+				L'organisation n'apparait pas ? Rejoignez-là <u>ici</u>.
 			</Link>
 		</div>
 	);

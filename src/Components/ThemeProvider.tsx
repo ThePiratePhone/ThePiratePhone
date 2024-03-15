@@ -1,15 +1,15 @@
-import theme1 from '../Themes/bnw';
+import bnw from '../Themes/bnw';
 import deepocean from '../Themes/deepocean';
-import twilightradiance from '../Themes/twilightradiance';
-import ourse from '../Themes/ourse';
+import auroraurban from '../Themes/auroraurban';
+import radiantreef from '../Themes/radiantreef';
 
 const Themes = new Map<string, Theme>();
 
 Themes.set('default', { CSS: {}, name: 'Défaut' });
 Themes.set('deepocean', { CSS: deepocean, name: 'Océan profond' });
-Themes.set('twilightradiance', { CSS: twilightradiance, name: 'Éclat crépusculaire' });
-Themes.set('ourse', { CSS: ourse, name: 'OURSE' });
-Themes.set('bnw', { CSS: theme1, name: 'Noir et blanc' });
+Themes.set('auroraurban', { CSS: auroraurban, name: 'Aurore urbaine' });
+Themes.set('radiantreef', { CSS: radiantreef, name: 'Récif radieux' });
+Themes.set('bnw', { CSS: bnw, name: 'Noir et blanc' });
 
 function getThemes() {
 	return Array.from(Themes, ([name, value]) => ({ name, value }));
