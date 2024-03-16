@@ -257,6 +257,10 @@ h2 {
 	width: 50%;
 }
 
+.User>a {
+	padding: 3vw;
+}
+
 .CallActions {
 	display: flex;
 	flex-direction: column;
@@ -300,10 +304,6 @@ h2 {
 	width: 100%;
 	height: 25vh;
 	height: fit-content;
-}
-
-.CallButton {
-	padding: 3vw;
 }
 
 .CallingError {
