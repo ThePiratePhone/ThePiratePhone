@@ -26,7 +26,7 @@ function InCallMobile({
 				</div>
 				<div className="User">
 					<h2 className="UserName">{client.name}</h2>
-					<a href={'tel:' + client.phone} className="Button CallButton">
+					<a href={'tel:' + client.phone} className="Button">
 						<div className="PhoneNumber">{cleanNumber(client.phone)}</div>
 						<button>Appeler</button>
 					</a>
@@ -34,6 +34,24 @@ function InCallMobile({
 			</div>
 			<Script script={script} />
 		</>
+	);
+}
+
+function OutOfHours({ campaign, next }: { campaign: Campaign; next: () => void }) {
+	if (!campaign.callHoursStart || !campaign.callHoursEnd)
+		return <div className="CallingError">Une erreur est survenue :/</div>;
+
+	const start = campaign.callHoursStart.toLocaleTimeString().split('').slice(0, -3).join('');
+	const end = campaign.callHoursEnd.toLocaleTimeString().split('').slice(0, -3).join('');
+
+	return (
+		<div className="CallingHoursError">
+			<h4>Vous n'êtes pas dans la plage horaire d'appel</h4>
+			<div>
+				<span className="PhoneNumber">{start}</span> à <span className="PhoneNumber">{end}</span>
+			</div>
+			<Button value="Continuer quand même" type="RedButton" onclick={next} />
+		</div>
 	);
 }
 
@@ -150,4 +168,4 @@ function CallEndMobile({
 	);
 }
 
-export { CallEndMobile, InCallMobile };
+export { CallEndMobile, InCallMobile, OutOfHours };

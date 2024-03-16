@@ -515,3 +515,21 @@ h2 {
 	padding: 0.5em;
 	color: var(--backgroundColorText);
 }
+
+.CallingHoursError {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	gap: 2vh;
+}
+
+.CallingHoursError>h4 {
+	margin-bottom: 0;
+}
+
+.CallingHoursError>div {
+	font-size: initial;
+}

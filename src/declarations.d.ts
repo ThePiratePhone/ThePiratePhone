@@ -59,6 +59,8 @@ type Campaign = {
 	_id: string;
 	areaId: string;
 	areaName: string;
+	callHoursStart: Date | null;
+	callHoursEnd: Date | null;
 };
 
 type Area = {

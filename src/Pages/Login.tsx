@@ -1,23 +1,27 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import Footer from '../Components/Footer';
 import Button from '../Components/Button';
+import Footer from '../Components/Footer';
+import { parseCampaign } from '../Utils';
 
-function Login(credentials: { phone: string; pinCode: string; URL: string }): Promise<LoginResponse> {
-	return new Promise(resolve => {
+function Login(credentials: Credentials) {
+	return new Promise<LoginResponse>(resolve => {
 		axios
-			.post(credentials.URL + '/login', credentials)
+			.post(credentials.URL + '/login', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode
+			})
+			.then(response => {
+				if (response?.data?.data) {
+					resolve({ OK: true, Message: 'OK', data: response.data.data });
+				} else {
+					resolve({ OK: false, Message: 'Unknown error', data: undefined });
+				}
+			})
 			.catch(err => {
 				console.error(err);
 				resolve({ OK: false, Message: 'Unknown error', data: undefined });
-			})
-			.then(response => {
-				if (typeof response == 'undefined') {
-					resolve({ OK: false, Message: 'Unknown error', data: undefined });
-				} else {
-					resolve({ OK: true, Message: 'OK', data: response.data.data });
-				}
 			});
 	});
 }
@@ -216,20 +220,11 @@ function LoginBoard({
 		if (window.localStorage.getItem('credentials') != null) {
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
-					result.data.areaCombo.campaignAvailable = result.data.areaCombo.campaignAvailable.sort(
-						(a: Campaign, b: Campaign) => {
-							if (a.areaName > b.areaName) {
-								return 1;
-							} else if (a.areaName < b.areaName) {
-								return -1;
-							}
-							return 0;
-						}
-					);
+					const campaigns = parseCampaign(result.data);
 					return chooseArea(
 						result.data.caller,
 						JSON.parse(window.localStorage.getItem('credentials') as string),
-						result.data.areaCombo.campaignAvailable
+						campaigns
 					);
 				} else {
 					window.localStorage.removeItem('credentials');
@@ -242,8 +237,8 @@ function LoginBoard({
 	}, [chooseArea]);
 
 	function load() {
-		setButtonDisabled(false);
 		setButtonValue('Se connecter');
+		setButtonDisabled(false);
 	}
 
 	function connect() {
@@ -254,13 +249,15 @@ function LoginBoard({
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
 			pinCode: (document.getElementById('pin') as HTMLInputElement).value,
+			area: '',
 			URL: URL
 		};
 
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
-				chooseArea(result.data.caller, credentials, result.data.areaCombo.campaignAvailable);
+				const campaigns = parseCampaign(result.data);
+				chooseArea(result.data.caller, credentials, campaigns);
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonDisabled(false);

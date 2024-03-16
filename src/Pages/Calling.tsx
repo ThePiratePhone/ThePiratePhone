@@ -2,7 +2,8 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CallEndMobile, InCallMobile } from '../Components/CallingComponents';
+import { CallEndMobile, InCallMobile, OutOfHours } from '../Components/CallingComponents';
+import { isInHours } from '../Utils';
 
 async function getNewClient(
 	credentials: Credentials
@@ -36,7 +37,7 @@ async function getNewClient(
 	});
 }
 
-function Calling({ credentials }: { credentials: Credentials }) {
+function Calling({ credentials, campaign }: { credentials: Credentials; campaign: Campaign }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
 	const client = useRef<User>();
@@ -62,34 +63,42 @@ function Calling({ credentials }: { credentials: Credentials }) {
 		}
 
 		function getNextClient() {
-			getNewClient(credentials).then(result => {
-				const time = Date.now();
-				if (typeof result != 'undefined') {
-					if (result.data) {
-						client.current = result.data.client;
-						if (!result.status) {
-							endCall();
+			function next() {
+				getNewClient(credentials).then(result => {
+					const time = Date.now();
+					if (typeof result != 'undefined') {
+						if (result.data) {
+							client.current = result.data.client;
+							if (!result.status) {
+								endCall();
+							} else {
+								setPage(
+									<InCallMobile
+										client={client.current}
+										script={result.data.script}
+										endCall={() => endCall(time)}
+										cancel={cancel}
+									/>
+								);
+							}
 						} else {
-							setPage(
-								<InCallMobile
-									client={client.current}
-									script={result.data.script}
-									endCall={() => endCall(time)}
-									cancel={cancel}
-								/>
-							);
+							if (result.status) {
+								setPage(<div className="CallingError">Aucun numéro disponible</div>);
+							} else {
+								setPage(<div className="CallingError">Aucune campagne n'est en cours</div>);
+							}
 						}
 					} else {
-						if (result.status) {
-							setPage(<div className="CallingError">Aucun numéro disponible</div>);
-						} else {
-							setPage(<div className="CallingError">Aucune campagne n'est en cours</div>);
-						}
+						setPage(<div className="CallingError">Une erreur est survenue :/</div>);
 					}
-				} else {
-					setPage(<div className="CallingError">Une erreur est survenue :/</div>);
-				}
-			});
+				});
+			}
+			if (!isInHours(campaign)) {
+				setPage(<OutOfHours campaign={campaign} next={next} />);
+				return;
+			} else {
+				next();
+			}
 		}
 
 		function endCall(startTime?: number) {

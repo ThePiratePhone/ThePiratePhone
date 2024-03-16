@@ -18,6 +18,40 @@ function cleanNumber(number: string) {
 	return newNumber;
 }
 
+function isInHours(campaign: Campaign) {
+	if (!campaign.callHoursStart || !campaign.callHoursEnd) return;
+
+	const callHoursStart = new Date();
+	callHoursStart.setHours(campaign.callHoursStart.getHours());
+	callHoursStart.setMinutes(campaign.callHoursStart.getMinutes());
+
+	const callHoursEnd = new Date();
+	callHoursEnd.setHours(campaign.callHoursEnd.getHours());
+	callHoursEnd.setMinutes(campaign.callHoursEnd.getMinutes());
+
+	return new Date() > callHoursStart && new Date() < callHoursEnd;
+}
+
+function parseCampaign(campaign: any) {
+	const campaigns = campaign.areaCombo.campaignAvailable
+		.sort((a: Campaign, b: Campaign) => {
+			if (a.areaName > b.areaName) {
+				return 1;
+			} else if (a.areaName < b.areaName) {
+				return -1;
+			}
+			return 0;
+		})
+		.map((old: any) => {
+			old.callHoursEnd = new Date(old.callHoursEnd);
+			old.callHoursStart = new Date(old.callHoursStart);
+
+			return old;
+		});
+
+	return campaigns;
+}
+
 function mobileCheck() {
 	const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
 
@@ -26,4 +60,4 @@ function mobileCheck() {
 	});
 }
 
-export { cleanNumber, mobileCheck };
+export { cleanNumber, isInHours, mobileCheck, parseCampaign };
