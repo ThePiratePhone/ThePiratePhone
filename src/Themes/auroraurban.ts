@@ -11,7 +11,7 @@ export default {
 	'--color2v2Border': '#5a726a',
 	'--color2Text': 'white',
 
-	'--inputColor': '#4b4e53',
+	'--inputColor': '#6e4215',
 	'--inputText': 'white',
 
 	'--disabledButton': '#ced1d3',
