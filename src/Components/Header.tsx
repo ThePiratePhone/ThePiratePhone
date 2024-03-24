@@ -42,7 +42,17 @@ function Header({ areaName }: { areaName: string }) {
 			<div className={isNavExpanded ? 'NavMenu expanded' : 'NavMenu'} onClick={() => setIsNavExpanded(false)}>
 				{LINKS.map((val, i) => {
 					return (
-						<Link className="NavMenuButton" to={val.link} key={i}>
+						<Link
+							className={
+								i == 0
+									? 'NavMenuButton FirstNavMenuButton'
+									: i + 1 == LINKS.length
+									? 'NavMenuButton LastNavMenuButton'
+									: 'NavMenuButton'
+							}
+							to={val.link}
+							key={i}
+						>
 							{val.value}
 						</Link>
 					);

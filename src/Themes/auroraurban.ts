@@ -23,7 +23,6 @@ export default {
 
 	'--headerColor': '#3a3c3f',
 	'--headerText': 'white',
-	'--headerBorder': 'white',
 	'--navButtonBorder': 'white',
 
 	'--backgroundColor': '#242528',

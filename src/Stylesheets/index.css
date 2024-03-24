@@ -38,7 +38,6 @@
 
 	--headerColor: #ede7ef;
 	--headerText: black;
-	--headerBorder: black;
 	--navButtonBorder: black;
 
 	--backgroundColor: white;
@@ -128,19 +127,6 @@ h2 {
 
 .Header>*:last-child {
 	margin-left: auto;
-}
-
-.Header {
-	position: sticky;
-	top: 0;
-	width: 98%;
-	padding: 1vh 1%;
-	height: calc(8vh - 3px);
-	border-bottom: 3px solid var(--headerBorder);
-	display: flex;
-	align-items: center;
-	gap: 2vw;
-	background-color: var(--headerColor);
 }
 
 .DesktopHomePage {
@@ -397,7 +383,6 @@ h2 {
 	top: 0;
 	width: 98%;
 	padding: 1vh 1%;
-	border-bottom: 1px solid var(--headerBorder);
 	display: flex;
 	align-items: center;
 	justify-content: left;
@@ -445,8 +430,16 @@ h2 {
 	color: var(--headerText);
 }
 
+.FirstNavMenuButton {
+	border-top: solid 1px var(--navButtonBorder);
+}
+
+.LastNavMenuButton {
+	border-bottom: none;
+}
+
 .expanded {
-	transform: none;
+	transform: translateY(1px);
 }
 
 .MenuIcon {
