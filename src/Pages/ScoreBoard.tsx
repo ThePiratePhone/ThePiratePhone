@@ -53,7 +53,7 @@ function ScoreBoard({ credentials }: { credentials: Credentials }) {
 	return (
 		<div className="Dashboard">
 			<h1>ScoreBoard</h1>
-			<div className="ScoreBoard">{ScoreBoard}</div>
+			<div className="ScoreBoard">{ScoreBoard ?? 'Récupération...'}</div>
 		</div>
 	);
 }
