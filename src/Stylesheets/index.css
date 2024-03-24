@@ -70,7 +70,6 @@ a {
 
 select {
 	outline: none;
-	border: solid 1px var(--inputOutline);
 	background-color: var(--inputColor);
 }
 
@@ -79,7 +78,7 @@ h2 {
 	margin: 0;
 }
 
-.PhoneNumber {
+.Phone {
 	font-family: 'Montserrat';
 }
 
@@ -532,4 +531,23 @@ h2 {
 
 .CallingHoursError>div {
 	font-size: initial;
+}
+
+.ScoreBoard {
+	display: flex;
+	flex-direction: column;
+	gap: 1vh;
+	width: 80vw;
+}
+
+.ScoreBox {
+	padding: 2vh 2vh;
+	background-color: var(--inputColor);
+	display: flex;
+	justify-content: space-between;
+}
+
+.YourSelf {
+	background-color: var(--color1v1);
+	color: var(--color1Text);
 }

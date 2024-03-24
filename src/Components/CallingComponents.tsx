@@ -27,7 +27,7 @@ function InCallMobile({
 				<div className="User">
 					<h2 className="UserName">{client.name}</h2>
 					<a href={'tel:' + client.phone} className="Button">
-						<div className="PhoneNumber">{cleanNumber(client.phone)}</div>
+						<div className="Phone">{cleanNumber(client.phone)}</div>
 						<button>Appeler</button>
 					</a>
 				</div>
@@ -48,7 +48,7 @@ function OutOfHours({ campaign, next }: { campaign: Campaign; next: () => void }
 		<div className="CallingHoursError">
 			<h4>Vous n'êtes pas dans la plage horaire d'appel</h4>
 			<div>
-				<span className="PhoneNumber">{start}</span> à <span className="PhoneNumber">{end}</span>
+				<span className="Phone">{start}</span> à <span className="Phone">{end}</span>
 			</div>
 			<Button value="Continuer quand même" type="RedButton" onclick={next} />
 		</div>

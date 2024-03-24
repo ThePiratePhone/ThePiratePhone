@@ -19,10 +19,10 @@ function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => 
 				Nom: <b>{caller.name}</b>
 			</div>
 			<div>
-				Numéro: <b className="PhoneNumber">{cleanNumber(caller.phone)}</b>
+				Numéro: <b className="Phone">{cleanNumber(caller.phone)}</b>
 			</div>
 			<div>
-				Pin: <b className="PhoneNumber">{caller.pinCode}</b>
+				Pin: <b className="Phone">{caller.pinCode}</b>
 			</div>
 			<Button value="Changer le theme" link="/ChangeTheme" />
 			<Button value="Changer votre pin" link="/ChangePassword" />

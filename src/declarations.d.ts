@@ -72,3 +72,8 @@ type Theme = {
 	name: string;
 	CSS: React.CSSProperties;
 };
+
+type ScoreBoard = {
+	yourPlace: number;
+	scoreBoard: Array<{ name: string; nbCall: number; timeInCall: number }>;
+};

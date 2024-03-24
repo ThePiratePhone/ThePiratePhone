@@ -9,6 +9,7 @@ function Header({ areaName }: { areaName: string }) {
 	const LINKS = [
 		{ value: 'Accueil', link: '/' },
 		{ value: 'Appeler', link: '/Calling' },
+		{ value: 'ScoreBoard', link: '/ScoreBoard' },
 		{ value: "Changer d'organisation", link: '/Switch' },
 		{ value: 'Paramètres', link: '/Settings' }
 	];
@@ -24,7 +25,6 @@ function Header({ areaName }: { areaName: string }) {
 				</Link>
 
 				<svg
-					xmlns="http://www.w3.org/2000/svg"
 					width="64"
 					height="64"
 					viewBox="0 0 24 24"

@@ -38,46 +38,45 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		if (vals.totalDiscution - vals.totalUser === 0) {
 			setProgress(
 				<>
-					<span className="PhoneNumber">{vals.totalClientCalled}</span> sur{' '}
-					<span className="PhoneNumber">{vals.totalClientCalled}</span>.
+					<span className="Phone">{vals.totalClientCalled}</span> sur{' '}
+					<span className="Phone">{vals.totalClientCalled}</span>.
 				</>
 			);
 		}
 		if (vals.totalClientCalled < 5) {
 			setProgress(
 				<>
-					<span className="PhoneNumber">{vals.totalClientCalled}</span> appels effectués.
+					<span className="Phone">{vals.totalClientCalled}</span> appels effectués.
 				</>
 			);
 		} else if (vals.totalClientCalled < 20) {
 			setProgress(
 				<>
-					Déjà <span className="PhoneNumber">{vals.totalClientCalled}</span> coups de fils passés ?
+					Déjà <span className="Phone">{vals.totalClientCalled}</span> coups de fils passés ?
 				</>
 			);
 		} else if (vals.totalClientCalled < 50) {
 			setProgress(
 				<>
-					<span className="PhoneNumber">{vals.totalClientCalled}</span> appels ! Ça monte vite !
+					<span className="Phone">{vals.totalClientCalled}</span> appels ! Ça monte vite !
 				</>
 			);
 		} else if (vals.totalClientCalled < 100) {
 			setProgress(
 				<>
-					Oh la la. Mon compteur affiche <span className="PhoneNumber">{vals.totalClientCalled}</span> appels
-					!
+					Oh la la. Mon compteur affiche <span className="Phone">{vals.totalClientCalled}</span> appels !
 				</>
 			);
 		} else if (vals.totalClientCalled < 150) {
 			setProgress(
 				<>
-					<span className="PhoneNumber">{vals.totalClientCalled}</span>! Encore encore encore !
+					<span className="Phone">{vals.totalClientCalled}</span>! Encore encore encore !
 				</>
 			);
 		} else {
 			setProgress(
 				<>
-					Woah. <span className="PhoneNumber">{vals.totalClientCalled}</span>! Ça s'arrête jamais...
+					Woah. <span className="Phone">{vals.totalClientCalled}</span>! Ça s'arrête jamais...
 				</>
 			);
 		}

@@ -14,6 +14,7 @@ import Recall from './Pages/Recall';
 import Switch from './Pages/Switch';
 import ThemeProvider from './Components/ThemeProvider';
 import ChangeTheme from './Pages/ChangeTheme';
+import ScoreBoard from './Pages/ScoreBoard';
 
 function App({
 	caller,
@@ -98,6 +99,10 @@ function App({
 		{
 			path: '/Recall',
 			element: <Recall credentials={Credentials} />
+		},
+		{
+			path: '/ScoreBoard',
+			element: <ScoreBoard credentials={Credentials} />
 		},
 		{
 			path: '/Settings',
