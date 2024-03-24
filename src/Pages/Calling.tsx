@@ -10,7 +10,7 @@ async function getNewClient(
 ): Promise<{ status: boolean; data: { client: User; script: string } | undefined } | undefined> {
 	return new Promise(resolve => {
 		axios
-			.post(credentials.URL + '/getPhone', credentials)
+			.post(credentials.URL + '/getPhoneNumber', credentials)
 			.then(result => {
 				if (result) {
 					if (result?.data?.OK) {

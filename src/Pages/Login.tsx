@@ -209,7 +209,7 @@ function LoginBoard({
 	newAccount,
 	URL
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) => void;
 	newAccount: () => void;
 	URL: string;
 }) {
@@ -224,7 +224,7 @@ function LoginBoard({
 					return chooseArea(
 						result.data.caller,
 						JSON.parse(window.localStorage.getItem('credentials') as string),
-						campaigns
+						{ area: result.data.areaCombo.area, campaignAvailable: campaigns }
 					);
 				} else {
 					window.localStorage.removeItem('credentials');
@@ -257,7 +257,10 @@ function LoginBoard({
 			if (result.OK && result.data) {
 				window.localStorage.setItem('credentials', JSON.stringify(credentials));
 				const campaigns = parseCampaign(result.data);
-				chooseArea(result.data.caller, credentials, campaigns);
+				chooseArea(result.data.caller, credentials, {
+					area: result.data.areaCombo.area,
+					campaignAvailable: campaigns
+				});
 			} else {
 				setButtonValue('Identifiants invalides');
 				setButtonDisabled(false);
@@ -309,7 +312,7 @@ function LoginPage({
 	chooseArea,
 	URL
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: Array<Campaign>) => void;
+	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) => void;
 	URL: string;
 }) {
 	const [Page, setPage] = useState(<LoginBoard URL={URL} newAccount={newAccount} chooseArea={chooseArea} />);

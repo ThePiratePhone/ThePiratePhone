@@ -1,25 +1,26 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import Button from '../Components/Button';
+import { useNavigate } from 'react-router-dom';
 
 function Join({
 	credentials,
 	setCredentials,
 	addCampaign,
-	areas
+	areas,
+	next
 }: {
 	credentials: Credentials;
 	setCredentials: (newCredentials: Credentials) => void;
 	addCampaign: (newCampaign: Campaign) => void;
 	areas: Array<Campaign>;
+	next?: () => void;
 }) {
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
 	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [AreasComp, setAreasComp] = useState(<></>);
-
-	const navigate = useNavigate();
 
 	function join(area: string, password: string) {
 		return new Promise<Campaign | undefined>(resolve => {
@@ -35,8 +36,7 @@ function Join({
 				})
 				.catch(err => {
 					if (err.response.data.message) {
-						const message = err.response.data.message;
-						if (message === 'Wrong campaign password') {
+						if (err.response.data.message === 'Wrong campaign password') {
 							setButtonValue('Clé invalide');
 							setButtonDisabled(false);
 						}
@@ -62,7 +62,11 @@ function Join({
 				credentials.area = newCampaign.areaId;
 				setCredentials(credentials);
 				addCampaign(newCampaign);
-				navigate('/');
+				if (next) {
+					next();
+				} else {
+					useNavigate()('/');
+				}
 			}
 		});
 	}
@@ -74,11 +78,7 @@ function Join({
 					.get(credentials.URL + '/getArea')
 					.then(response => {
 						response.data.data = response.data.data.filter((area: Area) => {
-							if (areas.find(val => val.areaId === area._id)) {
-								return false;
-							} else {
-								return true;
-							}
+							return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
 						});
 						response.data.data = response.data.data.sort((a: Area, b: Area) => {
 							if (a.name > b.name) {

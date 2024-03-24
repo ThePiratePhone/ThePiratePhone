@@ -4,17 +4,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
-import Settings from './Pages/Settings';
+import ThemeProvider from './Components/ThemeProvider';
 import Calling from './Pages/Calling';
 import ChangePassword from './Pages/ChangePassword';
+import ChangeTheme from './Pages/ChangeTheme';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
 import Join from './Pages/Join';
 import Recall from './Pages/Recall';
-import Switch from './Pages/Switch';
-import ThemeProvider from './Components/ThemeProvider';
-import ChangeTheme from './Pages/ChangeTheme';
 import ScoreBoard from './Pages/ScoreBoard';
+import Settings from './Pages/Settings';
+import Switch from './Pages/Switch';
 
 function App({
 	caller,
@@ -85,6 +85,7 @@ function App({
 			path: '/Join',
 			element: (
 				<Join
+					next={undefined}
 					credentials={Credentials}
 					setCredentials={changeCredentials}
 					addCampaign={addCampaign}
