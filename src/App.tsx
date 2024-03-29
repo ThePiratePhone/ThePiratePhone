@@ -15,6 +15,7 @@ import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
 import Switch from './Pages/Switch';
+import ChangeName from './Pages/ChangeName';
 
 function App({
 	caller,
@@ -108,6 +109,10 @@ function App({
 		{
 			path: '/Settings',
 			element: <Settings caller={Caller} renderLogin={renderLogin} />
+		},
+		{
+			path: '/ChangeName',
+			element: <ChangeName caller={caller} credentials={Credentials} setCaller={setCaller} />
 		},
 		{
 			path: '/ChangePassword',

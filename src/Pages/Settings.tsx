@@ -25,6 +25,7 @@ function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => 
 				Pin: <b className="Phone">{caller.pinCode}</b>
 			</div>
 			<Button value="Changer le theme" link="/ChangeTheme" />
+			<Button value="Changer votre nom" link="/ChangeName" />
 			<Button value="Changer votre pin" link="/ChangePassword" />
 			<Button value="Se déconnecter" onclick={logOut} />
 		</div>
