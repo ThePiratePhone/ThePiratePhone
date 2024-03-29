@@ -19,7 +19,7 @@ function cleanNumber(number: string) {
 }
 
 function isInHours(campaign: Campaign) {
-	if (!campaign.callHoursStart || !campaign.callHoursEnd) return;
+	if (!campaign.callHoursStart || !campaign.callHoursEnd) return true;
 
 	const callHoursStart = new Date();
 	callHoursStart.setHours(campaign.callHoursStart.getHours());
