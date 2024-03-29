@@ -307,6 +307,7 @@ h2 {
 	padding: 2em;
 	text-align: justify;
 	line-height: 1.5em;
+	white-space: pre-wrap;
 }
 
 .E404 {
