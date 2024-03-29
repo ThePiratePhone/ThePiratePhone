@@ -273,9 +273,13 @@ function LoginBoard({
 		setButtonValue('Se connecter');
 	}
 
-	function enter(e: any) {
+	function next(e: any, value: number) {
 		if (e.key === 'Enter') {
-			connect();
+			if (value == 1) {
+				document.getElementById('pin')?.focus();
+			} else {
+				connect();
+			}
 		}
 	}
 
@@ -289,6 +293,7 @@ function LoginBoard({
 				type="tel"
 				onChange={change}
 				placeholder="Téléphone"
+				onKeyUp={e => next(e, 1)}
 			/>
 			<input
 				className="inputField"
@@ -298,7 +303,7 @@ function LoginBoard({
 				type="tel"
 				onChange={change}
 				placeholder="Pin"
-				onKeyDown={enter}
+				onKeyDown={e => next(e, 2)}
 			/>
 			<Button value={ButtonValue} onclick={connect} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
 			<div className="NoAccount">
