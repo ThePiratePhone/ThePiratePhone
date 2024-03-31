@@ -1,3 +1,3 @@
-# CallSphere
+# The Pirate Phone
 
-Welcome to CallSphere, the call list management system.
+Welcome to The Pirate Phone, a callcenter managment application.

@@ -12,7 +12,7 @@ import { mobileCheck } from './Utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const URL = 'https://cs.mpqa.fr:8443/api';
+const URL = 'https://pp.mpqa.fr:8443/api';
 
 function renderApp(caller: Caller, credentials: Credentials, areas: Array<Campaign>, campaign: Campaign) {
 	credentials.URL = URL;
@@ -71,10 +71,6 @@ if (mobileCheck()) {
 	renderLogin();
 } else {
 	root.render(
-		<div className="DesktopHomePage">
-			Une version de bureau ?<br />
-			Un jour peut-être 😏 <br />
-			En attendant, rendez-vous sur mobile !
-		</div>
+		<div className="DesktopHomePage">Cette application n'est pas disponible sur PC. Rendez-vous sur mobile !</div>
 	);
 }
