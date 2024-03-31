@@ -3,9 +3,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
-
 import ThemeProvider from './Components/ThemeProvider';
+
 import Calling from './Pages/Calling';
+import ChangeName from './Pages/ChangeName';
 import ChangePassword from './Pages/ChangePassword';
 import ChangeTheme from './Pages/ChangeTheme';
 import Dashboard from './Pages/Dashboard';
@@ -15,7 +16,6 @@ import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
 import Switch from './Pages/Switch';
-import ChangeName from './Pages/ChangeName';
 
 function App({
 	caller,
@@ -71,10 +71,8 @@ function App({
 					areas={areas}
 					setCredentials={changeCredentials}
 					switchArea={(area: Campaign) => {
-						setCredentials(old => {
-							old.area = area.areaId;
-							return old;
-						});
+						Credentials.area = area.areaId;
+						setCredentials(Credentials);
 						window.localStorage.setItem('credentials', JSON.stringify(credentials));
 						setCurrentCampaign(area);
 					}}

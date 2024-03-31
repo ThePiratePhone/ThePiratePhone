@@ -25,9 +25,7 @@ function ChangePassword({
 					area: credentials.area,
 					newPin: pinCode
 				})
-				.then(() => {
-					resolve(true);
-				})
+				.then(() => resolve(true))
 				.catch(err => {
 					console.error(err);
 					resolve(false);
