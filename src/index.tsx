@@ -71,10 +71,6 @@ if (mobileCheck()) {
 	renderLogin();
 } else {
 	root.render(
-		<div className="DesktopHomePage">
-			Une version de bureau ?<br />
-			Un jour peut-être 😏 <br />
-			En attendant, rendez-vous sur mobile !
-		</div>
+		<div className="DesktopHomePage">Cette application n'est pas disponible sur PC. Rendez-vous sur mobile !</div>
 	);
 }

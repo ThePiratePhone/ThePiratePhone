@@ -93,7 +93,7 @@ h2 {
 
 .Logo,
 .Logo>img {
-	height: 8vh;
+	width: 10vh;
 }
 
 .Button {
@@ -161,10 +161,9 @@ h2 {
 	gap: 2vh;
 }
 
-.LoginPageMain>h1 {
-	margin: 5vh 0;
-	text-align: center;
-	font-size: 2em;
+.LoginPageMain>img {
+	height: 10vh;
+	margin-bottom: 10vh;
 }
 
 .inputField {

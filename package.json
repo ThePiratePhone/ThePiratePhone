@@ -1,5 +1,5 @@
 {
-	"name": "callsphere",
+	"name": "thepiratephone",
 	"dependencies": {
 		"axios": "^1.6.8",
 		"react": "^18.2.0",
@@ -10,7 +10,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"deploy": "ssh Dave rm -r /var/www/callsphere/* && scp -r build/* Dave:/var/www/callsphere/"
+		"deploy": "ssh Dave rm -r /var/www/piratephone/* && scp -r build/* Dave:/var/www/piratephone/"
 	},
 	"browserslist": {
 		"production": [

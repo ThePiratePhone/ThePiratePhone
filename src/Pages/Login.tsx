@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+import Logo from '../Assets/Logo.svg';
+
 import Button from '../Components/Button';
 import Footer from '../Components/Footer';
 import { parseCampaign } from '../Utils';
@@ -285,7 +287,7 @@ function LoginBoard({
 
 	return (
 		<div className="LoginPageMain">
-			<h1>Bienvenue sur Callsphere</h1>
+			<img src={Logo} />
 			<input
 				className="inputField"
 				disabled={ButtonDisabled}
