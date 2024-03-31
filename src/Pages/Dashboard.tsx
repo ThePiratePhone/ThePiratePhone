@@ -43,7 +43,13 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 				</>
 			);
 		}
-		if (vals.totalClientCalled < 5) {
+		if (vals.totalClientCalled == 1) {
+			setProgress(
+				<>
+					<span className="Phone">1</span> appel effectué.
+				</>
+			);
+		} else if (vals.totalClientCalled < 5) {
 			setProgress(
 				<>
 					<span className="Phone">{vals.totalClientCalled}</span> appels effectués.
@@ -52,7 +58,7 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		} else if (vals.totalClientCalled < 20) {
 			setProgress(
 				<>
-					Déjà <span className="Phone">{vals.totalClientCalled}</span> coups de fils passés ?
+					Déjà <span className="Phone">{vals.totalClientCalled}</span> coups de fil passés ?
 				</>
 			);
 		} else if (vals.totalClientCalled < 50) {
@@ -64,19 +70,31 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		} else if (vals.totalClientCalled < 100) {
 			setProgress(
 				<>
-					Oh la la. Mon compteur affiche <span className="Phone">{vals.totalClientCalled}</span> appels !
+					Oh là là. Mon compteur affiche <span className="Phone">{vals.totalClientCalled}</span> appels !
 				</>
 			);
 		} else if (vals.totalClientCalled < 150) {
 			setProgress(
 				<>
-					<span className="Phone">{vals.totalClientCalled}</span>! Encore encore encore !
+					<span className="Phone">{vals.totalClientCalled}</span> appels ! Encore encore encore !
+				</>
+			);
+		} else if (vals.totalClientCalled < 250) {
+			setProgress(
+				<>
+					<span className="Phone">{vals.totalClientCalled}</span> coups de fil !? On croit en vous ! 🫶
+				</>
+			);
+		} else if (vals.totalClientCalled < 350) {
+			setProgress(
+				<>
+					Allez allez ! <span className="Phone">{vals.totalClientCalled}</span> appels ! On fait brûler Free !
 				</>
 			);
 		} else {
 			setProgress(
 				<>
-					Woah. <span className="Phone">{vals.totalClientCalled}</span>! Ça s'arrête jamais...
+					Woah. <span className="Phone">{vals.totalClientCalled}</span> appels ! Ça s'arrête jamais...
 				</>
 			);
 		}
