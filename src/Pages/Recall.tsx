@@ -16,7 +16,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	function post(satisfaction: number, phone: string, comment?: string) {
 		return new Promise<boolean>(resolve => {
 			axios
-				.post(credentials.URL + '/validatePhone', {
+				.post(credentials.URL + '/validatePhoneNumber', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,
