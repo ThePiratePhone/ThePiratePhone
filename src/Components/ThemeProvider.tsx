@@ -1,6 +1,7 @@
+import auroraurban from '../Themes/auroraurban';
 import blackandwhite from '../Themes/blackandwhite';
 import deepocean from '../Themes/deepocean';
-import auroraurban from '../Themes/auroraurban';
+import petrogradsun from '../Themes/petrogradsun';
 import radiantreef from '../Themes/radiantreef';
 
 const Themes = new Map<string, Theme>();
@@ -9,6 +10,7 @@ Themes.set('default', { CSS: {}, name: 'Défaut' });
 Themes.set('radiantreef', { CSS: radiantreef, name: 'Récif radieux' });
 Themes.set('deepocean', { CSS: deepocean, name: 'Océan profond' });
 Themes.set('auroraurban', { CSS: auroraurban, name: 'Aurore urbaine' });
+Themes.set('petrogradsun', { CSS: petrogradsun, name: 'Soleil de Petrograd ☭' });
 Themes.set('blackandwhite', { CSS: blackandwhite, name: 'Noir et blanc' });
 
 function getThemes() {
@@ -28,4 +30,4 @@ function ThemeProvider({ themeId, children }: { themeId: string; children: JSX.E
 }
 
 export default ThemeProvider;
-export { getThemes, getTheme };
+export { getTheme, getThemes };

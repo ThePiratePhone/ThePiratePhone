@@ -544,3 +544,7 @@ h2 {
 	background-color: var(--color1v1);
 	color: var(--color1Text);
 }
+
+#theme {
+	width: 60vw;
+}
