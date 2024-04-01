@@ -27,7 +27,7 @@ function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => 
 			<Button value="Changer le theme" link="/ChangeTheme" />
 			<Button value="Changer votre nom" link="/ChangeName" />
 			<Button value="Changer votre pin" link="/ChangePassword" />
-			<Button value="Se déconnecter" onclick={logOut} />
+			<Button value="Se déconnecter" type="RedButton" onclick={logOut} />
 		</div>
 	);
 }
