@@ -389,7 +389,7 @@ h2 {
 	gap: 2vw;
 	background-color: var(--headerColor);
 	z-index: 2;
-	height: 6vh;
+	height: calc(6vh + 1px);
 }
 
 .Logo,
@@ -409,13 +409,13 @@ h2 {
 }
 
 .NavMenu {
-	transition-duration: 200ms;
-	transform: translateY(-100vh);
+	transition-duration: 250ms;
+	transform: translateY(-92vh);
 	background-color: var(--headerColor);
 	position: fixed;
 	top: 8vh;
 	width: 100%;
-	height: calc(100vh - 8vh);
+	height: 92vh;
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
