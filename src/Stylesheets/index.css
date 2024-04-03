@@ -220,6 +220,10 @@ h2 {
 	font-size: 1em;
 }
 
+.FooterElement>a {
+	color: var(--footerText);
+}
+
 .Calling {
 	display: flex;
 	flex-direction: column;
