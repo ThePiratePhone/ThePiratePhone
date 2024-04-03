@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { CallEndMobile, InCallMobile, OutOfHours } from '../Components/CallingComponents';
 import { isInHours } from '../Utils';
 
-async function getNewClient(
-	credentials: Credentials
-): Promise<{ status: boolean; data: { client: User; script: string } | undefined } | undefined> {
+async function getNewClient(credentials: Credentials): Promise<
+	| {
+			status: boolean;
+			data: { client: User; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
+	  }
+	| undefined
+> {
 	return new Promise(resolve => {
 		axios
 			.post(credentials.URL + '/getPhoneNumber', credentials)
@@ -37,7 +41,15 @@ async function getNewClient(
 	});
 }
 
-function Calling({ credentials, campaign }: { credentials: Credentials; campaign: Campaign }) {
+function Calling({
+	credentials,
+	campaign,
+	setCampaign
+}: {
+	credentials: Credentials;
+	campaign: Campaign;
+	setCampaign: (campaign: Campaign) => void;
+}) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
 	const client = useRef<User>();
@@ -69,6 +81,11 @@ function Calling({ credentials, campaign }: { credentials: Credentials; campaign
 					if (typeof result != 'undefined') {
 						if (result.data) {
 							client.current = result.data.client;
+							if (result.data.CampaignCallStart && result.data.CampaignCallEnd) {
+								campaign.callHoursEnd = new Date(result.data.CampaignCallEnd);
+								campaign.callHoursStart = new Date(result.data.CampaignCallStart);
+								setCampaign(campaign);
+							}
 							if (!result.status) {
 								endCall();
 							} else {
