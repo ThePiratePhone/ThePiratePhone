@@ -141,7 +141,7 @@ function CallEndMobile({
 				<h3>Comment s'est passé cet appel ?</h3>
 			</div>
 			<div className="CallingButtons">
-				<select className="inputField" id="satisfaction">
+				<select className="inputField" id="satisfaction" defaultValue={0}>
 					{VALUES.map((value, i) => {
 						return (
 							<option key={i} value={value.value}>
