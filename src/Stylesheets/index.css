@@ -161,6 +161,10 @@ h2 {
 	gap: 2vh;
 }
 
+.LoginPageMain>h1 {
+	text-align: center;
+}
+
 .LoginPageMain>img {
 	height: 10vh;
 	margin-bottom: 10vh;

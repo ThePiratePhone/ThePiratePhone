@@ -3,15 +3,7 @@ import { useEffect, useState } from 'react';
 import Button from '../Components/Button';
 import Join from './Join';
 
-function ChooseArea({
-	renderApp,
-	areas,
-	join
-}: {
-	renderApp: (area: Campaign) => void;
-	areas: Array<Campaign>;
-	join: () => void;
-}) {
+function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void; areas: Array<Campaign> }) {
 	function click() {
 		const areaId = (document.getElementById('area') as HTMLInputElement).value;
 		const area = areas.find(val => val.areaId === areaId) as Campaign;
@@ -63,25 +55,7 @@ function Choose({
 	credentials: Credentials;
 }) {
 	let campaign: Campaign | undefined = undefined;
-	const [Page, setPage] = useState(
-		<ChooseArea
-			areas={areas}
-			renderApp={renderApp}
-			join={() =>
-				setPage(
-					<Join
-						next={next}
-						addCampaign={cmp => {
-							campaign = cmp;
-						}}
-						credentials={credentials}
-						setCredentials={() => {}}
-						areas={areas}
-					/>
-				)
-			}
-		/>
-	);
+	const [Page, setPage] = useState(<ChooseArea areas={areas} renderApp={renderApp} />);
 
 	function next() {
 		renderApp(campaign as Campaign);
