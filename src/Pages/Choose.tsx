@@ -67,7 +67,9 @@ function Choose({
 			setPage(
 				<Join
 					next={next}
-					addCampaign={() => {}}
+					addCampaign={newCampaign => {
+						campaign = newCampaign;
+					}}
 					credentials={credentials}
 					setCredentials={() => {}}
 					areas={areas}
