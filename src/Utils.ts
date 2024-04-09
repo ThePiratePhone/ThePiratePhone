@@ -73,4 +73,8 @@ function cleanCallingTime(duration: number) {
 	return date.toLocaleTimeString();
 }
 
-export { cleanCallingTime, cleanNumber, isInHours, mobileCheck, parseCampaign };
+function randomBetween(min: number, max: number) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export { cleanCallingTime, cleanNumber, isInHours, mobileCheck, parseCampaign, randomBetween };

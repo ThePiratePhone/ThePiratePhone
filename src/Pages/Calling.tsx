@@ -124,7 +124,7 @@ function Calling({
 					<CallEndMobile
 						credentials={credentials}
 						client={client.current}
-						time={startTime ? (Date.now() - startTime <= 600_000 ? Date.now() - startTime : 0) : 0}
+						time={startTime ? Date.now() - startTime : 0}
 						nextCall={getNextClient}
 					/>
 				);
