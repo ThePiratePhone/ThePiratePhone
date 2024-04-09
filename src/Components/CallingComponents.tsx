@@ -136,7 +136,7 @@ function CallEndMobile({
 				{time === 0 ? <h3>Ancien appel récupéré !</h3> : <></>}
 				<div className="UserEnded">
 					<h2 className="UserNameEnded">{client.name}</h2>
-					<div>{cleanNumber(client.phone)}</div>
+					<div className="Phone">{cleanNumber(client.phone)}</div>
 				</div>
 				<h3>Comment s'est passé cet appel ?</h3>
 			</div>

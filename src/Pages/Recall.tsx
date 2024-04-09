@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { useState } from 'react';
 import Button from '../Components/Button';
 
 function Recall({ credentials }: { credentials: Credentials }) {
@@ -12,9 +13,11 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	];
 
 	const navigate = useNavigate();
+	const [ButtonDisabled, setButtonDisabled] = useState(false);
+	const [ButtonValue, setButtonValue] = useState('Confirmer');
 
 	function post(satisfaction: number, phone: string, comment?: string) {
-		return new Promise<boolean>(resolve => {
+		return new Promise<number>(resolve => {
 			axios
 				.post(credentials.URL + '/validatePhoneNumber', {
 					phone: credentials.phone,
@@ -24,17 +27,28 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					phoneNumber: phone,
 					comment: comment
 				})
-				.then(() => {
-					resolve(true);
+				.then(res => {
+					if (res.data.OK) {
+						resolve(0);
+					} else {
+						resolve(-1);
+					}
 				})
 				.catch(err => {
-					console.error(err);
-					resolve(false);
+					if (err.response.data.message == 'you dont call this client') {
+						resolve(1);
+					} else {
+						console.error(err);
+						resolve(-1);
+					}
 				});
 		});
 	}
 
 	function click() {
+		if (ButtonDisabled) return;
+		setButtonDisabled(true);
+		setButtonValue('Vérification en cours...');
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
@@ -44,8 +58,14 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		}
 
 		post(satisfaction, phone, comment).then(res => {
-			if (res) {
+			if (res == 0) {
 				navigate('/');
+			} else if (res == 1) {
+				setButtonDisabled(false);
+				setButtonValue("Vous n'avez pas appelé ce contact");
+			} else {
+				setButtonDisabled(false);
+				setButtonValue('Une erreur est survenue');
 			}
 		});
 	}
@@ -65,7 +85,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					})}
 				</select>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
-				<Button value="Confirmer" onclick={click} />
+				<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : undefined} onclick={click} />
 			</div>
 		</div>
 	);
