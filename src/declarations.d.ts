@@ -75,5 +75,5 @@ type Theme = {
 
 type ScoreBoard = {
 	yourPlace: number;
-	scoreBoard: Array<{ name: string; nbCall: number; timeInCall: number }>;
+	scoreBoard: Array<{ name: string; totalCalls: number; totalTime: number }>;
 };
