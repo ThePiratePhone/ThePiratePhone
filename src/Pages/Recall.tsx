@@ -37,6 +37,8 @@ function Recall({ credentials }: { credentials: Credentials }) {
 				.catch(err => {
 					if (err.response.data.message == 'you dont call this client') {
 						resolve(1);
+					} else if (err.response.data.message == 'Client not found') {
+						resolve(2);
 					} else {
 						console.error(err);
 						resolve(-1);
@@ -63,6 +65,9 @@ function Recall({ credentials }: { credentials: Credentials }) {
 			} else if (res == 1) {
 				setButtonDisabled(false);
 				setButtonValue("Vous n'avez pas appelé ce contact");
+			} else if (res == 2) {
+				setButtonDisabled(false);
+				setButtonValue('Contact non trouvé');
 			} else {
 				setButtonDisabled(false);
 				setButtonValue('Une erreur est survenue');
