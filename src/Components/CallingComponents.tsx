@@ -3,25 +3,39 @@ import axios from 'axios';
 import Button from './Button';
 import Script from './Script';
 
-import { cleanNumber } from '../Utils';
 import { useNavigate } from 'react-router-dom';
+import { cleanNumber, cleanStatus } from '../Utils';
 
 function InCallMobile({
 	client,
 	script,
+	campaign,
 	endCall,
 	cancel
 }: {
 	client: User;
 	script: string;
+	campaign: Campaign;
 	endCall: () => void;
 	cancel: () => void;
 }) {
+	function infos() {
+		let value = '';
+		client.data[campaign._id].forEach((res, i) => {
+			if (res.status == 'Todo') return;
+			if (i == client.data[campaign._id].length - 1) return;
+			value += i + 1 + '. ' + cleanStatus(res.status) + (res.comment ? ': ' + res.comment : '') + '\n';
+		});
+		if (!value) window.alert('Jamais appelé·e');
+		else window.alert(value);
+	}
+
 	return (
 		<>
 			<div className="CallingHeader">
 				<div className="CallActions">
 					<Button value="Annuler" type="RedButton" onclick={cancel} />
+					<Button value="Voir l'historique" onclick={infos} />
 					<Button value="Fin d'appel" onclick={endCall} />
 				</div>
 				<div className="User">

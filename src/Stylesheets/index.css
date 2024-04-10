@@ -247,6 +247,8 @@ h2 {
 	border-left: 2px solid var(--color2v2Border);
 	border-bottom: 2px solid var(--color2v2Border);
 	width: 50%;
+	height: 20vh;
+	justify-content: space-evenly;
 }
 
 .User>a {
@@ -259,7 +261,7 @@ h2 {
 	align-items: center;
 	justify-content: space-evenly;
 	width: 50%;
-	gap: 3vh;
+	gap: 1vh;
 }
 
 .UserName {

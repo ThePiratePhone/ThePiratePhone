@@ -18,6 +18,19 @@ function cleanNumber(number: string) {
 	return newNumber;
 }
 
+function cleanStatus(status: CallStatus) {
+	switch (status) {
+		case 'Called':
+			return 'Appelé·e';
+		case 'Not responded':
+			return 'Pas de réponse';
+		case 'Calling':
+			return 'En cours';
+		default:
+			return 'Pas appelé·e';
+	}
+}
+
 function isInHours(campaign: Campaign) {
 	if (!campaign.callHoursStart || !campaign.callHoursEnd) return true;
 
@@ -77,4 +90,4 @@ function randomBetween(min: number, max: number) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export { cleanCallingTime, cleanNumber, isInHours, mobileCheck, parseCampaign, randomBetween };
+export { cleanCallingTime, cleanNumber, cleanStatus, isInHours, mobileCheck, parseCampaign, randomBetween };

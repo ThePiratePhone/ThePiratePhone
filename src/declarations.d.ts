@@ -32,6 +32,8 @@ type Caller = {
 
 type CallStatus = 'Called' | 'Calling' | 'Not responded' | 'Todo';
 
+type Satisfaction = -2 | -1 | 0 | 1 | 2;
+
 type User = {
 	name: string;
 	phone: string;
@@ -40,6 +42,13 @@ type User = {
 	scriptVersion: number | undefined;
 	callStart: Date | undefined;
 	callEnd: Date | undefined;
+	data: {
+		[key: string]: Array<{
+			status: CallStatus;
+			caller: string;
+			comment: string | undefined;
+		}>;
+	};
 };
 
 type Credentials = {

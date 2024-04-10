@@ -94,6 +94,7 @@ function Calling({
 										client={client.current}
 										script={result.data.script}
 										endCall={() => endCall(time)}
+										campaign={campaign}
 										cancel={cancel}
 									/>
 								);
