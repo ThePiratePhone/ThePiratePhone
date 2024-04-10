@@ -6,80 +6,54 @@ import { randomBetween } from '../Utils';
 
 function getCallsString(calls: number) {
 	const VALUES = [
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels effectués.
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> coups de fil passés ?
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ! Ça monte vite !
-			</>
-		),
-		() => (
-			<>
-				Oh là là. Mon compteur affiche <span className="Phone">{calls}</span> appels !
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ! Encore encore encore !
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> coups de fil !? On croit en vous !
-			</>
-		),
-		() => (
-			<>
-				Allez allez ! <span className="Phone">{calls}</span> appels ! On fait brûler Free !
-			</>
-		),
-		() => (
-			<>
-				Woah. <span className="Phone">{calls}</span> appels ! Ça s'arrête jamais...
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ! Vous êtes la preuve vivante que chaque sonnerie compte,
-				chaque parole compte, chaque appel compte !
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ! Vous avez battu le record olympique du PiratePhone ! Qui
-				a dit que parler au téléphone ne pouvait pas être un sport ?
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ! Vous êtes les gardiens de la ligne et les guerrières du
-				combiné ! Le monde vous écoute !
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Jordan Bardella a changé
-				d'avis sur son programme ! Continuez à être plus cohérent que lui au micro !
-			</>
-		),
-		() => (
-			<>
-				<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Zemmour a essayé de se
-				faire passer pour un vétéran de la politique ! Continuez à faire des appels, au moins vous, vous êtes
-				authentiques !
-			</>
-		)
+		<>
+			<span className="Phone">{calls}</span> appels effectués.
+		</>,
+		<>
+			<span className="Phone">{calls}</span> coups de fil passés ?
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ! Ça monte vite !
+		</>,
+		<>
+			Oh là là. Mon compteur affiche <span className="Phone">{calls}</span> appels !
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ! Encore encore encore !
+		</>,
+		<>
+			<span className="Phone">{calls}</span> coups de fil !? On croit en vous !
+		</>,
+		<>
+			Allez allez ! <span className="Phone">{calls}</span> appels ! On fait brûler Free !
+		</>,
+		<>
+			Woah. <span className="Phone">{calls}</span> appels ! Ça s'arrête jamais...
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ! Vous êtes la preuve vivante que chaque sonnerie compte,
+			chaque parole compte, chaque appel compte !
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ! Vous avez battu le record olympique du PiratePhone ! Qui a
+			dit que parler au téléphone ne pouvait pas être un sport ?
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ! Vous êtes les gardiens de la ligne et les guerrières du
+			combiné ! Le monde vous écoute !
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Jordan Bardella a changé
+			d'avis sur son programme ! Continuez à être plus cohérent que lui au micro !
+		</>,
+		<>
+			<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Zemmour a essayé de se faire
+			passer pour un vétéran de la politique ! Continuez à faire des appels, au moins vous, vous êtes authentiques
+			!
+		</>
 	];
 
-	return VALUES[randomBetween(0, VALUES.length - 1)]();
+	return VALUES[randomBetween(0, VALUES.length - 1)];
 }
 
 function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
