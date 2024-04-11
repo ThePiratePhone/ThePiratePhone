@@ -22,7 +22,7 @@ function InCallMobile({
 	function infos() {
 		let value = '';
 		client.data[campaign._id].forEach((res, i) => {
-			const timeInCall = new Date(res.startCall).getTime() - new Date(res.endCall).getTime();
+			const timeInCall = new Date(res.endCall).getTime() - new Date(res.startCall).getTime();
 
 			if (res.status == 'Todo') return;
 			if (i == client.data[campaign._id].length - 1) return;
@@ -30,9 +30,7 @@ function InCallMobile({
 				i +
 				1 +
 				' ' +
-				(timeInCall != 0
-					? '(' + cleanCallingTime(new Date(res.startCall).getTime() - new Date(res.endCall).getTime()) + ')'
-					: '') +
+				(timeInCall ? '(' + cleanCallingTime(timeInCall) + ')' : '') +
 				cleanStatus(res.status) +
 				(res.comment ? ': ' + res.comment : '') +
 				'\n';

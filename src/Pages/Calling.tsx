@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { CallEndMobile, InCallMobile, OutOfHours } from '../Components/CallingComponents';
 import { isInHours } from '../Utils';
 
-async function getNewClient(credentials: Credentials): Promise<
+async function getNewClient(
+	credentials: Credentials,
+	campaign: Campaign
+): Promise<
 	| {
 			status: boolean;
 			data: { client: User; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
@@ -18,6 +21,17 @@ async function getNewClient(credentials: Credentials): Promise<
 			.then(result => {
 				if (result) {
 					if (result?.data?.OK) {
+						result.data.data.client.data[campaign._id] = result.data.data.client.data[campaign._id].map(
+							(val: any) => {
+								let status: CallStatus;
+								if (val.status == 'called') status = 'Called';
+								else if (val.status == 'not called') status = 'Todo';
+								else if (val.status == 'inprogress') status = 'Calling';
+								else status = 'Not responded';
+								val.status = status;
+								return val;
+							}
+						);
 						resolve({ status: true, data: result.data.data });
 					} else {
 						resolve({ status: false, data: undefined });
@@ -76,7 +90,7 @@ function Calling({
 
 		function getNextClient() {
 			function next() {
-				getNewClient(credentials).then(result => {
+				getNewClient(credentials, campaign).then(result => {
 					const time = Date.now();
 					if (typeof result != 'undefined') {
 						if (result.data) {
