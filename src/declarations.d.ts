@@ -47,6 +47,8 @@ type User = {
 			status: CallStatus;
 			caller: string;
 			comment: string | undefined;
+			startCall: Date;
+			endCall: Date;
 		}>;
 	};
 };

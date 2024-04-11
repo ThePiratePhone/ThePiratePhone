@@ -4,7 +4,7 @@ import Button from './Button';
 import Script from './Script';
 
 import { useNavigate } from 'react-router-dom';
-import { cleanNumber, cleanStatus } from '../Utils';
+import { cleanCallingTime, cleanNumber, cleanStatus } from '../Utils';
 
 function InCallMobile({
 	client,
@@ -22,9 +22,20 @@ function InCallMobile({
 	function infos() {
 		let value = '';
 		client.data[campaign._id].forEach((res, i) => {
+			const timeInCall = new Date(res.startCall).getTime() - new Date(res.endCall).getTime();
+
 			if (res.status == 'Todo') return;
 			if (i == client.data[campaign._id].length - 1) return;
-			value += i + 1 + '. ' + cleanStatus(res.status) + (res.comment ? ': ' + res.comment : '') + '\n';
+			value +=
+				i +
+				1 +
+				' ' +
+				(timeInCall != 0
+					? '(' + cleanCallingTime(new Date(res.startCall).getTime() - new Date(res.endCall).getTime()) + ')'
+					: '') +
+				cleanStatus(res.status) +
+				(res.comment ? ': ' + res.comment : '') +
+				'\n';
 		});
 		if (!value) window.alert('Jamais appelé·e');
 		else window.alert(value);
