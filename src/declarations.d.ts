@@ -39,7 +39,6 @@ type User = {
 	phone: string;
 	callStatus: CallStatus;
 	callerNumber: string | undefined;
-	scriptVersion: number | undefined;
 	callStart: Date | undefined;
 	callEnd: Date | undefined;
 	data: {

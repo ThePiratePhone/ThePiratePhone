@@ -319,6 +319,10 @@ h2 {
 	white-space: pre-wrap;
 }
 
+.Script>h3 {
+	text-align: center;
+}
+
 .E404 {
 	display: flex;
 	align-items: center;
@@ -553,6 +557,14 @@ h2 {
 .YourSelf {
 	background-color: var(--color1v1);
 	color: var(--color1Text);
+}
+
+.CallHistory>h3 {
+	text-align: center;
+}
+
+.NoCall {
+	text-align: center;
 }
 
 #theme {

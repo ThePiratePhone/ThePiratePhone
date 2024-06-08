@@ -19,24 +19,37 @@ function InCallMobile({
 	endCall: () => void;
 	cancel: () => void;
 }) {
-	function infos() {
-		let value = '';
+	function Infos() {
+		if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;
+		const values = new Array<{
+			status: CallStatus;
+			comment: string | undefined;
+			startCall: Date;
+			endCall: Date;
+		}>();
 		client.data[campaign._id].forEach((res, i) => {
-			const timeInCall = new Date(res.endCall).getTime() - new Date(res.startCall).getTime();
-
 			if (res.status == 'Todo') return;
 			if (i == client.data[campaign._id].length - 1) return;
-			value +=
-				i +
-				1 +
-				' ' +
-				(timeInCall ? '(' + cleanCallingTime(timeInCall) + ')' : '') +
-				cleanStatus(res.status) +
-				(res.comment ? ': ' + res.comment : '') +
-				'\n';
+			values.push(res);
 		});
-		if (!value) window.alert('Jamais appelé·e');
-		else window.alert(value);
+		if (values.length == 0) {
+			return <div className="NoCall">Jamais appelé·e</div>;
+		}
+		return (
+			<div>
+				{values.map((res, i) => {
+					return (
+						<div>
+							<span className="Phone">{i + 1}</span>. (
+							<span className="Phone">
+								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
+							</span>
+							) {cleanStatus(res.status)}
+						</div>
+					);
+				})}
+			</div>
+		);
 	}
 
 	return (
@@ -44,7 +57,6 @@ function InCallMobile({
 			<div className="CallingHeader">
 				<div className="CallActions">
 					<Button value="Annuler" type="RedButton" onclick={cancel} />
-					<Button value="Voir l'historique" onclick={infos} />
 					<Button value="Fin d'appel" onclick={endCall} />
 				</div>
 				<div className="User">
@@ -54,6 +66,10 @@ function InCallMobile({
 						<button>Appeler</button>
 					</a>
 				</div>
+			</div>
+			<div className="CallHistory">
+				<h3>Historique d'appel</h3>
+				<Infos />
 			</div>
 			<Script script={script} />
 		</>
