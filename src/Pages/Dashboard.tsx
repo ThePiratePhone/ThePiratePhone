@@ -88,10 +88,11 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 			setProgress(<>Il n'y a aucun numéro dans votre campagne.</>);
 			return;
 		}
-		if (vals.totalClientCalled == 1) {
+		if (vals.totalClientCalled <= 5) {
 			setProgress(
 				<>
-					<span className="Phone">1</span> appel effectué.
+					<span className="Phone">{vals.totalClientCalled}</span>{' '}
+					{vals.totalClientCalled > 1 ? 'appels effectués' : 'appel effectué'}.
 				</>
 			);
 		} else {
