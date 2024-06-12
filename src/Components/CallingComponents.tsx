@@ -106,8 +106,8 @@ function CallEndMobile({
 	nextCall: () => void;
 }) {
 	const VALUES = [
-		{ name: 'Voté pour nous', value: 2 },
-		{ name: 'Pas voté pour nous', value: 1 },
+		{ name: 'Compte voter', value: 2 },
+		{ name: 'Ne compte pas voter', value: 1 },
 		{ name: 'Pas interessé·e', value: -1 },
 		{ name: 'À retirer', value: -2 },
 		{ name: 'Pas de réponse', value: 0 }
