@@ -4,7 +4,7 @@ import Button from './Button';
 import Script from './Script';
 
 import { useNavigate } from 'react-router-dom';
-import { cleanCallingTime, cleanNumber, cleanStatus } from '../Utils';
+import { cleanNumber, cleanStatus } from '../Utils';
 
 function InCallMobile({
 	client,
@@ -44,7 +44,7 @@ function InCallMobile({
 							<span className="Phone">
 								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
 							</span>
-							) {cleanStatus(res.status)}
+							) {cleanStatus(res.status)} ({res.comment})
 						</div>
 					);
 				})}
