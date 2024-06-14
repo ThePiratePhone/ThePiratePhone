@@ -78,7 +78,7 @@ function Join({
 	}
 
 	useEffect(() => {
-		function getArea() {
+		function getAreas() {
 			return new Promise<Array<Area> | undefined>(resolve => {
 				axios
 					.get(credentials.URL + '/getArea')
@@ -96,7 +96,7 @@ function Join({
 			});
 		}
 
-		getArea().then(res => {
+		getAreas().then(res => {
 			if (res) {
 				setAreas(res);
 				setButtonValue('Rejoindre');
@@ -121,24 +121,22 @@ function Join({
 	useEffect(() => {
 		if (!Areas) {
 			setAreasComp(<></>);
-			return;
-		}
-		if (Areas.length === 0) {
-			setAreasComp(<h2>Vous êtes dans toutes les organisations ??? Beau travail...</h2>);
+		} else if (Areas.length === 0) {
+			setAreasComp(<h3>Vous êtes déjà dans toutes les organisations !</h3>);
 			setButtonDisabled(true);
-			return;
+		} else {
+			setAreasComp(
+				<select className="inputField" id="area">
+					{Areas.map((area, i) => {
+						return (
+							<option key={i} value={area._id}>
+								{area.name}
+							</option>
+						);
+					})}
+				</select>
+			);
 		}
-		setAreasComp(
-			<select className="inputField" id="area">
-				{Areas.map((area, i) => {
-					return (
-						<option key={i} value={area._id}>
-							{area.name}
-						</option>
-					);
-				})}
-			</select>
-		);
 	}, [Areas]);
 
 	return (

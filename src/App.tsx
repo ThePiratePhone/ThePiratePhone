@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import ThemeProvider from './Components/ThemeProvider';
-
 import Calling from './Pages/Calling';
 import ChangeName from './Pages/ChangeName';
 import ChangePassword from './Pages/ChangePassword';

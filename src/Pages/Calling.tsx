@@ -2,13 +2,12 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CallEndMobile, InCallMobile, OutOfHours } from '../Components/CallingComponents';
+import CallEnd from '../Components/CallEnd';
+import InCall from '../Components/InCall';
+import OutOfHours from '../Components/OutOfHours';
 import { isInHours } from '../Utils';
 
-async function getNewClient(
-	credentials: Credentials,
-	campaign: Campaign
-): Promise<
+async function getNewClient(credentials: Credentials): Promise<
 	| {
 			status: boolean;
 			data: { client: Client; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
@@ -91,7 +90,7 @@ function Calling({
 
 		function getNextClient() {
 			function next() {
-				getNewClient(credentials, campaign).then(result => {
+				getNewClient(credentials).then(result => {
 					const time = Date.now();
 					if (typeof result != 'undefined') {
 						if (result.data) {
@@ -105,7 +104,7 @@ function Calling({
 								endCall();
 							} else {
 								setPage(
-									<InCallMobile
+									<InCall
 										client={client.current}
 										script={result.data.script}
 										endCall={() => endCall(time)}
@@ -137,7 +136,7 @@ function Calling({
 		function endCall(startTime?: number) {
 			if (client.current) {
 				setPage(
-					<CallEndMobile
+					<CallEnd
 						credentials={credentials}
 						client={client.current}
 						time={startTime ? Date.now() - startTime : 0}

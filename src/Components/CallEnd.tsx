@@ -1,103 +1,10 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { cleanNumber } from '../Utils';
 import Button from './Button';
-import Script from './Script';
 
-import { cleanNumber, cleanStatus } from '../Utils';
-
-function InCallMobile({
-	client,
-	script,
-	campaign,
-	endCall,
-	cancel
-}: {
-	client: Client;
-	script: string;
-	campaign: Campaign;
-	endCall: () => void;
-	cancel: () => void;
-}) {
-	function History() {
-		if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;
-		const values = new Array<{
-			status: CallStatus;
-			comment: string | undefined;
-			startCall: Date;
-			endCall: Date;
-		}>();
-		client.data[campaign._id].forEach((res, i) => {
-			if (res.status == 'Todo') return;
-			if (i == client.data[campaign._id].length - 1) return;
-			res.endCall = new Date(res.endCall);
-			res.startCall = new Date(res.startCall);
-			values.push(res);
-		});
-		if (values.length == 0) {
-			return <div className="NoCall">Jamais appelé·e</div>;
-		}
-
-		return (
-			<div>
-				{values.map((res, i) => {
-					return (
-						<div>
-							<span className="Phone">{i + 1}</span>. (
-							<span className="Phone">
-								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
-							</span>
-							) {cleanStatus(res.status)} {res.comment ? '(' + res.comment + ')' : ''}
-						</div>
-					);
-				})}
-			</div>
-		);
-	}
-
-	return (
-		<>
-			<div className="CallingHeader">
-				<div className="CallActions">
-					<Button value="Annuler" type="RedButton" onclick={cancel} />
-					<Button value="Fin d'appel" onclick={endCall} />
-				</div>
-				<div className="User">
-					<h2 className="UserName">{client.name}</h2>
-					<a href={'tel:' + client.phone} className="Button">
-						<div className="Phone">{cleanNumber(client.phone)}</div>
-						<button>Appeler</button>
-					</a>
-				</div>
-			</div>
-			<div className="CallHistory">
-				<h3>Historique d'appel</h3>
-				<History />
-			</div>
-			<Script script={script} />
-		</>
-	);
-}
-
-function OutOfHours({ campaign, next }: { campaign: Campaign; next: () => void }) {
-	if (!campaign.callHoursStart || !campaign.callHoursEnd)
-		return <div className="CallingError">Une erreur est survenue :/</div>;
-
-	const start = campaign.callHoursStart.toLocaleTimeString().split('').slice(0, -3).join('');
-	const end = campaign.callHoursEnd.toLocaleTimeString().split('').slice(0, -3).join('');
-
-	return (
-		<div className="CallingHoursError">
-			<h4>Vous n'êtes pas dans la plage horaire d'appel</h4>
-			<div>
-				<span className="Phone">{start}</span> à <span className="Phone">{end}</span>
-			</div>
-			<Button value="Continuer quand même" type="RedButton" onclick={next} />
-		</div>
-	);
-}
-
-function CallEndMobile({
+function CallEnd({
 	client,
 	time,
 	credentials,
@@ -210,4 +117,4 @@ function CallEndMobile({
 	);
 }
 
-export { CallEndMobile, InCallMobile, OutOfHours };
+export default CallEnd;
