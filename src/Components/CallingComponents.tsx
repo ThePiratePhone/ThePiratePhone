@@ -19,7 +19,7 @@ function InCallMobile({
 	endCall: () => void;
 	cancel: () => void;
 }) {
-	function Infos() {
+	function History() {
 		if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;
 		const values = new Array<{
 			status: CallStatus;
@@ -30,11 +30,14 @@ function InCallMobile({
 		client.data[campaign._id].forEach((res, i) => {
 			if (res.status == 'Todo') return;
 			if (i == client.data[campaign._id].length - 1) return;
+			res.endCall = new Date(res.endCall);
+			res.startCall = new Date(res.startCall);
 			values.push(res);
 		});
 		if (values.length == 0) {
 			return <div className="NoCall">Jamais appelé·e</div>;
 		}
+
 		return (
 			<div>
 				{values.map((res, i) => {
@@ -44,7 +47,7 @@ function InCallMobile({
 							<span className="Phone">
 								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
 							</span>
-							) {cleanStatus(res.status)} ({res.comment})
+							) {cleanStatus(res.status)} {res.comment ? '(' + res.comment + ')' : ''}
 						</div>
 					);
 				})}
@@ -69,7 +72,7 @@ function InCallMobile({
 			</div>
 			<div className="CallHistory">
 				<h3>Historique d'appel</h3>
-				<Infos />
+				<History />
 			</div>
 			<Script script={script} />
 		</>

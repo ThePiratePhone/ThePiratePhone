@@ -5,12 +5,12 @@ import Button from '../Components/Button';
 function Switch({
 	areas,
 	setCredentials,
-	switchArea,
+	switchCampaign,
 	credentials
 }: {
 	areas: Array<Campaign>;
 	setCredentials: (newCredentials: Credentials) => void;
-	switchArea: (area: Campaign) => void;
+	switchCampaign: (area: Campaign) => void;
 	credentials: Credentials;
 }) {
 	const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Switch({
 		credentials.area = areaId;
 		const area = areas.find(val => val.areaId === areaId) as Campaign;
 		setCredentials(credentials);
-		switchArea(area);
+		switchCampaign(area);
 		navigate('/');
 	}
 	return (

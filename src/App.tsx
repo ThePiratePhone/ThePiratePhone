@@ -40,8 +40,7 @@ function App({
 		campaigns.push(newCampaign);
 		campaigns = campaigns.sort(campaignSorting);
 
-		window.localStorage.setItem('credentials', JSON.stringify(Credentials));
-		setCurrentCampaign(newCampaign);
+		switchCampaign(newCampaign);
 	}
 
 	function changeCredentials(newCredentials: Credentials) {
@@ -51,6 +50,16 @@ function App({
 			return cal;
 		});
 		window.localStorage.setItem('credentials', JSON.stringify(newCredentials));
+	}
+
+	function switchCampaign(campaign: Campaign) {
+		credentials.area = campaign.areaId;
+		setCredentials(old => {
+			old.area = campaign.areaId;
+			window.localStorage.setItem('credentials', JSON.stringify(old));
+			return old;
+		});
+		setCurrentCampaign(campaign);
 	}
 
 	const ELEMENTS = [
@@ -64,15 +73,7 @@ function App({
 				<Switch
 					areas={campaigns}
 					setCredentials={changeCredentials}
-					switchArea={(campaign: Campaign) => {
-						credentials.area = campaign.areaId;
-						setCredentials(old => {
-							old.area = campaign.areaId;
-							window.localStorage.setItem('credentials', JSON.stringify(old));
-							return old;
-						});
-						setCurrentCampaign(campaign);
-					}}
+					switchCampaign={switchCampaign}
 					credentials={Credentials}
 				/>
 			)

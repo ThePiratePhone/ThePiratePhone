@@ -21,7 +21,8 @@ async function getNewClient(
 			.then(result => {
 				if (result) {
 					if (result?.data?.OK) {
-						result.data.data.client.data[campaign._id] = result.data.data.client.data[campaign._id].map(
+						const campaignId = Object.keys(result.data.data.client.data)[0];
+						result.data.data.client.data[campaignId] = result?.data?.data?.client?.data[campaignId]?.map(
 							(val: any) => {
 								let status: CallStatus;
 								if (val.status == 'called') status = 'Called';
