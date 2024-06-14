@@ -22,6 +22,8 @@ function Join({
 	const [ButtonDisabled, setButtonDisabled] = useState(true);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
+	const navigate = useNavigate();
+
 	function join(area: string, password: string) {
 		return new Promise<Campaign | undefined>(resolve => {
 			axios
@@ -65,7 +67,7 @@ function Join({
 				if (next) {
 					next();
 				} else {
-					useNavigate()('/');
+					navigate('/');
 				}
 			}
 		});

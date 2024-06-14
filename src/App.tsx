@@ -94,7 +94,7 @@ function App({
 		},
 		{
 			path: '/Calling',
-			element: <Calling setCampaign={setCurrentCampaign} campaign={currentCampaign} credentials={Credentials} />
+			element: <Calling setCampaign={setCurrentCampaign} campaign={CurrentCampaign} credentials={Credentials} />
 		},
 		{
 			path: '/Recall',
@@ -110,7 +110,7 @@ function App({
 		},
 		{
 			path: '/ChangeName',
-			element: <ChangeName caller={caller} credentials={Credentials} setCaller={setCaller} />
+			element: <ChangeName caller={Caller} credentials={Credentials} setCaller={setCaller} />
 		},
 		{
 			path: '/ChangePassword',
