@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import Button from './Button';
 import Script from './Script';
 
-import { useNavigate } from 'react-router-dom';
 import { cleanNumber, cleanStatus } from '../Utils';
 
 function InCallMobile({
@@ -13,7 +13,7 @@ function InCallMobile({
 	endCall,
 	cancel
 }: {
-	client: User;
+	client: Client;
 	script: string;
 	campaign: Campaign;
 	endCall: () => void;
@@ -100,7 +100,7 @@ function CallEndMobile({
 	credentials,
 	nextCall
 }: {
-	client: User;
+	client: Client;
 	time: number;
 	credentials: Credentials;
 	nextCall: () => void;

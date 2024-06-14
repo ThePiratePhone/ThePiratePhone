@@ -34,7 +34,7 @@ type CallStatus = 'Called' | 'Calling' | 'Not responded' | 'Todo';
 
 type Satisfaction = -2 | -1 | 0 | 1 | 2;
 
-type User = {
+type Client = {
 	name: string;
 	phone: string;
 	callStatus: CallStatus;

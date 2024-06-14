@@ -11,7 +11,7 @@ async function getNewClient(
 ): Promise<
 	| {
 			status: boolean;
-			data: { client: User; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
+			data: { client: Client; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
 	  }
 	| undefined
 > {
@@ -66,7 +66,7 @@ function Calling({
 }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
-	const client = useRef<User>();
+	const client = useRef<Client>();
 
 	const navigate = useNavigate();
 
@@ -95,7 +95,7 @@ function Calling({
 					if (typeof result != 'undefined') {
 						if (result.data) {
 							client.current = result.data.client;
-							if (result.data.CampaignCallStart && result.data.CampaignCallEnd) {
+							if (result?.data?.CampaignCallStart && result?.data?.CampaignCallEnd) {
 								campaign.callHoursEnd = new Date(result.data.CampaignCallEnd);
 								campaign.callHoursStart = new Date(result.data.CampaignCallStart);
 								setCampaign(campaign);
@@ -147,7 +147,7 @@ function Calling({
 		}
 
 		getNextClient();
-	}, [credentials, navigate]);
+	}, [credentials]);
 
 	return <div className="Calling">{Page}</div>;
 }

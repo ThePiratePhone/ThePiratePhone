@@ -21,13 +21,13 @@ import { campaignSorting } from './Utils';
 function App({
 	caller,
 	credentials,
-	areas: campaigns,
+	campaigns,
 	currentCampaign,
 	renderLogin
 }: {
 	caller: Caller;
 	credentials: Credentials;
-	areas: Array<Campaign>;
+	campaigns: Array<Campaign>;
 	currentCampaign: Campaign;
 	renderLogin: () => void;
 }) {

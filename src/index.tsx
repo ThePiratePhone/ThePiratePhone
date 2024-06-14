@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import './Stylesheets/index.css';
-
-import './declarations.d.ts';
-
 import App from './App';
 import Choose from './Pages/Choose';
 import LoginPage from './Pages/Login';
 import { mobileCheck } from './Utils';
 
+import './Stylesheets/index.css';
+
+import './declarations.d.ts';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const URL = 'https://pp.mpqa.fr:8443/api';
 
-function renderApp(caller: Caller, credentials: Credentials, areas: Array<Campaign>, campaign: Campaign) {
+function renderApp(caller: Caller, credentials: Credentials, campaigns: Array<Campaign>, campaign: Campaign) {
 	credentials.URL = URL;
 	root.render(
 		<React.StrictMode>
@@ -22,7 +22,7 @@ function renderApp(caller: Caller, credentials: Credentials, areas: Array<Campai
 				currentCampaign={campaign}
 				credentials={credentials}
 				caller={caller}
-				areas={areas}
+				campaigns={campaigns}
 				renderLogin={renderLogin}
 			/>
 		</React.StrictMode>
