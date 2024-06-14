@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../Components/Button';
+import { campaignSorting } from '../Utils';
 import Join from './Join';
 
 function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void; areas: Array<Campaign> }) {
@@ -9,14 +10,8 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void;
 		const area = areas.find(val => val.areaId === areaId) as Campaign;
 		renderApp(area);
 	}
-	areas = areas.sort((a, b) => {
-		if (a.areaName > b.areaName) {
-			return 1;
-		} else if (a.areaName < b.areaName) {
-			return -1;
-		}
-		return 0;
-	});
+
+	areas = areas.sort(campaignSorting);
 
 	useEffect(() => {
 		if ((window.localStorage.getItem('credentials') as string) != null) {

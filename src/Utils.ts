@@ -46,21 +46,12 @@ function isInHours(campaign: Campaign) {
 }
 
 function parseCampaign(campaign: any) {
-	const campaigns = campaign.areaCombo.campaignAvailable
-		.sort((a: Campaign, b: Campaign) => {
-			if (a.areaName > b.areaName) {
-				return 1;
-			} else if (a.areaName < b.areaName) {
-				return -1;
-			}
-			return 0;
-		})
-		.map((old: any) => {
-			old.callHoursEnd = new Date(old.callHoursEnd);
-			old.callHoursStart = new Date(old.callHoursStart);
+	const campaigns = campaign.areaCombo.campaignAvailable.sort(campaignSorting).map((old: any) => {
+		old.callHoursEnd = new Date(old.callHoursEnd);
+		old.callHoursStart = new Date(old.callHoursStart);
 
-			return old;
-		});
+		return old;
+	});
 
 	return campaigns;
 }
@@ -90,4 +81,32 @@ function randomBetween(min: number, max: number) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export { cleanCallingTime, cleanNumber, cleanStatus, isInHours, mobileCheck, parseCampaign, randomBetween };
+function areaSorting(a: Area, b: Area) {
+	if (a.name > b.name) {
+		return 1;
+	} else if (a.name < b.name) {
+		return -1;
+	}
+	return 0;
+}
+
+function campaignSorting(a: Campaign, b: Campaign) {
+	if (a.areaName > b.areaName) {
+		return 1;
+	} else if (a.areaName < b.areaName) {
+		return -1;
+	}
+	return 0;
+}
+
+export {
+	areaSorting,
+	campaignSorting,
+	cleanCallingTime,
+	cleanNumber,
+	cleanStatus,
+	isInHours,
+	mobileCheck,
+	parseCampaign,
+	randomBetween
+};

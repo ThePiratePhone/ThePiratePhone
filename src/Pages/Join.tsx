@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import Button from '../Components/Button';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Components/Button';
+import { areaSorting } from '../Utils';
 
 function Join({
 	credentials,
@@ -69,6 +70,9 @@ function Join({
 				} else {
 					navigate('/');
 				}
+			} else {
+				setButtonValue('Une erreur est survenue');
+				setButtonDisabled(false);
 			}
 		});
 	}
@@ -82,14 +86,7 @@ function Join({
 						response.data.data = response.data.data.filter((area: Area) => {
 							return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
 						});
-						response.data.data = response.data.data.sort((a: Area, b: Area) => {
-							if (a.name > b.name) {
-								return 1;
-							} else if (a.name < b.name) {
-								return -1;
-							}
-							return 0;
-						});
+						response.data.data = response.data.data.sort(areaSorting);
 						resolve(response.data.data);
 					})
 					.catch(err => {

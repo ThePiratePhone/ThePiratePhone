@@ -5,7 +5,7 @@ import Logo from '../Assets/Logo.svg';
 
 import Button from '../Components/Button';
 import Footer from '../Components/Footer';
-import { parseCampaign } from '../Utils';
+import { areaSorting, parseCampaign } from '../Utils';
 
 function Login(credentials: Credentials) {
 	return new Promise<LoginResponse>(resolve => {
@@ -67,16 +67,7 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 	useEffect(() => {
 		getAreas().then(vals => {
 			if (vals) {
-				setAreas(
-					vals.sort((a, b) => {
-						if (a.name > b.name) {
-							return 1;
-						} else if (a.name < b.name) {
-							return -1;
-						}
-						return 0;
-					})
-				);
+				setAreas(vals.sort(areaSorting));
 				setButtonValue('Créer un compte');
 				setButtonDisabled(false);
 			} else {

@@ -16,11 +16,12 @@ import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
 import Switch from './Pages/Switch';
+import { campaignSorting } from './Utils';
 
 function App({
 	caller,
 	credentials,
-	areas,
+	areas: campaigns,
 	currentCampaign,
 	renderLogin
 }: {
@@ -36,30 +37,23 @@ function App({
 	const [Caller, setCaller] = useState(caller);
 
 	function addCampaign(newCampaign: Campaign) {
-		areas.push(newCampaign);
-		areas = areas.sort((a, b) => {
-			if (a.areaName > b.areaName) {
-				return 1;
-			} else if (a.areaName < b.areaName) {
-				return -1;
-			}
-			return 0;
-		});
+		campaigns.push(newCampaign);
+		campaigns = campaigns.sort(campaignSorting);
 
-		window.localStorage.setItem('credentials', JSON.stringify(credentials));
+		window.localStorage.setItem('credentials', JSON.stringify(Credentials));
 		setCurrentCampaign(newCampaign);
 	}
 
-	function changeCredentials(credentials: Credentials) {
-		setCredentials(credentials);
+	function changeCredentials(newCredentials: Credentials) {
+		setCredentials(newCredentials);
 		setCaller(cal => {
-			cal.pinCode = credentials.pinCode;
+			cal.pinCode = newCredentials.pinCode;
 			return cal;
 		});
-		window.localStorage.setItem('credentials', JSON.stringify(credentials));
+		window.localStorage.setItem('credentials', JSON.stringify(newCredentials));
 	}
 
-	const elements = [
+	const ELEMENTS = [
 		{
 			path: '/',
 			element: <Dashboard credentials={Credentials} />
@@ -68,13 +62,16 @@ function App({
 			path: '/Switch',
 			element: (
 				<Switch
-					areas={areas}
+					areas={campaigns}
 					setCredentials={changeCredentials}
-					switchArea={(area: Campaign) => {
-						Credentials.area = area.areaId;
-						setCredentials(Credentials);
-						window.localStorage.setItem('credentials', JSON.stringify(credentials));
-						setCurrentCampaign(area);
+					switchArea={(campaign: Campaign) => {
+						credentials.area = campaign.areaId;
+						setCredentials(old => {
+							old.area = campaign.areaId;
+							window.localStorage.setItem('credentials', JSON.stringify(old));
+							return old;
+						});
+						setCurrentCampaign(campaign);
 					}}
 					credentials={Credentials}
 				/>
@@ -88,7 +85,7 @@ function App({
 					credentials={Credentials}
 					setCredentials={changeCredentials}
 					addCampaign={addCampaign}
-					areas={areas}
+					areas={campaigns}
 				/>
 			)
 		},
@@ -138,7 +135,7 @@ function App({
 					<Header areaName={CurrentCampaign.areaName} />
 					<div className="App">
 						<Routes>
-							{elements.map((element, i) => {
+							{ELEMENTS.map((element, i) => {
 								return <Route path={element.path} element={element.element} key={i} />;
 							})}
 						</Routes>
