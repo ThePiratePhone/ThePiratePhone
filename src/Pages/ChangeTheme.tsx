@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
 import { getThemes } from '../Components/ThemeProvider';
+import { setLocalTheme } from '../Utils/Storage';
 
 function ChangeTheme({ Theme, setTheme }: { Theme: string; setTheme: (themeID: string) => void }) {
 	const themes = getThemes();
@@ -12,7 +13,7 @@ function ChangeTheme({ Theme, setTheme }: { Theme: string; setTheme: (themeID: s
 	function change() {
 		const themeID = (document.getElementById('theme') as HTMLInputElement).value;
 		setTheme(themeID);
-		window.localStorage.setItem('theme', JSON.stringify(themeID));
+		setLocalTheme(themeID);
 	}
 
 	function cancel() {

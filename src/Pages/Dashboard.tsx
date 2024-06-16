@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Button from '../Components/Button';
-import { randomBetween } from '../Utils';
+import { getRandom } from '../Utils/Utils';
 
 function getCallsString(calls: number) {
 	const VALUES = [
@@ -53,7 +53,7 @@ function getCallsString(calls: number) {
 		</>
 	];
 
-	return VALUES[randomBetween(0, VALUES.length - 1)];
+	return VALUES[getRandom(0, VALUES.length - 1)];
 }
 
 function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {

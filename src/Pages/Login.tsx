@@ -5,7 +5,9 @@ import Logo from '../Assets/Logo.svg';
 
 import Button from '../Components/Button';
 import Footer from '../Components/Footer';
-import { areaSorting, parseCampaign } from '../Utils';
+import { areaSorter } from '../Utils/Sorters';
+import { clearCredentials, getCredentials, setCredentials } from '../Utils/Storage';
+import { parseCampaign } from '../Utils/Utils';
 
 function Login(credentials: Credentials) {
 	return new Promise<LoginResponse>(resolve => {
@@ -30,7 +32,7 @@ function Login(credentials: Credentials) {
 
 async function testOldToken(URL: string): Promise<LoginResponse> {
 	return new Promise(resolve => {
-		const oldCredentials = JSON.parse(window.localStorage.getItem('credentials') as string);
+		const oldCredentials = getCredentials();
 		oldCredentials.URL = URL;
 		Login(oldCredentials)
 			.then(resolve)
@@ -67,7 +69,7 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 	useEffect(() => {
 		getAreas().then(vals => {
 			if (vals) {
-				setAreas(vals.sort(areaSorting));
+				setAreas(vals.sort(areaSorter));
 				setButtonValue('Créer un compte');
 				setButtonDisabled(false);
 			} else {
@@ -210,17 +212,16 @@ function LoginBoard({
 	const [ButtonValue, setButtonValue] = useState('Connexion...');
 
 	useEffect(() => {
-		if (window.localStorage.getItem('credentials') != null) {
+		if (getCredentials()) {
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
 					const campaigns = parseCampaign(result.data);
-					return chooseArea(
-						result.data.caller,
-						JSON.parse(window.localStorage.getItem('credentials') as string),
-						{ area: result.data.areaCombo.area, campaignAvailable: campaigns }
-					);
+					return chooseArea(result.data.caller, getCredentials(), {
+						area: result.data.areaCombo.area,
+						campaignAvailable: campaigns
+					});
 				} else {
-					window.localStorage.removeItem('credentials');
+					clearCredentials();
 					load();
 				}
 			});
@@ -248,7 +249,7 @@ function LoginBoard({
 
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
-				window.localStorage.setItem('credentials', JSON.stringify(credentials));
+				setCredentials(credentials);
 				const campaigns = parseCampaign(result.data);
 				chooseArea(result.data.caller, credentials, {
 					area: result.data.areaCombo.area,

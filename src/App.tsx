@@ -15,7 +15,8 @@ import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
 import Switch from './Pages/Switch';
-import { campaignSorting } from './Utils';
+import { campaignSorter } from './Utils/Sorters';
+import { getLocalTheme } from './Utils/Storage';
 
 function App({
 	caller,
@@ -37,7 +38,7 @@ function App({
 
 	function addCampaign(newCampaign: Campaign) {
 		campaigns.push(newCampaign);
-		campaigns = campaigns.sort(campaignSorting);
+		campaigns = campaigns.sort(campaignSorter);
 
 		switchCampaign(newCampaign);
 	}
@@ -48,14 +49,14 @@ function App({
 			cal.pinCode = newCredentials.pinCode;
 			return cal;
 		});
-		window.localStorage.setItem('credentials', JSON.stringify(newCredentials));
+		setCredentials(newCredentials);
 	}
 
 	function switchCampaign(campaign: Campaign) {
 		credentials.area = campaign.areaId;
 		setCredentials(old => {
 			old.area = campaign.areaId;
-			window.localStorage.setItem('credentials', JSON.stringify(old));
+			setCredentials(old);
 			return old;
 		});
 		setCurrentCampaign(campaign);
@@ -124,8 +125,7 @@ function App({
 	];
 
 	useEffect(() => {
-		const themeID = JSON.parse(window.localStorage.getItem('theme') as string);
-		setTheme(themeID);
+		setTheme(getLocalTheme());
 	}, [setTheme]);
 
 	return (

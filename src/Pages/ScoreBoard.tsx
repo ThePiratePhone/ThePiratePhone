@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { cleanCallingTime } from '../Utils';
+
+import { cleanCallingTime } from '../Utils/Cleaners';
 
 function ScoreBoard({ credentials }: { credentials: Credentials }) {
 	const [ScoreBoard, setScoreBoard] = useState<Array<JSX.Element> | undefined>(undefined);

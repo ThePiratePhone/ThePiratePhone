@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
+
 import Button from '../Components/Button';
-import { areaSorting } from '../Utils';
+import { areaSorter } from '../Utils/Sorters';
 
 function Join({
 	credentials,
@@ -86,7 +86,7 @@ function Join({
 						response.data.data = response.data.data.filter((area: Area) => {
 							return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
 						});
-						response.data.data = response.data.data.sort(areaSorting);
+						response.data.data = response.data.data.sort(areaSorter);
 						resolve(response.data.data);
 					})
 					.catch(err => {

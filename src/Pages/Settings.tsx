@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
-import { cleanNumber } from '../Utils';
+import { cleanNumber } from '../Utils/Cleaners';
+import { clearCredentials } from '../Utils/Storage';
 
 function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => void }) {
 	const navigate = useNavigate();
 
-	function logOut() {
-		window.localStorage.removeItem('credentials');
+	function logout() {
+		clearCredentials();
 		navigate('/');
 		renderLogin();
 	}
@@ -27,7 +28,7 @@ function Settings({ caller, renderLogin }: { caller: Caller; renderLogin: () => 
 			<Button value="Changer le theme" link="/ChangeTheme" />
 			<Button value="Changer votre nom" link="/ChangeName" />
 			<Button value="Changer votre pin" link="/ChangePassword" />
-			<Button value="Se déconnecter" type="RedButton" onclick={logOut} />
+			<Button value="Se déconnecter" type="RedButton" onclick={logout} />
 		</div>
 	);
 }

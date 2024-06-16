@@ -1,4 +1,4 @@
-import { cleanNumber } from '../Utils';
+import { cleanNumber } from '../Utils/Cleaners';
 import Button from './Button';
 import CallHistory from './CallHistory';
 import Script from './Script';

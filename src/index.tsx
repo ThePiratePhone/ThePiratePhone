@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import Choose from './Pages/Choose';
 import LoginPage from './Pages/Login';
-import { mobileCheck } from './Utils';
+import { setCredentials } from './Utils/Storage';
+import { mobileCheck } from './Utils/Utils';
 
 import './Stylesheets/index.css';
 
@@ -31,21 +32,21 @@ function renderApp(caller: Caller, credentials: Credentials, campaigns: Array<Ca
 
 function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) {
 	function callback(area: Campaign) {
-		const Credentials = {
+		const newCredentials = {
 			phone: credentials.phone,
 			pinCode: credentials.pinCode,
 			area: area.areaId,
 			URL: URL
 		};
-		window.localStorage.setItem('credentials', JSON.stringify(Credentials));
-		renderApp(caller, Credentials, areas.campaignAvailable, area);
+		setCredentials(newCredentials);
+		renderApp(caller, newCredentials, areas.campaignAvailable, area);
 	}
 
 	if (areas.campaignAvailable.length === 1) {
 		callback(areas.campaignAvailable[0]);
 	}
 
-	const Credentials = {
+	const newCredentials = {
 		phone: credentials.phone,
 		pinCode: credentials.pinCode,
 		URL: URL,
@@ -54,7 +55,7 @@ function chooseArea(caller: Caller, credentials: { phone: string; pinCode: strin
 
 	root.render(
 		<React.StrictMode>
-			<Choose credentials={Credentials} renderApp={callback} areas={areas.campaignAvailable} />
+			<Choose credentials={newCredentials} renderApp={callback} areas={areas.campaignAvailable} />
 		</React.StrictMode>
 	);
 }

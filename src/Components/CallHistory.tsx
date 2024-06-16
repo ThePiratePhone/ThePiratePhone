@@ -1,4 +1,4 @@
-import { cleanSatisfaction } from '../Utils';
+import { cleanSatisfaction } from '../Utils/Cleaners';
 
 function CallHistory({ client, campaign }: { client: Client; campaign: Campaign }) {
 	if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;

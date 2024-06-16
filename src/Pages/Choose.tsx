@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../Components/Button';
-import { campaignSorting } from '../Utils';
+import { campaignSorter } from '../Utils/Sorters';
+import { clearCredentials, getCredentials } from '../Utils/Storage';
 import Join from './Join';
 
 function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void; areas: Array<Campaign> }) {
@@ -11,11 +12,11 @@ function ChooseArea({ renderApp, areas }: { renderApp: (area: Campaign) => void;
 		renderApp(area);
 	}
 
-	areas = areas.sort(campaignSorting);
+	areas = areas.sort(campaignSorter);
 
 	useEffect(() => {
-		if ((window.localStorage.getItem('credentials') as string) != null) {
-			const credentials: Credentials = JSON.parse(window.localStorage.getItem('credentials') as string);
+		if (getCredentials() != null) {
+			const credentials = getCredentials();
 			const area = areas.find(area => area.areaId === credentials.area);
 			if (area !== undefined) {
 				renderApp(area);
@@ -58,7 +59,7 @@ function Choose({
 
 	useEffect(() => {
 		if (areas.length === 0) {
-			window.localStorage.removeItem('credentials');
+			clearCredentials();
 			setPage(
 				<Join
 					next={next}

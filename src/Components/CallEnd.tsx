@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { cleanNumber } from '../Utils';
+import { cleanNumber } from '../Utils/Cleaners';
 import Button from './Button';
 
 function CallEnd({
