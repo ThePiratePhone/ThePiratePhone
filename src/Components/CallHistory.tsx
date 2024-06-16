@@ -1,9 +1,10 @@
-import { cleanStatus } from '../Utils';
+import { cleanSatisfaction } from '../Utils';
 
 function CallHistory({ client, campaign }: { client: Client; campaign: Campaign }) {
 	if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;
 	const values = new Array<{
 		status: CallStatus;
+		satisfaction: Satisfaction;
 		comment: string | undefined;
 		startCall: Date;
 		endCall: Date;
@@ -30,7 +31,7 @@ function CallHistory({ client, campaign }: { client: Client; campaign: Campaign 
 							<span className="Phone">
 								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
 							</span>
-							) {cleanStatus(res.status)} {res.comment ? `(${res.comment})` : ''}
+							) {cleanSatisfaction(res.satisfaction)} {res.comment ? `(${res.comment})` : ''}
 						</div>
 					);
 				})}

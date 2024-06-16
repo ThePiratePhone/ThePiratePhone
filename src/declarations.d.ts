@@ -46,6 +46,7 @@ type Client = {
 			status: CallStatus;
 			caller: string;
 			comment: string | undefined;
+			satisfaction: Satisfaction;
 			startCall: Date;
 			endCall: Date;
 		}>;

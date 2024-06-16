@@ -31,6 +31,23 @@ function cleanStatus(status: CallStatus) {
 	}
 }
 
+function cleanSatisfaction(satisfaction: Satisfaction) {
+	switch (satisfaction) {
+		case -2:
+			return 'À retirer';
+		case -1:
+			return 'Pas interessé·e';
+		case 0:
+			return 'Pas de réponse';
+		case 1:
+			return 'Ne compte pas voter';
+		case 2:
+			return 'Compte voter';
+		default:
+			return 'Appel en cours';
+	}
+}
+
 function isInHours(campaign: Campaign) {
 	if (!campaign.callHoursStart || !campaign.callHoursEnd) return true;
 
@@ -104,6 +121,7 @@ export {
 	campaignSorting,
 	cleanCallingTime,
 	cleanNumber,
+	cleanSatisfaction,
 	cleanStatus,
 	isInHours,
 	mobileCheck,
