@@ -6,7 +6,7 @@ import radiantreef from '../Themes/radiantreef';
 
 const Themes = new Map<string, Theme>();
 
-Themes.set('default', { CSS: {}, name: 'Défaut' });
+Themes.set('default', { CSS: {}, name: 'Classique' });
 Themes.set('radiantreef', { CSS: radiantreef, name: 'Récif radieux' });
 Themes.set('deepocean', { CSS: deepocean, name: 'Océan profond' });
 Themes.set('auroraurban', { CSS: auroraurban, name: 'Aurore urbaine' });
