@@ -33,14 +33,14 @@ function CallEnd({
 			comment = undefined;
 		}
 
-		post(satisfaction, time, comment).then(res => {
+		post(satisfaction, comment).then(res => {
 			if (res) {
 				nextCall();
 			}
 		});
 	}
 
-	function post(satisfaction: number, time: number, comment?: string) {
+	function post(satisfaction: number, comment?: string) {
 		return new Promise<boolean>(resolve => {
 			axios
 				.post(credentials.URL + '/endCall', {

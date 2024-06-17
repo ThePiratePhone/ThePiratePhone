@@ -18,4 +18,28 @@ function clearCredentials() {
 	window.localStorage.removeItem('credentials');
 }
 
-export { clearCredentials, getCredentials, getLocalTheme, setCredentials, setLocalTheme };
+function getCallingTime() {
+	let totalTime: number | null;
+	try {
+		const initial = JSON.parse(window.sessionStorage.getItem('callingtime') as string) as number;
+		totalTime = Date.now() - initial;
+		window.sessionStorage.removeItem('callingtime');
+	} catch (e) {
+		totalTime = null;
+	}
+	return totalTime;
+}
+
+function saveCallingTime() {
+	window.sessionStorage.setItem('callingtime', JSON.stringify(Date.now()));
+}
+
+export {
+	clearCredentials,
+	getCallingTime,
+	getCredentials,
+	getLocalTheme,
+	saveCallingTime,
+	setCredentials,
+	setLocalTheme
+};

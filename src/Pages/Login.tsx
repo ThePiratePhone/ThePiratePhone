@@ -30,8 +30,8 @@ function Login(credentials: Credentials) {
 	});
 }
 
-async function testOldToken(URL: string): Promise<LoginResponse> {
-	return new Promise(resolve => {
+async function testOldToken(URL: string) {
+	return new Promise<LoginResponse>(resolve => {
 		const oldCredentials = getCredentials();
 		oldCredentials.URL = URL;
 		Login(oldCredentials)
@@ -124,13 +124,13 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 		setButtonValue('Créer un compte');
 	}
 
-	function enter(e: any) {
+	function enter(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === 'Enter') {
 			createAccount();
 		}
 	}
 
-	function next(e: any, id: string) {
+	function next(e: React.KeyboardEvent<HTMLInputElement>, id: string) {
 		if (e.key === 'Enter') {
 			document.getElementById(id)?.focus();
 		}
@@ -204,7 +204,7 @@ function LoginBoard({
 	newAccount,
 	URL
 }: {
-	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) => void;
+	chooseArea: (caller: Caller, credentials: Credentials, areas: AreaCombo) => void;
 	newAccount: () => void;
 	URL: string;
 }) {
@@ -215,7 +215,7 @@ function LoginBoard({
 		if (getCredentials()) {
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
-					const campaigns = parseCampaign(result.data);
+					const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
 					return chooseArea(result.data.caller, getCredentials(), {
 						area: result.data.areaCombo.area,
 						campaignAvailable: campaigns
@@ -250,7 +250,7 @@ function LoginBoard({
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				setCredentials(credentials);
-				const campaigns = parseCampaign(result.data);
+				const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
 				chooseArea(result.data.caller, credentials, {
 					area: result.data.areaCombo.area,
 					campaignAvailable: campaigns
@@ -267,7 +267,7 @@ function LoginBoard({
 		setButtonValue('Se connecter');
 	}
 
-	function next(e: any, value: number) {
+	function next(e: React.KeyboardEvent<HTMLInputElement>, value: number) {
 		if (e.key === 'Enter') {
 			if (value == 1) {
 				document.getElementById('pin')?.focus();
@@ -297,7 +297,7 @@ function LoginBoard({
 				type="tel"
 				onChange={change}
 				placeholder="Pin"
-				onKeyDown={e => next(e, 2)}
+				onKeyUp={e => next(e, 2)}
 			/>
 			<Button value={ButtonValue} onclick={connect} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
 			<div className="NoAccount">

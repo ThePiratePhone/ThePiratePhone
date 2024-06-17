@@ -6,6 +6,7 @@ import CallEnd from '../Components/CallEnd';
 import InCall from '../Components/InCall';
 import OutOfHours from '../Components/OutOfHours';
 import { isInHours } from '../Utils/Utils';
+import { getCallingTime, saveCallingTime } from '../Utils/Storage';
 
 async function getNewClient(credentials: Credentials): Promise<
 	| {
@@ -22,7 +23,7 @@ async function getNewClient(credentials: Credentials): Promise<
 					if (result?.data?.OK) {
 						const campaignId = Object.keys(result.data.data.client.data)[0];
 						result.data.data.client.data[campaignId] = result?.data?.data?.client?.data[campaignId]?.map(
-							(val: any) => {
+							(val: { status: string }) => {
 								let status: CallStatus;
 								if (val.status == 'called') status = 'Called';
 								else if (val.status == 'not called') status = 'Todo';
@@ -91,7 +92,7 @@ function Calling({
 		function getNextClient() {
 			function next() {
 				getNewClient(credentials).then(result => {
-					const time = Date.now();
+					saveCallingTime();
 					if (typeof result != 'undefined') {
 						if (result.data) {
 							client.current = result.data.client;
@@ -107,7 +108,7 @@ function Calling({
 									<InCall
 										client={client.current}
 										script={result.data.script}
-										endCall={() => endCall(time)}
+										endCall={() => endCall()}
 										campaign={campaign}
 										cancel={cancel}
 									/>
@@ -133,13 +134,14 @@ function Calling({
 			}
 		}
 
-		function endCall(startTime?: number) {
+		function endCall() {
 			if (client.current) {
+				const time = getCallingTime();
 				setPage(
 					<CallEnd
 						credentials={credentials}
 						client={client.current}
-						time={startTime ? Date.now() - startTime : 0}
+						time={time ?? 0}
 						nextCall={getNextClient}
 					/>
 				);

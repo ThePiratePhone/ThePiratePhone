@@ -14,22 +14,18 @@ function isInHours(campaign: Campaign) {
 	return new Date() > callHoursStart && new Date() < callHoursEnd;
 }
 
-function parseCampaign(campaign: { areaCombo: { campaignAvailable: Array<Campaign> } }) {
-	const campaigns = campaign.areaCombo.campaignAvailable.sort(campaignSorter).map((old: any) => {
-		old.callHoursEnd = new Date(old.callHoursEnd);
-		old.callHoursStart = new Date(old.callHoursStart);
+function parseCampaign(campaigns: Array<Campaign>) {
+	return campaigns.sort(campaignSorter).map(old => {
+		if (old.callHoursEnd) old.callHoursEnd = new Date(old.callHoursEnd);
+		if (old.callHoursStart) old.callHoursStart = new Date(old.callHoursStart);
 
 		return old;
 	});
-
-	return campaigns;
 }
 
 function mobileCheck() {
-	const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
-
-	return toMatch.some(toMatchItem => {
-		return navigator.userAgent.match(toMatchItem);
+	return [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i].some(flag => {
+		return navigator.userAgent.match(flag);
 	});
 }
 

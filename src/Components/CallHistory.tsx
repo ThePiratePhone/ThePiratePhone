@@ -7,12 +7,10 @@ function CallHistory({ client, campaign }: { client: Client; campaign: Campaign 
 		satisfaction: Satisfaction;
 		comment: string | undefined;
 		startCall: Date;
-		endCall: Date;
 	}>();
 	client.data[campaign._id].forEach((res, i) => {
 		if (res.status == 'Todo') return;
 		if (i == client.data[campaign._id].length - 1) return;
-		res.endCall = new Date(res.endCall);
 		res.startCall = new Date(res.startCall);
 		values.push(res);
 	});
@@ -26,7 +24,7 @@ function CallHistory({ client, campaign }: { client: Client; campaign: Campaign 
 			<div>
 				{values.map((res, i) => {
 					return (
-						<div>
+						<div key={i}>
 							<span className="Phone">{i + 1}</span>. (
 							<span className="Phone">
 								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}

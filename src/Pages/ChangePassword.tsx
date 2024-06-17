@@ -52,7 +52,7 @@ function ChangePassword({
 		});
 	}
 
-	function enter(e: any) {
+	function enter(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === 'Enter') {
 			click();
 		}
