@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import CallEnd from '../Components/CallEnd';
 import InCall from '../Components/InCall';
 import OutOfHours from '../Components/OutOfHours';
-import { isInHours } from '../Utils/Utils';
 import { getCallingTime, saveCallingTime } from '../Utils/Storage';
+import { isInHours } from '../Utils/Utils';
 
 async function getNewClient(credentials: Credentials): Promise<
 	| {

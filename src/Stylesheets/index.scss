@@ -13,6 +13,16 @@
 	src: url('../Assets/Fonts/Montserrat.ttf');
 }
 
+@keyframes loading {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 :root {
 	--color1v1: #00ba96;
 	--color1v2: #00836e;
@@ -570,3 +580,30 @@ h2 {
 	width: 60vw;
 }
 
+.Loader {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	background: color-mix(in srgb, var(--color1Text) 70%, transparent);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-weight: bold;
+	font-size: 2em;
+
+	& > svg {
+		animation-name: loading;
+		animation-duration: 2000ms;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+
+		& > circle {
+			stroke: var(--color1v1);
+		}
+	}
+}

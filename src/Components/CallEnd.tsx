@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { cleanNumber } from '../Utils/Cleaners';
 import Button from './Button';
+import Loader from './Loader';
 
 function CallEnd({
 	client,
@@ -23,6 +25,7 @@ function CallEnd({
 		{ name: 'Pas de réponse', value: 0 }
 	];
 
+	const [Loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	function click() {
@@ -33,9 +36,12 @@ function CallEnd({
 			comment = undefined;
 		}
 
+		setLoading(true);
 		post(satisfaction, comment).then(res => {
 			if (res) {
 				nextCall();
+			} else {
+				setLoading(false);
 			}
 		});
 	}
@@ -104,15 +110,19 @@ function CallEnd({
 				<Button
 					value="Annuler"
 					onclick={() => {
+						setLoading(true);
 						cancel().then(res => {
 							if (res) {
 								navigate('/');
+							} else {
+								setLoading(false);
 							}
 						});
 					}}
 					type="RedButton"
 				/>
 			</div>
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
+import Loader from '../Components/Loader';
 
 function ChangeName({
 	credentials,
@@ -13,8 +14,7 @@ function ChangeName({
 	caller: Caller;
 	setCaller: (caller: Caller) => void;
 }) {
-	const [ButtonDisabled, setButtonDisabled] = useState(false);
-	const [ButtonValue, setButtonValue] = useState('Changer');
+	const [Loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -38,21 +38,15 @@ function ChangeName({
 	}
 
 	function click() {
-		if (ButtonDisabled) return;
-
-		setButtonDisabled(true);
-		setButtonValue('Vérification...');
-
+		setLoading(true);
 		const name = (document.getElementById('firstname') as HTMLInputElement).value;
 		modify(name).then(res => {
 			if (res) {
 				caller.name = name;
 				setCaller(caller);
 				navigate('/Settings');
-			} else {
-				setButtonValue('Une erreur est survenue');
 			}
-			setButtonDisabled(false);
+			setLoading(false);
 		});
 	}
 
@@ -60,11 +54,6 @@ function ChangeName({
 		if (e.key === 'Enter') {
 			click();
 		}
-	}
-
-	function change() {
-		if (ButtonValue === 'Changer') return;
-		setButtonValue('Changer');
 	}
 
 	return (
@@ -77,9 +66,9 @@ function ChangeName({
 				defaultValue={caller.name}
 				placeholder="Nouveau nom"
 				onKeyUp={enter}
-				onChange={change}
 			/>
-			<Button value={ButtonValue} onclick={click} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
+			<Button value="Changer" onclick={click} />
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
+import Loader from '../Components/Loader';
 
 function Recall({ credentials }: { credentials: Credentials }) {
 	const VALUES = [
@@ -13,8 +14,8 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	];
 
 	const navigate = useNavigate();
-	const [ButtonDisabled, setButtonDisabled] = useState(false);
-	const [ButtonValue, setButtonValue] = useState('Confirmer');
+	const [Loading, setLoading] = useState(false);
+	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
 	function post(satisfaction: number, phone: string, comment?: string) {
 		return new Promise<number>(resolve => {
@@ -48,9 +49,8 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	}
 
 	function click() {
-		if (ButtonDisabled) return;
-		setButtonDisabled(true);
-		setButtonValue('Vérification en cours...');
+		setLoading(true);
+
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
@@ -63,15 +63,13 @@ function Recall({ credentials }: { credentials: Credentials }) {
 			if (res == 0) {
 				navigate('/');
 			} else if (res == 1) {
-				setButtonDisabled(false);
-				setButtonValue("Vous n'avez pas appelé ce contact");
+				setErrorMessage("Vous n'avez pas appelé ce contact");
 			} else if (res == 2) {
-				setButtonDisabled(false);
-				setButtonValue('Contact non trouvé');
+				setErrorMessage('Contact non trouvé');
 			} else {
-				setButtonDisabled(false);
-				setButtonValue('Une erreur est survenue');
+				setErrorMessage('Une erreur est survenue');
 			}
+			setLoading(false);
 		});
 	}
 
@@ -90,8 +88,10 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					})}
 				</select>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
-				<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : undefined} onclick={click} />
+				<Button value="Confirmer" onclick={click} />
 			</div>
+			{ErrorMessage ?? ''}
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

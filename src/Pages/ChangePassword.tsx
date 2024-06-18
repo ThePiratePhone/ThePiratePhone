@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
+import Loader from '../Components/Loader';
 
 function ChangePassword({
 	credentials,
@@ -11,8 +12,7 @@ function ChangePassword({
 	credentials: Credentials;
 	setCredentials: (credentials: Credentials) => void;
 }) {
-	const [ButtonDisabled, setButtonDisabled] = useState(false);
-	const [ButtonValue, setButtonValue] = useState('Changer');
+	const [Loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -34,10 +34,7 @@ function ChangePassword({
 	}
 
 	function click() {
-		if (ButtonDisabled) return;
-
-		setButtonDisabled(true);
-		setButtonValue('Vérification...');
+		setLoading(true);
 
 		const pin = (document.getElementById('pin') as HTMLInputElement).value;
 		modify(pin).then(res => {
@@ -45,10 +42,8 @@ function ChangePassword({
 				credentials.pinCode = pin;
 				setCredentials(credentials);
 				navigate('/Settings');
-			} else {
-				setButtonValue('Une erreur est survenue');
 			}
-			setButtonDisabled(false);
+			setLoading(false);
 		});
 	}
 
@@ -58,24 +53,12 @@ function ChangePassword({
 		}
 	}
 
-	function change() {
-		if (ButtonValue === 'Changer') return;
-		setButtonValue('Changer');
-	}
-
 	return (
 		<div className="Dashboard">
 			<h1>Changement de pin</h1>
-			<input
-				maxLength={4}
-				className="inputField"
-				type="tel"
-				id="pin"
-				placeholder="Nouveau pin"
-				onKeyUp={enter}
-				onChange={change}
-			/>
-			<Button value={ButtonValue} onclick={click} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
+			<input maxLength={4} className="inputField" type="tel" id="pin" placeholder="Nouveau pin" onKeyUp={enter} />
+			<Button value="Changer" onclick={click} />
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

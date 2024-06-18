@@ -8,6 +8,7 @@ import Footer from '../Components/Footer';
 import { areaSorter } from '../Utils/Sorters';
 import { clearCredentials, getCredentials, setCredentials } from '../Utils/Storage';
 import { parseCampaign } from '../Utils/Utils';
+import Loader from '../Components/Loader';
 
 function Login(credentials: Credentials) {
 	return new Promise<LoginResponse>(resolve => {
@@ -44,8 +45,8 @@ async function testOldToken(URL: string) {
 }
 
 function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
-	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
-	const [ButtonDisabled, setButtonDisabled] = useState(true);
+	const [Loading, setLoading] = useState(true);
+	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
 
 	function getAreas() {
@@ -70,18 +71,15 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 		getAreas().then(vals => {
 			if (vals) {
 				setAreas(vals.sort(areaSorter));
-				setButtonValue('Créer un compte');
-				setButtonDisabled(false);
 			} else {
-				setButtonValue('Une erreur est survenue');
+				setErrorMessage('Une erreur est survenue');
 			}
+			setLoading(false);
 		});
 	}, []);
 
 	function createAccount() {
-		if (ButtonDisabled) return;
-		setButtonDisabled(true);
-		setButtonValue('Vérification...');
+		setLoading(true);
 
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
@@ -100,28 +98,23 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 				if (err.response.data?.message) {
 					const message = err.response.data.message;
 					if (message === 'caller already exist') {
-						setButtonValue('Numéro de téléphone déjà utilisé');
+						setErrorMessage('Numéro de téléphone déjà utilisé');
 					} else if (message === 'Invalid area password') {
-						setButtonValue('Clé invalide');
+						setErrorMessage('Clé invalide');
 					} else if (message === 'Invalid pin code') {
-						setButtonValue('Code pin invalide');
+						setErrorMessage('Code pin invalide');
 					} else if (message === 'Wrong phone number') {
-						setButtonValue('Numéro de téléphone invalide');
+						setErrorMessage('Numéro de téléphone invalide');
 					} else {
-						setButtonValue(message);
+						setErrorMessage(message);
 						console.error(err);
 					}
 				} else {
-					setButtonValue('Une erreur est survenue');
+					setErrorMessage('Une erreur est survenue');
 					console.error(err);
 				}
-				setButtonDisabled(false);
+				setLoading(false);
 			});
-	}
-
-	function change() {
-		if (ButtonValue === 'Créer un compte') return;
-		setButtonValue('Créer un compte');
 	}
 
 	function enter(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -139,7 +132,7 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 	return (
 		<div className="LoginPageMain">
 			<h1>Nouveau compte</h1>
-			<select disabled={ButtonDisabled} id="area" className="inputField">
+			<select id="area" className="inputField">
 				{Areas.map((area, i) => {
 					return (
 						<option key={i} value={area._id}>
@@ -149,52 +142,39 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 				})}
 			</select>
 			<input
-				disabled={ButtonDisabled}
 				className="inputField"
 				id="password"
 				type="password"
 				placeholder="Clé d'organisation"
-				onChange={change}
 				onKeyUp={e => {
 					next(e, 'firstname');
 				}}
 			/>
 			<input
-				disabled={ButtonDisabled}
 				className="inputField"
 				id="firstname"
 				type="text"
 				placeholder="Nom"
-				onChange={change}
 				onKeyUp={e => {
 					next(e, 'phone');
 				}}
 			/>
 			<input
-				disabled={ButtonDisabled}
 				className="inputField"
 				id="phone"
 				type="tel"
 				placeholder="Téléphone"
-				onChange={change}
 				onKeyUp={e => {
 					next(e, 'pin');
 				}}
 			/>
-			<input
-				disabled={ButtonDisabled}
-				className="inputField"
-				id="pin"
-				type="tel"
-				placeholder="Pin"
-				maxLength={4}
-				onChange={change}
-				onKeyUp={enter}
-			/>
-			<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : ''} onclick={createAccount} />
+			<input className="inputField" id="pin" type="tel" placeholder="Pin" maxLength={4} onKeyUp={enter} />
+			<Button value="Créer un compte" onclick={createAccount} />
 			<div className="NoAccount">
 				Déjà un compte ?<div onClick={connect}>Par ici !</div>
 			</div>
+			{ErrorMessage ?? ''}
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }
@@ -208,8 +188,8 @@ function LoginBoard({
 	newAccount: () => void;
 	URL: string;
 }) {
-	const [ButtonDisabled, setButtonDisabled] = useState(true);
-	const [ButtonValue, setButtonValue] = useState('Connexion...');
+	const [Loading, setLoading] = useState(true);
+	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (getCredentials()) {
@@ -231,14 +211,11 @@ function LoginBoard({
 	}, [chooseArea]);
 
 	function load() {
-		setButtonValue('Se connecter');
-		setButtonDisabled(false);
+		setLoading(false);
 	}
 
 	function connect() {
-		if (ButtonDisabled) return;
-		setButtonDisabled(true);
-		setButtonValue('Connexion...');
+		setLoading(true);
 
 		const credentials = {
 			phone: (document.getElementById('phone') as HTMLInputElement).value,
@@ -256,15 +233,10 @@ function LoginBoard({
 					campaignAvailable: campaigns
 				});
 			} else {
-				setButtonValue('Identifiants invalides');
-				setButtonDisabled(false);
+				setErrorMessage('Identifiants invalides');
 			}
+			setLoading(false);
 		});
-	}
-
-	function change() {
-		if (ButtonValue === 'Se connecter') return;
-		setButtonValue('Se connecter');
 	}
 
 	function next(e: React.KeyboardEvent<HTMLInputElement>, value: number) {
@@ -280,29 +252,21 @@ function LoginBoard({
 	return (
 		<div className="LoginPageMain">
 			<img src={Logo} />
+			<input className="inputField" id="phone" type="tel" placeholder="Téléphone" onKeyUp={e => next(e, 1)} />
 			<input
 				className="inputField"
-				disabled={ButtonDisabled}
-				id="phone"
-				type="tel"
-				onChange={change}
-				placeholder="Téléphone"
-				onKeyUp={e => next(e, 1)}
-			/>
-			<input
-				className="inputField"
-				disabled={ButtonDisabled}
 				maxLength={4}
 				id="pin"
 				type="tel"
-				onChange={change}
 				placeholder="Pin"
 				onKeyUp={e => next(e, 2)}
 			/>
-			<Button value={ButtonValue} onclick={connect} type={ButtonDisabled ? 'ButtonDisabled' : ''} />
+			<Button value="Se connecter" onclick={connect} />
 			<div className="NoAccount">
 				Pas de compte ? <div onClick={newAccount}>Par ici !</div>
 			</div>
+			{ErrorMessage ?? <></>}
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

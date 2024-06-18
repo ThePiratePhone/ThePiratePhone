@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
+import Loader from '../Components/Loader';
 import { areaSorter } from '../Utils/Sorters';
 
 function Join({
@@ -19,8 +20,8 @@ function Join({
 	next?: () => void;
 }) {
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
-	const [ButtonValue, setButtonValue] = useState('Récupération en cours...');
-	const [ButtonDisabled, setButtonDisabled] = useState(true);
+	const [Loading, setLoading] = useState(false);
+	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
 	const navigate = useNavigate();
@@ -38,27 +39,23 @@ function Join({
 					resolve(response.data.data);
 				})
 				.catch(err => {
-					if (err.response.data.message) {
-						if (err.response.data.message === 'Wrong campaign password') {
-							setButtonValue('Clé invalide');
-							setButtonDisabled(false);
-						}
+					if (err.response.data.message === 'Wrong campaign password') {
+						setErrorMessage('Clé invalide');
 					} else {
 						console.error(err);
-						setButtonValue('Une erreur est survenue');
+						setErrorMessage('Une erreur est survenue');
 					}
+					setLoading(false);
 					resolve(undefined);
 				});
 		});
 	}
 
 	function click() {
-		if (ButtonDisabled) return;
 		const area = (document.getElementById('area') as HTMLInputElement).value;
 		const password = (document.getElementById('password') as HTMLInputElement).value;
 
-		setButtonDisabled(true);
-		setButtonValue('Vérification en cours...');
+		setLoading(true);
 
 		join(area, password).then(newCampaign => {
 			if (newCampaign) {
@@ -70,10 +67,8 @@ function Join({
 				} else {
 					navigate('/');
 				}
-			} else {
-				setButtonValue('Une erreur est survenue');
-				setButtonDisabled(false);
 			}
+			setLoading(false);
 		});
 	}
 
@@ -99,18 +94,10 @@ function Join({
 		getAreas().then(res => {
 			if (res) {
 				setAreas(res);
-				setButtonValue('Rejoindre');
-				setButtonDisabled(false);
-			} else {
-				setButtonValue('Une erreur est survenue');
 			}
+			setLoading(false);
 		});
 	}, [areas]);
-
-	function change() {
-		if (ButtonValue === 'Rejoindre') return;
-		setButtonValue('Rejoindre');
-	}
 
 	function enter(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === 'Enter') {
@@ -123,7 +110,6 @@ function Join({
 			setAreasComp(<></>);
 		} else if (Areas.length === 0) {
 			setAreasComp(<h3>Vous êtes déjà dans toutes les organisations !</h3>);
-			setButtonDisabled(true);
 		} else {
 			setAreasComp(
 				<select className="inputField" id="area">
@@ -144,15 +130,15 @@ function Join({
 			<h1>Rejoindre une organisation</h1>
 			{AreasComp}
 			<input
-				disabled={ButtonDisabled}
 				className="inputField"
 				id="password"
 				type="password"
-				onChange={change}
 				onKeyUp={enter}
 				placeholder="Clé d'organisation"
 			/>
-			<Button value={ButtonValue} type={ButtonDisabled ? 'ButtonDisabled' : ''} onclick={click} />
+			{ErrorMessage ?? ''}
+			<Button value="Rejoindre" onclick={click} />
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

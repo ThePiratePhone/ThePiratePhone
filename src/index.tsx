@@ -7,7 +7,7 @@ import LoginPage from './Pages/Login';
 import { setCredentials } from './Utils/Storage';
 import { mobileCheck } from './Utils/Utils';
 
-import './Stylesheets/index.css';
+import './Stylesheets/index.scss';
 
 import './declarations.d.ts';
 

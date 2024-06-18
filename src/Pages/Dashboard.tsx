@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Button from '../Components/Button';
 import { getRandom } from '../Utils/Utils';
 
-function getCallsString(calls: number) {
+function getCallString(calls: number) {
 	const VALUES = [
 		<>
 			<span className="Phone">{calls}</span> appels effectués.
@@ -96,7 +96,7 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 				</>
 			);
 		} else {
-			setProgress(getCallsString(vals.totalClientCalled));
+			setProgress(getCallString(vals.totalClientCalled));
 		}
 	}
 
@@ -108,7 +108,6 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		<div className="Dashboard">
 			<Button link="/Calling" value="Appeler" />
 			<Button link="/Recall" value="Quelqu'un vous a rappelé ?" />
-
 			<div className="Progress">{Progress}</div>
 		</div>
 	);
