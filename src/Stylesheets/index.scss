@@ -1,16 +1,16 @@
 @font-face {
 	font-family: 'Raleway';
-	src: url("../Assets/Raleway.ttf");
+	src: url('../Assets/Fonts/Raleway.ttf');
 }
 
 @font-face {
 	font-family: 'Phudu';
-	src: url("../Assets/Phudu.ttf");
+	src: url('../Assets/Fonts/Phudu.ttf');
 }
 
 @font-face {
 	font-family: 'Montserrat';
-	src: url("../Assets/Montserrat.ttf");
+	src: url('../Assets/Fonts/Montserrat.ttf');
 }
 
 :root {
@@ -81,7 +81,6 @@ h2 {
 	font-family: 'Montserrat';
 }
 
-
 .App {
 	min-height: 80vh;
 }
@@ -92,7 +91,7 @@ h2 {
 }
 
 .Logo,
-.Logo>img {
+.Logo > img {
 	width: 10vh;
 }
 
@@ -100,7 +99,7 @@ h2 {
 	width: fit-content;
 }
 
-.Button>button {
+.Button > button {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
@@ -114,18 +113,18 @@ h2 {
 	border-radius: var(--boxradius);
 }
 
-.ButtonDisabled>button {
+.ButtonDisabled > button {
 	background-color: var(--disabledButton);
 	color: var(--disabledButtonText);
 	border: 2px solid var(--disabledButtonBorder);
 	cursor: not-allowed;
 }
 
-.ButtonDisabled>button:hover {
+.ButtonDisabled > button:hover {
 	background-color: var(--disabledButton);
 }
 
-.Header>*:last-child {
+.Header > *:last-child {
 	margin-left: auto;
 }
 
@@ -161,11 +160,11 @@ h2 {
 	gap: 2vh;
 }
 
-.LoginPageMain>h1 {
+.LoginPageMain > h1 {
 	text-align: center;
 }
 
-.LoginPageMain>img {
+.LoginPageMain > img {
 	height: 10vh;
 	margin-bottom: 10vh;
 }
@@ -200,7 +199,7 @@ h2 {
 	text-align: justify;
 }
 
-.NoAccount>div {
+.NoAccount > div {
 	text-decoration: underline;
 	padding: 1em;
 	cursor: pointer;
@@ -224,7 +223,7 @@ h2 {
 	font-size: 1em;
 }
 
-.FooterElement>a {
+.FooterElement > a {
 	color: var(--footerText);
 }
 
@@ -251,7 +250,7 @@ h2 {
 	justify-content: space-evenly;
 }
 
-.User>a {
+.User > a {
 	padding: 3vw;
 }
 
@@ -270,21 +269,21 @@ h2 {
 	font-size: 1em;
 }
 
-.User>a {
+.User > a {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5em;
 }
 
-.User>a>div {
+.User > a > div {
 	color: white;
 	font-size: 1em;
 	white-space: nowrap;
 	text-align: center;
 }
 
-.CallingHeader>h2,
-.Calling>h2 {
+.CallingHeader > h2,
+.Calling > h2 {
 	font-size: 1em;
 	text-align: center;
 	text-align: center;
@@ -319,7 +318,7 @@ h2 {
 	white-space: pre-wrap;
 }
 
-.Script>h3 {
+.Script > h3 {
 	text-align: center;
 }
 
@@ -331,7 +330,7 @@ h2 {
 	height: 60vh;
 }
 
-.E404>h1 {
+.E404 > h1 {
 	text-align: center;
 	font-size: 3em;
 	padding: 0 2em;
@@ -348,7 +347,7 @@ h2 {
 	justify-content: center;
 }
 
-.CallingEnded>h2 {
+.CallingEnded > h2 {
 	text-align: center;
 	font-size: 1.5em;
 }
@@ -366,7 +365,7 @@ h2 {
 	border-radius: var(--boxradius);
 }
 
-.UserEnded>div {
+.UserEnded > div {
 	font-size: 1em;
 }
 
@@ -407,7 +406,7 @@ h2 {
 }
 
 .Logo,
-.Logo>img {
+.Logo > img {
 	height: 6vh;
 }
 
@@ -466,7 +465,7 @@ h2 {
 	color: var(--headerText);
 }
 
-.RedButton>button {
+.RedButton > button {
 	background-color: var(--color2v2);
 	border: 2px solid var(--color2v2Border);
 	color: var(--color2Text);
@@ -495,7 +494,7 @@ h2 {
 	gap: 1vh;
 }
 
-.AreaSelector>h2 {
+.AreaSelector > h2 {
 	font-size: 1.5em;
 }
 
@@ -506,7 +505,7 @@ h2 {
 	gap: 2vh;
 }
 
-.SettingsPage>div>b {
+.SettingsPage > div > b {
 	font-weight: 600;
 }
 
@@ -532,11 +531,11 @@ h2 {
 	gap: 2vh;
 }
 
-.CallingHoursError>h4 {
+.CallingHoursError > h4 {
 	margin-bottom: 0;
 }
 
-.CallingHoursError>div {
+.CallingHoursError > div {
 	font-size: initial;
 }
 
@@ -559,7 +558,7 @@ h2 {
 	color: var(--color1Text);
 }
 
-.CallHistory>h3 {
+.CallHistory > h3 {
 	text-align: center;
 }
 
@@ -570,3 +569,4 @@ h2 {
 #theme {
 	width: 60vw;
 }
+
