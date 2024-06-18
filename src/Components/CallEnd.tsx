@@ -88,7 +88,6 @@ function CallEnd({
 	return (
 		<div className="CallingEndContainer">
 			<div className="CallingEnded">
-				{time === 0 ? <h3>Ancien appel récupéré !</h3> : <></>}
 				<div className="UserEnded">
 					<h2 className="UserNameEnded">{client.name}</h2>
 					<div className="Phone">{cleanNumber(client.phone)}</div>

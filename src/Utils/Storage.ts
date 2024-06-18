@@ -19,13 +19,13 @@ function clearCredentials() {
 }
 
 function getCallingTime() {
-	let totalTime: number | null;
+	let totalTime: number | null = null;
 	try {
-		const initial = JSON.parse(window.sessionStorage.getItem('callingtime') as string) as number;
+		const initial = parseInt(JSON.parse(window.sessionStorage.getItem('callingtime') as string));
 		totalTime = Date.now() - initial;
 		window.sessionStorage.removeItem('callingtime');
 	} catch (e) {
-		totalTime = null;
+		console.error(e);
 	}
 	return totalTime;
 }
