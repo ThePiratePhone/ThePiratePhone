@@ -12,16 +12,14 @@ type LoginResponse = {
 		| undefined;
 };
 
-type ProgressResponse =
-	| {
-			totalClientCalled: number;
-			totalDiscution: number;
-			totalCall: number;
-			totalUser: number;
-			totalConvertion: number;
-			timeInCall: number;
-	  }
-	| undefined;
+type ProgressResponse = {
+	totalClientCalled: number;
+	totalDiscution: number;
+	totalCall: number;
+	totalUser: number;
+	totalConvertion: number;
+	timeInCall: number;
+};
 
 type Caller = {
 	name: string;
