@@ -6,26 +6,21 @@ import { cleanCallingTime } from '../Utils/Cleaners';
 function ScoreBoard({ credentials }: { credentials: Credentials }) {
 	const [ScoreBoard, setScoreBoard] = useState<Array<JSX.Element> | undefined>(undefined);
 
-	function getScore() {
-		return new Promise<ScoreBoard | undefined>(resolve => {
-			axios
-				.post(credentials.URL + '/otherCaller/scoreBoard', {
-					area: credentials.area,
-					phone: credentials.phone,
-					pinCode: credentials.pinCode
-				})
-				.then(res => {
-					if (res.data.data) {
-						resolve(res.data.data);
-					} else {
-						resolve(undefined);
-					}
-				})
-				.catch(err => {
-					console.error(err);
-					resolve(undefined);
-				});
-		});
+	async function getScore(): Promise<ScoreBoard | undefined> {
+		try {
+			return (
+				(
+					await axios.post(credentials.URL + '/otherCaller/scoreBoard', {
+						area: credentials.area,
+						phone: credentials.phone,
+						pinCode: credentials.pinCode
+					})
+				).data.data ?? undefined
+			);
+		} catch (err: any) {
+			console.error(err);
+			return undefined;
+		}
 	}
 
 	useEffect(() => {

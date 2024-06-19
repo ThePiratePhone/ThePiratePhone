@@ -26,29 +26,26 @@ function Join({
 
 	const navigate = useNavigate();
 
-	function join(area: string, password: string) {
-		return new Promise<Campaign | undefined>(resolve => {
-			axios
-				.post(credentials.URL + '/joinCampaign', {
+	async function join(area: string, password: string): Promise<Campaign | undefined> {
+		try {
+			return (
+				await axios.post(credentials.URL + '/joinCampaign', {
 					area: area,
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					campaignPassword: password
 				})
-				.then(response => {
-					resolve(response.data.data);
-				})
-				.catch(err => {
-					if (err.response.data.message === 'Wrong campaign password') {
-						setErrorMessage('Clé invalide');
-					} else {
-						console.error(err);
-						setErrorMessage('Une erreur est survenue');
-					}
-					setLoading(false);
-					resolve(undefined);
-				});
-		});
+			).data.data;
+		} catch (err: any) {
+			if (err.response.data.message === 'Wrong campaign password') {
+				setErrorMessage('Clé invalide');
+			} else {
+				console.error(err);
+				setErrorMessage('Une erreur est survenue');
+			}
+			setLoading(false);
+			return undefined;
+		}
 	}
 
 	function click() {
@@ -73,22 +70,19 @@ function Join({
 	}
 
 	useEffect(() => {
-		function getAreas() {
-			return new Promise<Array<Area> | undefined>(resolve => {
-				axios
-					.get(credentials.URL + '/getArea')
-					.then(response => {
-						response.data.data = response.data.data.filter((area: Area) => {
-							return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
-						});
-						response.data.data = response.data.data.sort(areaSorter);
-						resolve(response.data.data);
-					})
-					.catch(err => {
-						console.error(err);
-						resolve(undefined);
-					});
-			});
+		async function getAreas(): Promise<Array<Area> | undefined> {
+			try {
+				const response = await axios.get(credentials.URL + '/getArea');
+
+				response.data.data = response.data.data.filter((area: Area) => {
+					return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
+				});
+				response.data.data = response.data.data.sort(areaSorter);
+				return response.data.data;
+			} catch (err: any) {
+				console.error(err);
+				return undefined;
+			}
 		}
 
 		getAreas().then(res => {

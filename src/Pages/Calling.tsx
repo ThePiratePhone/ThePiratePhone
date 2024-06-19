@@ -15,45 +15,41 @@ async function getNewClient(credentials: Credentials): Promise<
 	  }
 	| undefined
 > {
-	return new Promise(resolve => {
-		axios
-			.post(credentials.URL + '/getPhoneNumber', credentials)
-			.then(result => {
-				if (result) {
-					if (result?.data?.OK) {
-						const campaignId = Object.keys(result.data.data.client.data)[0];
-						result.data.data.client.data[campaignId] = result?.data?.data?.client?.data[campaignId]?.map(
-							(val: { status: string }) => {
-								let status: CallStatus;
-								if (val.status == 'called') status = 'Called';
-								else if (val.status == 'not called') status = 'Todo';
-								else if (val.status == 'inprogress') status = 'Calling';
-								else status = 'Not responded';
-								val.status = status;
-								return val;
-							}
-						);
-						resolve({ status: true, data: result.data.data });
-					} else {
-						resolve({ status: false, data: undefined });
+	try {
+		const result = await axios.post(credentials.URL + '/getPhoneNumber', credentials);
+		if (result) {
+			if (result?.data?.OK) {
+				const campaignId = Object.keys(result.data.data.client.data)[0];
+				result.data.data.client.data[campaignId] = result?.data?.data?.client?.data[campaignId]?.map(
+					(val: { status: string }) => {
+						let status: CallStatus;
+						if (val.status == 'called') status = 'Called';
+						else if (val.status == 'not called') status = 'Todo';
+						else if (val.status == 'inprogress') status = 'Calling';
+						else status = 'Not responded';
+						val.status = status;
+						return val;
 					}
-				} else {
-					resolve(undefined);
-				}
-			})
-			.catch(err => {
-				if (err?.response?.data) {
-					if (err.response.data?.OK) {
-						resolve({ status: false, data: err.response.data });
-					} else {
-						resolve({ status: true, data: undefined });
-					}
-				} else {
-					console.error(err);
-					resolve(undefined);
-				}
-			});
-	});
+				);
+				return { status: true, data: result.data.data };
+			} else {
+				return { status: false, data: undefined };
+			}
+		} else {
+			return undefined;
+		}
+	} catch (err: any) {
+		if (err?.response?.data) {
+			if (err.response.data?.OK) {
+				return { status: false, data: err.response.data };
+			} else {
+				return { status: true, data: undefined };
+			}
+		} else {
+			console.error(err);
+			return undefined;
+		}
+	}
 }
 
 function Calling({
@@ -73,20 +69,20 @@ function Calling({
 
 	useEffect(() => {
 		async function cancel() {
-			axios
-				.post(credentials.URL + '/giveUp', {
+			try {
+				await axios.post(credentials.URL + '/giveUp', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area
-				})
-				.then(() => navigate('/'))
-				.catch(err => {
-					if (err.response?.data?.message) {
-						navigate('/');
-					} else {
-						console.error(err);
-					}
 				});
+				navigate('/');
+			} catch (err: any) {
+				if (err.response?.data?.message) {
+					navigate('/');
+				} else {
+					console.error(err);
+				}
+			}
 		}
 
 		function getNextClient() {
