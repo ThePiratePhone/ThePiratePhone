@@ -17,10 +17,10 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
-	function post(satisfaction: number, phone: string, comment?: string) {
-		return new Promise<number>(resolve => {
-			axios
-				.post(credentials.URL + '/validatePhoneNumber', {
+	async function post(satisfaction: number, phone: string, comment?: string) {
+		try {
+			return (
+				await axios.post(credentials.URL + '/validatePhoneNumber', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,
@@ -28,24 +28,19 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					phoneNumber: phone,
 					comment: comment
 				})
-				.then(res => {
-					if (res.data.OK) {
-						resolve(0);
-					} else {
-						resolve(-1);
-					}
-				})
-				.catch(err => {
-					if (err.response.data.message == 'you dont call this client') {
-						resolve(1);
-					} else if (err.response.data.message == 'Client not found') {
-						resolve(2);
-					} else {
-						console.error(err);
-						resolve(-1);
-					}
-				});
-		});
+			).data.OK
+				? 0
+				: -1;
+		} catch (err: any) {
+			if (err.response.data.message == 'you dont call this client') {
+				return 1;
+			} else if (err.response.data.message == 'Client not found') {
+				return 2;
+			} else {
+				console.error(err);
+				return -1;
+			}
+		}
 	}
 
 	function click() {

@@ -18,23 +18,19 @@ function ChangeName({
 
 	const navigate = useNavigate();
 
-	function modify(name: string) {
-		return new Promise<boolean>(resolve => {
-			axios
-				.post(credentials.URL + '/changeName', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area,
-					newName: name
-				})
-				.then(() => {
-					resolve(true);
-				})
-				.catch(err => {
-					console.error(err);
-					resolve(false);
-				});
-		});
+	async function modify(name: string) {
+		try {
+			await axios.post(credentials.URL + '/changeName', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area,
+				newName: name
+			});
+			return true;
+		} catch (err: any) {
+			console.error(err);
+			return false;
+		}
 	}
 
 	function click() {

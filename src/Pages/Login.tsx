@@ -10,38 +10,32 @@ import { clearCredentials, getCredentials, setCredentials } from '../Utils/Stora
 import { parseCampaign } from '../Utils/Utils';
 import Loader from '../Components/Loader';
 
-function Login(credentials: Credentials) {
-	return new Promise<LoginResponse>(resolve => {
-		axios
-			.post(credentials.URL + '/login', {
-				phone: credentials.phone,
-				pinCode: credentials.pinCode
-			})
-			.then(response => {
-				if (response?.data?.data) {
-					resolve({ OK: true, Message: 'OK', data: response.data.data });
-				} else {
-					resolve({ OK: false, Message: 'Unknown error', data: undefined });
-				}
-			})
-			.catch(err => {
-				console.error(err);
-				resolve({ OK: false, Message: 'Unknown error', data: undefined });
-			});
-	});
+async function Login(credentials: Credentials) {
+	try {
+		const response = await axios.post(credentials.URL + '/login', {
+			phone: credentials.phone,
+			pinCode: credentials.pinCode
+		});
+		if (response?.data?.data) {
+			return { OK: true, Message: 'OK', data: response.data.data };
+		} else {
+			return { OK: false, Message: 'Unknown error', data: undefined };
+		}
+	} catch (err: any) {
+		console.error(err);
+		return { OK: false, Message: 'Unknown error', data: undefined };
+	}
 }
 
 async function testOldToken(URL: string) {
-	return new Promise<LoginResponse>(resolve => {
+	try {
 		const oldCredentials = getCredentials();
 		oldCredentials.URL = URL;
-		Login(oldCredentials)
-			.then(resolve)
-			.catch(err => {
-				console.error(err);
-				resolve({ OK: false, Message: 'Unknown error', data: undefined });
-			});
-	});
+		return await Login(oldCredentials);
+	} catch (err: any) {
+		console.error(err);
+		return { OK: false, Message: 'Unknown error', data: undefined };
+	}
 }
 
 function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
@@ -49,22 +43,18 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
 
-	function getAreas() {
-		return new Promise<Array<Area> | undefined>(resolve => {
-			axios
-				.get(URL + '/getArea')
-				.then(response => {
-					if (typeof response == 'undefined') {
-						resolve(undefined);
-					} else {
-						resolve(response.data.data);
-					}
-				})
-				.catch(err => {
-					console.error(err);
-					resolve(undefined);
-				});
-		});
+	async function getAreas(): Promise<Array<Area> | undefined> {
+		try {
+			const response = await axios.get(URL + '/getArea');
+			if (typeof response == 'undefined') {
+				return undefined;
+			} else {
+				return response.data.data;
+			}
+		} catch (err: any) {
+			console.error(err);
+			return undefined;
+		}
 	}
 
 	useEffect(() => {

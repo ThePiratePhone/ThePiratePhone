@@ -46,43 +46,39 @@ function CallEnd({
 		});
 	}
 
-	function post(satisfaction: number, comment?: string) {
-		return new Promise<boolean>(resolve => {
-			axios
-				.post(credentials.URL + '/endCall', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area,
-					timeInCall: time,
-					comment: comment,
-					satisfaction: satisfaction
-				})
-				.then(() => resolve(true))
-				.catch(err => {
-					if (err.response?.data?.message) {
-						resolve(true);
-					} else {
-						console.error(err);
-						resolve(false);
-					}
-				});
-		});
+	async function post(satisfaction: number, comment?: string) {
+		try {
+			await axios.post(credentials.URL + '/endCall', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area,
+				timeInCall: time,
+				comment: comment,
+				satisfaction: satisfaction
+			});
+			return true;
+		} catch (err: any) {
+			if (err.response?.data?.message) {
+				return true;
+			} else {
+				console.error(err);
+				return false;
+			}
+		}
 	}
 
-	function cancel() {
-		return new Promise<boolean>(resolve => {
-			axios
-				.post(credentials.URL + '/giveUp', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area
-				})
-				.then(() => resolve(true))
-				.catch(err => {
-					console.error(err);
-					resolve(false);
-				});
-		});
+	async function cancel() {
+		try {
+			await axios.post(credentials.URL + '/giveUp', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area
+			});
+			return true;
+		} catch (err: any) {
+			console.error(err);
+			return false;
+		}
 	}
 
 	return (

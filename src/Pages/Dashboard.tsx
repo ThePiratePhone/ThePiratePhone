@@ -56,20 +56,17 @@ function getCallString(calls: number) {
 	return VALUES[getRandom(0, VALUES.length - 1)];
 }
 
-function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
-	return new Promise(resolve => {
-		axios
-			.post(credentials.URL + '/getProgress', credentials)
-			.then(response => resolve(response.data.data))
-			.catch(err => {
-				if (err?.response?.data?.message) {
-					resolve(err.response.data.message);
-				} else {
-					console.error(err);
-					resolve(undefined);
-				}
-			});
-	});
+async function getProgress(credentials: Credentials): Promise<ProgressResponse | string> {
+	try {
+		return (await axios.post(credentials.URL + '/getProgress', credentials)).data.data;
+	} catch (err: any) {
+		if (err?.response?.data?.message) {
+			return err.response.data.message;
+		} else {
+			console.error(err);
+			return undefined;
+		}
+	}
 }
 
 function Dashboard({ credentials }: { credentials: Credentials }) {

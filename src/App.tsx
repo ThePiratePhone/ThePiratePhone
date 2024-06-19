@@ -33,7 +33,7 @@ function App({
 }) {
 	const [Credentials, setCredentials] = useState(credentials);
 	const [CurrentCampaign, setCurrentCampaign] = useState(currentCampaign);
-	const [Theme, setTheme] = useState('default');
+	const [Theme, setTheme] = useState(getLocalTheme());
 	const [Caller, setCaller] = useState(caller);
 
 	function addCampaign(newCampaign: Campaign) {
@@ -123,10 +123,6 @@ function App({
 			element: <E404 />
 		}
 	];
-
-	useEffect(() => {
-		setTheme(getLocalTheme());
-	}, [setTheme]);
 
 	return (
 		<BrowserRouter>

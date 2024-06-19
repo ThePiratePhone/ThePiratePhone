@@ -16,21 +16,19 @@ function ChangePassword({
 
 	const navigate = useNavigate();
 
-	function modify(pinCode: string) {
-		return new Promise<boolean>(resolve => {
-			axios
-				.post(credentials.URL + '/changePassword', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area,
-					newPin: pinCode
-				})
-				.then(() => resolve(true))
-				.catch(err => {
-					console.error(err);
-					resolve(false);
-				});
-		});
+	async function modify(pinCode: string) {
+		try {
+			await axios.post(credentials.URL + '/changePassword', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				area: credentials.area,
+				newPin: pinCode
+			});
+			return true;
+		} catch (err: any) {
+			console.error(err);
+			return false;
+		}
 	}
 
 	function click() {

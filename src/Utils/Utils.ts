@@ -1,26 +1,25 @@
 import { campaignSorter } from './Sorters';
 
 function isInHours(campaign: Campaign) {
+	const now = new Date();
+
 	if (!campaign.callHoursStart || !campaign.callHoursEnd) return true;
 
 	const callHoursStart = new Date();
-	callHoursStart.setHours(campaign.callHoursStart.getHours());
-	callHoursStart.setMinutes(campaign.callHoursStart.getMinutes());
+	callHoursStart.setHours(campaign.callHoursStart.getHours(), campaign.callHoursStart.getMinutes(), 0, 0);
 
 	const callHoursEnd = new Date();
-	callHoursEnd.setHours(campaign.callHoursEnd.getHours());
-	callHoursEnd.setMinutes(campaign.callHoursEnd.getMinutes());
+	callHoursEnd.setHours(campaign.callHoursEnd.getHours(), campaign.callHoursEnd.getMinutes(), 0, 0);
 
-	return new Date() > callHoursStart && new Date() < callHoursEnd;
+	return now > callHoursStart && now < callHoursEnd;
 }
 
 function parseCampaign(campaigns: Array<Campaign>) {
-	return campaigns.sort(campaignSorter).map(old => {
-		if (old.callHoursEnd) old.callHoursEnd = new Date(old.callHoursEnd);
-		if (old.callHoursStart) old.callHoursStart = new Date(old.callHoursStart);
-
-		return old;
-	});
+	return campaigns.sort(campaignSorter).map(campaign => ({
+		...campaign,
+		callHoursEnd: campaign.callHoursEnd ? new Date(campaign.callHoursEnd) : campaign.callHoursEnd,
+		callHoursStart: campaign.callHoursStart ? new Date(campaign.callHoursStart) : campaign.callHoursStart
+	}));
 }
 
 function mobileCheck() {
