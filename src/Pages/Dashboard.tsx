@@ -58,7 +58,7 @@ function getCallString(calls: number) {
 
 async function getProgress(credentials: Credentials): Promise<ProgressResponse | string | undefined> {
 	try {
-		return (await axios.post(credentials.URL + '/getProgress', credentials)).data.data;
+		return (await axios.post(credentials.URL + '/caller/getProgress', credentials)).data.data;
 	} catch (err: any) {
 		if (err?.response?.data?.message) {
 			return err.response.data.message;
@@ -85,15 +85,22 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 			setProgress(<>Il n'y a aucun numéro dans votre campagne.</>);
 			return;
 		}
-		if (vals.totalClientCalled <= 5) {
+		if (vals.totalCall <= 5) {
 			setProgress(
 				<>
-					<span className="Phone">{vals.totalClientCalled}</span>{' '}
-					{vals.totalClientCalled > 1 ? 'appels effectués' : 'appel effectué'}.
+					<span className="Phone">{vals.totalCall}</span>{' '}
+					{vals.totalCall > 1 ? 'appels effectués' : 'appel effectué'}.
+				</>
+			);
+		} else if (vals.totalCall == 1312) {
+			setProgress(
+				<>
+					<span className="Phone">{vals.totalCall}</span>Bravo, ce nombre est magique ! il vous portera chance
+					pour votre prochain appel !
 				</>
 			);
 		} else {
-			setProgress(getCallString(vals.totalClientCalled));
+			setProgress(getCallString(vals.totalCall));
 		}
 	}
 

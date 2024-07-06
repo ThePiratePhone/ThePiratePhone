@@ -11,27 +11,24 @@ import { isInHours } from '../Utils/Utils';
 async function getNewClient(credentials: Credentials): Promise<
 	| {
 			status: boolean;
-			data: { client: Client; script: string; CampaignCallStart: number; CampaignCallEnd: number } | undefined;
+			data:
+				| {
+						client: Client;
+						script: string;
+						callHistory: Array<Call>;
+						CampaignCallStart: number;
+						CampaignCallEnd: number;
+				  }
+				| undefined;
 	  }
 	| undefined
 > {
 	try {
-		const result = await axios.post(credentials.URL + '/getPhoneNumber', credentials);
+		const result = await axios.post(credentials.URL + '/caller/getPhoneNumber', credentials);
+		console.log(result);
 		if (result) {
 			if (result?.data?.OK) {
-				const campaignId = Object.keys(result.data.data.client.data)[0];
-				result.data.data.client.data[campaignId] = result?.data?.data?.client?.data[campaignId]?.map(
-					(val: { status: string }) => {
-						let status: CallStatus;
-						if (val.status == 'called') status = 'Called';
-						else if (val.status == 'not called') status = 'Todo';
-						else if (val.status == 'inprogress') status = 'Calling';
-						else status = 'Not responded';
-						val.status = status;
-						return val;
-					}
-				);
-				return { status: true, data: result.data.data };
+				return { status: true, data: result.data };
 			} else {
 				return { status: false, data: undefined };
 			}
@@ -70,7 +67,7 @@ function Calling({
 	useEffect(() => {
 		async function cancel() {
 			try {
-				await axios.post(credentials.URL + '/giveUp', {
+				await axios.post(credentials.URL + '/caller/giveUp', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area
@@ -88,9 +85,10 @@ function Calling({
 		function getNextClient() {
 			function next() {
 				getNewClient(credentials).then(result => {
+					console.log(result);
 					if (typeof result != 'undefined') {
-						if (result.data) {
-							client.current = result.data.client;
+						if (result?.data?.client) {
+							client.current = result?.data?.client;
 							if (result?.data?.CampaignCallStart && result?.data?.CampaignCallEnd) {
 								campaign.callHoursEnd = new Date(result.data.CampaignCallEnd);
 								campaign.callHoursStart = new Date(result.data.CampaignCallStart);
@@ -103,6 +101,7 @@ function Calling({
 									<InCall
 										client={client.current}
 										script={result.data.script}
+										callHistory={result.data.callHistory}
 										endCall={() => endCall()}
 										campaign={campaign}
 										cancel={cancel}

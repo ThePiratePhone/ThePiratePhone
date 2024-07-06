@@ -1,18 +1,30 @@
 import { cleanSatisfaction } from '../Utils/Cleaners';
 
-function CallHistory({ client, campaign }: { client: Client; campaign: Campaign }) {
-	if (!client.data[campaign._id]) return <div className="NoCall">Jamais appelé·e</div>;
+function CallHistory({
+	client,
+	campaign,
+	callhistory
+}: {
+	client: Client;
+	callhistory: Array<Call>;
+	campaign: Campaign;
+}) {
+	if (callhistory.length == 0) return <div className="NoCall">Jamais appelé·e</div>;
 	const values = new Array<{
 		status: CallStatus;
 		satisfaction: Satisfaction;
 		comment: string | undefined;
 		startCall: Date;
 	}>();
-	client.data[campaign._id].forEach((res, i) => {
-		if (res.status == 'Todo') return;
-		if (i == client.data[campaign._id].length - 1) return;
-		res.startCall = new Date(res.startCall);
-		values.push(res);
+	callhistory.forEach((res, i) => {
+		if (i == callhistory.length - 1) return; // not sure, only if is an recovery call
+		res.start = new Date(res.start);
+		values.push({
+			status: res.status,
+			satisfaction: res.satisfaction,
+			comment: res?.comment ?? undefined,
+			startCall: res.start
+		});
 	});
 	if (values.length == 0) {
 		return <div className="NoCall">Jamais appelé·e</div>;

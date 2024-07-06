@@ -12,7 +12,7 @@ import Loader from '../Components/Loader';
 
 async function Login(credentials: Credentials) {
 	try {
-		const response = await axios.post(credentials.URL + '/login', {
+		const response = await axios.post(credentials.URL + '/caller/login', {
 			phone: credentials.phone,
 			pinCode: credentials.pinCode
 		});

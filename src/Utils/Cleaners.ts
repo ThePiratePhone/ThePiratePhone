@@ -20,12 +20,14 @@ function cleanNumber(number: string) {
 
 function cleanStatus(status: CallStatus) {
 	switch (status) {
-		case 'Called':
-			return 'Appelé·e';
-		case 'Not responded':
-			return 'Pas de réponse';
-		case 'Calling':
-			return 'En cours';
+		case 'In progress':
+			return "En cours d'appel";
+		case 'to recall':
+			return 'A rappeler';
+		case 'deleted':
+			return 'Supprimé';
+		case 'Done':
+			return 'Terminé';
 		default:
 			return 'Pas appelé·e';
 	}
@@ -33,16 +35,16 @@ function cleanStatus(status: CallStatus) {
 
 function cleanSatisfaction(satisfaction: Satisfaction) {
 	switch (satisfaction) {
-		case -2:
-			return 'À retirer';
-		case -1:
-			return 'Pas interessé·e';
 		case 0:
-			return 'Pas de réponse';
+			return 'A voter';
 		case 1:
-			return 'Ne compte pas voter';
+			return 'Pas interessé·e';
 		case 2:
-			return 'Compte voter';
+			return 'Interessé·e';
+		case 3:
+			return 'Pas de réponse';
+		case 4:
+			return 'Supprimé';
 		default:
 			return 'Appel en cours';
 	}
