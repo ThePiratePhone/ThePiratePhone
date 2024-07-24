@@ -42,9 +42,9 @@ type Client = {
 };
 
 type Call = {
-	Client: Client;
-	Caller: Caller;
-	Campaign: Campaign;
+	client: Client;
+	caller: Caller;
+	campaign: Campaign;
 	satisfaction: Satisfaction;
 	comment: string | null;
 	status: CallStatus;
@@ -85,6 +85,6 @@ type Theme = {
 };
 
 type ScoreBoard = {
-	yourPlace: number;
-	scoreBoard: Array<{ name: string; totalCalls: number; totalTime: number }>;
+	topfiveUsers: Array<{ _id: string; name: string; count: number; totalDuration: number; you: boolean }>;
+	yourPosition: number;
 };

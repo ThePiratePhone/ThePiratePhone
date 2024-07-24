@@ -23,7 +23,7 @@ function cleanStatus(status: CallStatus) {
 		case 'In progress':
 			return "En cours d'appel";
 		case 'to recall':
-			return 'A rappeler';
+			return 'À rappeler';
 		case 'deleted':
 			return 'Supprimé';
 		case 'Done':
@@ -36,7 +36,7 @@ function cleanStatus(status: CallStatus) {
 function cleanSatisfaction(satisfaction: Satisfaction) {
 	switch (satisfaction) {
 		case 0:
-			return 'A voter';
+			return 'A voté';
 		case 1:
 			return 'Pas interessé·e';
 		case 2:

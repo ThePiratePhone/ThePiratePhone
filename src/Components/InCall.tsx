@@ -7,14 +7,12 @@ import Script from './Script';
 function InCall({
 	client,
 	script,
-	campaign,
 	callHistory,
 	endCall,
 	cancel
 }: {
 	client: Client;
 	script: string;
-	campaign: Campaign;
 	callHistory: Array<Call>;
 	endCall: () => void;
 	cancel: () => void;
@@ -36,7 +34,7 @@ function InCall({
 					</a>
 				</div>
 			</div>
-			<CallHistory campaign={campaign} callhistory={callHistory} client={client} />
+			<CallHistory callHistory={callHistory} />
 			<Script script={script} />
 		</>
 	);

@@ -16,8 +16,8 @@ async function getNewClient(credentials: Credentials): Promise<
 						client: Client;
 						script: string;
 						callHistory: Array<Call>;
-						CampaignCallStart: number;
-						CampaignCallEnd: number;
+						campaignCallStart: number;
+						campaignCallEnd: number;
 				  }
 				| undefined;
 	  }
@@ -25,7 +25,6 @@ async function getNewClient(credentials: Credentials): Promise<
 > {
 	try {
 		const result = await axios.post(credentials.URL + '/caller/getPhoneNumber', credentials);
-		console.log(result);
 		if (result) {
 			if (result?.data?.OK) {
 				return { status: true, data: result.data };
@@ -85,13 +84,12 @@ function Calling({
 		function getNextClient() {
 			function next() {
 				getNewClient(credentials).then(result => {
-					console.log(result);
 					if (typeof result != 'undefined') {
 						if (result?.data?.client) {
-							client.current = result?.data?.client;
-							if (result?.data?.CampaignCallStart && result?.data?.CampaignCallEnd) {
-								campaign.callHoursEnd = new Date(result.data.CampaignCallEnd);
-								campaign.callHoursStart = new Date(result.data.CampaignCallStart);
+							client.current = result.data.client;
+							if (result.data?.campaignCallStart && result.data?.campaignCallEnd) {
+								campaign.callHoursEnd = new Date(result.data.campaignCallEnd);
+								campaign.callHoursStart = new Date(result.data.campaignCallStart);
 								setCampaign(campaign);
 							}
 							if (!result.status) {
@@ -103,7 +101,6 @@ function Calling({
 										script={result.data.script}
 										callHistory={result.data.callHistory}
 										endCall={() => endCall()}
-										campaign={campaign}
 										cancel={cancel}
 									/>
 								);

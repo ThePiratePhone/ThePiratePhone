@@ -1,23 +1,15 @@
 import { cleanSatisfaction } from '../Utils/Cleaners';
 
-function CallHistory({
-	client,
-	campaign,
-	callhistory
-}: {
-	client: Client;
-	callhistory: Array<Call>;
-	campaign: Campaign;
-}) {
-	if (callhistory.length == 0) return <div className="NoCall">Jamais appelé·e</div>;
+function CallHistory({ callHistory }: { callHistory: Array<Call> }) {
+	if (callHistory.length == 0) return <div className="NoCall">Jamais appelé·e</div>;
 	const values = new Array<{
 		status: CallStatus;
 		satisfaction: Satisfaction;
 		comment: string | undefined;
 		startCall: Date;
 	}>();
-	callhistory.forEach((res, i) => {
-		if (i == callhistory.length - 1) return; // not sure, only if is an recovery call
+	callHistory.forEach((res, i) => {
+		if (i == callHistory.length - 1) return;
 		res.start = new Date(res.start);
 		values.push({
 			status: res.status,

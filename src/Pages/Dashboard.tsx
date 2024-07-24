@@ -82,7 +82,7 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 			return;
 		}
 		if (vals.totalUser === 0) {
-			setProgress(<>Il n'y a aucun numéro dans votre campagne.</>);
+			setProgress(<>Il n'y a aucun numéro dans cette campagne.</>);
 			return;
 		}
 		if (vals.totalCall <= 5) {
@@ -95,8 +95,8 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		} else if (vals.totalCall == 1312) {
 			setProgress(
 				<>
-					<span className="Phone">{vals.totalCall}</span>Bravo, ce nombre est magique ! il vous portera chance
-					pour votre prochain appel !
+					<span className="Phone">{vals.totalCall}</span> Appels ! Nombre magique ! Il portera chance lors du
+					prochain appel !
 				</>
 			);
 		} else {

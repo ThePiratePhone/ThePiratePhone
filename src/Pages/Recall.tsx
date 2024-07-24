@@ -7,9 +7,9 @@ import Loader from '../Components/Loader';
 
 function Recall({ credentials }: { credentials: Credentials }) {
 	const VALUES = [
-		{ name: 'À voter', value: 0 },
+		{ name: 'A voté', value: 0 },
+		{ name: 'Interessé·e', value: 2 },
 		{ name: 'Pas interesé·e', value: 1 },
-		{ name: 'interessé·e', value: 2 },
 		{ name: 'À retirer', value: 4 }
 	];
 
@@ -50,7 +50,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
-		const recall = (document.getElementById('recallCheck') as HTMLInputElement).checked;
+		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
 		if (comment === '') {
 			comment = undefined;
@@ -85,8 +85,8 @@ function Recall({ credentials }: { credentials: Credentials }) {
 					})}
 				</select>
 				<div>
-					<input type="checkbox" className="recallCheck" id="recallCheck" />
-					<label htmlFor="recallCheck">Cette personne doit être rapelé·e</label>
+					<input type="checkbox" className="recall" id="recall" />
+					<label htmlFor="recall">À rappeler</label>
 				</div>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
