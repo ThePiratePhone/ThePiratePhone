@@ -11,7 +11,7 @@ import { areaSorter } from '../Utils/Sorters';
 import { clearCredentials, getCredentials, setCredentials } from '../Utils/Storage';
 import { parseCampaign } from '../Utils/Utils';
 
-async function Login(credentials: Credentials) {
+async function Login(credentials: Credentials): Promise<LoginResponse> {
 	try {
 		const response = await axios.post(credentials.URL + '/caller/login', {
 			phone: credentials.phone,
@@ -187,13 +187,14 @@ function LoginBoard({
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (getCredentials()) {
+		const credentials = getCredentials();
+		if (credentials) {
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
-					const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
-					chooseArea(result.data.caller, getCredentials(), {
+					result.data.caller.pinCode = credentials.pinCode;
+					chooseArea(result.data.caller, credentials, {
 						area: result.data.areaCombo.area,
-						campaignAvailable: campaigns
+						campaignAvailable: parseCampaign(result.data.areaCombo.campaignAvailable)
 					});
 				} else {
 					clearCredentials();
@@ -222,10 +223,10 @@ function LoginBoard({
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				setCredentials(credentials);
-				const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
+				result.data.caller.pinCode = credentials.pinCode;
 				chooseArea(result.data.caller, credentials, {
 					area: result.data.areaCombo.area,
-					campaignAvailable: campaigns
+					campaignAvailable: parseCampaign(result.data.areaCombo.campaignAvailable)
 				});
 			} else {
 				setErrorMessage('Identifiants invalides');
