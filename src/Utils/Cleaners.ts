@@ -1,4 +1,5 @@
 function cleanNumber(number: string) {
+	if (number == undefined) return undefined;
 	const numberArray = number.split('');
 	let newNumber = '';
 	if (number.length % 2) {
