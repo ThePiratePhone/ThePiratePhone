@@ -191,7 +191,7 @@ function LoginBoard({
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
 					const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
-					return chooseArea(result.data.caller, getCredentials(), {
+					chooseArea(result.data.caller, getCredentials(), {
 						area: result.data.areaCombo.area,
 						campaignAvailable: campaigns
 					});
