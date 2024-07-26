@@ -273,8 +273,8 @@ function LoginPage({
 		<BrowserRouter>
 			<div className="LoginPage">
 				<Routes>
-					<Route path="/" element={<LoginBoard URL={URL} chooseArea={chooseArea} />} />
 					<Route path="/NewAccount" element={<CreateAccount URL={URL} />} />
+					<Route path="/*" element={<LoginBoard URL={URL} chooseArea={chooseArea} />} />
 				</Routes>
 				<Footer />
 			</div>
