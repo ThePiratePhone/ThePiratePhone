@@ -1,10 +1,40 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+import Loader from '../Components/Loader';
 import { cleanCallingTime } from '../Utils/Cleaners';
+
+function ScoreElement({
+	you,
+	pos,
+	name,
+	count,
+	duration
+}: {
+	you: boolean;
+	pos: number;
+	name: string;
+	count: number;
+	duration: number;
+}) {
+	return (
+		<div className={'ScoreBox' + (you ? ' YourSelf' : '')}>
+			<b>
+				<span className="Phone">{pos}</span>
+			</b>
+			<span>{name}</span>
+			<span>
+				<span className="Phone">{count}</span> {count > 1 ? 'appels' : 'appel'}
+			</span>
+			<span className="Phone">{cleanCallingTime(duration)}</span>
+		</div>
+	);
+}
 
 function ScoreBoard({ credentials }: { credentials: Credentials }) {
 	const [ScoreBoard, setScoreBoard] = useState<Array<JSX.Element> | undefined>(undefined);
+	const [Loading, setLoading] = useState(true);
+	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
 	async function getScore(): Promise<ScoreBoard | undefined> {
 		try {
@@ -15,7 +45,7 @@ function ScoreBoard({ credentials }: { credentials: Credentials }) {
 						phone: credentials.phone,
 						pinCode: credentials.pinCode
 					})
-				).data.data ?? undefined
+				).data ?? undefined
 			);
 		} catch (err: any) {
 			console.error(err);
@@ -25,24 +55,24 @@ function ScoreBoard({ credentials }: { credentials: Credentials }) {
 
 	useEffect(() => {
 		getScore().then(res => {
+			setLoading(false);
 			if (res) {
 				const elements = new Array();
-				res?.scoreBoard.forEach((val, i) => {
+				res?.topfiveUsers.forEach((val, i) => {
 					elements.push(
-						<div className={'ScoreBox' + (i == res.yourPlace || i == 5 ? ' YourSelf' : '')} key={i}>
-							<b>
-								<span className="Phone">{i == 5 ? res.yourPlace : i + 1}</span>
-							</b>
-							<span>{val.name}</span>
-							<span>
-								<span className="Phone">{val.totalCalls}</span>{' '}
-								{val.totalCalls > 1 ? 'appels' : 'appel'}
-							</span>
-							<span className="Phone">{cleanCallingTime(val.totalTime)}</span>
-						</div>
+						<ScoreElement
+							you={val.you || i == 5}
+							count={val.count}
+							name={val.name}
+							duration={val.totalDuration}
+							pos={i == 5 ? res.yourPlace : i + 1}
+							key={i}
+						/>
 					);
 				});
 				setScoreBoard(elements);
+			} else {
+				setErrorMessage('Impossible de récupérer le tableau des scores.');
 			}
 		});
 	}, []);
@@ -50,7 +80,9 @@ function ScoreBoard({ credentials }: { credentials: Credentials }) {
 	return (
 		<div className="Dashboard">
 			<h1>ScoreBoard</h1>
-			<div className="ScoreBoard">{ScoreBoard ?? 'Récupération...'}</div>
+			<div className="ScoreBoard">{ScoreBoard}</div>
+			{ErrorMessage ?? ''}
+			{Loading ? <Loader /> : <></>}
 		</div>
 	);
 }

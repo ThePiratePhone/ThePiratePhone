@@ -3,16 +3,17 @@ import { useEffect, useState } from 'react';
 
 import Logo from '../Assets/Logo.svg';
 
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Footer from '../Components/Footer';
+import Loader from '../Components/Loader';
 import { areaSorter } from '../Utils/Sorters';
 import { clearCredentials, getCredentials, setCredentials } from '../Utils/Storage';
 import { parseCampaign } from '../Utils/Utils';
-import Loader from '../Components/Loader';
 
-async function Login(credentials: Credentials) {
+async function Login(credentials: Credentials): Promise<LoginResponse> {
 	try {
-		const response = await axios.post(credentials.URL + '/login', {
+		const response = await axios.post(credentials.URL + '/caller/login', {
 			phone: credentials.phone,
 			pinCode: credentials.pinCode
 		});
@@ -38,10 +39,11 @@ async function testOldToken(URL: string) {
 	}
 }
 
-function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
+function CreateAccount({ URL }: { URL: string }) {
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
+	const navigate = useNavigate();
 
 	async function getAreas(): Promise<Array<Area> | undefined> {
 		try {
@@ -55,6 +57,10 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 			console.error(err);
 			return undefined;
 		}
+	}
+
+	function connect() {
+		navigate('/');
 	}
 
 	useEffect(() => {
@@ -171,37 +177,37 @@ function CreateAccount({ connect, URL }: { connect: () => void; URL: string }) {
 
 function LoginBoard({
 	chooseArea,
-	newAccount,
 	URL
 }: {
 	chooseArea: (caller: Caller, credentials: Credentials, areas: AreaCombo) => void;
-	newAccount: () => void;
 	URL: string;
 }) {
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (getCredentials()) {
+		const credentials = getCredentials();
+		if (credentials) {
 			testOldToken(URL).then(result => {
 				if (result.OK && result.data) {
-					const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
-					return chooseArea(result.data.caller, getCredentials(), {
+					result.data.caller.pinCode = credentials.pinCode;
+					chooseArea(result.data.caller, credentials, {
 						area: result.data.areaCombo.area,
-						campaignAvailable: campaigns
+						campaignAvailable: parseCampaign(result.data.areaCombo.campaignAvailable)
 					});
 				} else {
 					clearCredentials();
-					load();
+					setLoading(false);
 				}
 			});
 		} else {
-			load();
+			setLoading(false);
 		}
 	}, [chooseArea]);
 
-	function load() {
-		setLoading(false);
+	function newAccount() {
+		navigate('/NewAccount');
 	}
 
 	function connect() {
@@ -217,10 +223,10 @@ function LoginBoard({
 		Login(credentials).then(result => {
 			if (result.OK && result.data) {
 				setCredentials(credentials);
-				const campaigns = parseCampaign(result.data.areaCombo.campaignAvailable);
+				result.data.caller.pinCode = credentials.pinCode;
 				chooseArea(result.data.caller, credentials, {
 					area: result.data.areaCombo.area,
-					campaignAvailable: campaigns
+					campaignAvailable: parseCampaign(result.data.areaCombo.campaignAvailable)
 				});
 			} else {
 				setErrorMessage('Identifiants invalides');
@@ -229,28 +235,23 @@ function LoginBoard({
 		});
 	}
 
-	function next(e: React.KeyboardEvent<HTMLInputElement>, value: number) {
+	function next(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === 'Enter') {
-			if (value == 1) {
-				document.getElementById('pin')?.focus();
-			} else {
-				connect();
-			}
+			document.getElementById('pin')?.focus();
+		}
+	}
+
+	function keyLogin(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.key === 'Enter') {
+			connect();
 		}
 	}
 
 	return (
 		<div className="LoginPageMain">
 			<img src={Logo} />
-			<input className="inputField" id="phone" type="tel" placeholder="Téléphone" onKeyUp={e => next(e, 1)} />
-			<input
-				className="inputField"
-				maxLength={4}
-				id="pin"
-				type="tel"
-				placeholder="Pin"
-				onKeyUp={e => next(e, 2)}
-			/>
+			<input className="inputField" id="phone" type="tel" placeholder="Téléphone" onKeyUp={next} />
+			<input className="inputField" maxLength={4} id="pin" type="tel" placeholder="Pin" onKeyUp={keyLogin} />
 			<Button value="Se connecter" onclick={connect} />
 			<div className="NoAccount">
 				Pas de compte ? <div onClick={newAccount}>Par ici !</div>
@@ -268,21 +269,16 @@ function LoginPage({
 	chooseArea: (caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) => void;
 	URL: string;
 }) {
-	const [Page, setPage] = useState(<LoginBoard URL={URL} newAccount={newAccount} chooseArea={chooseArea} />);
-
-	function newAccount() {
-		setPage(<CreateAccount URL={URL} connect={connect} />);
-	}
-
-	function connect() {
-		setPage(<LoginBoard URL={URL} chooseArea={chooseArea} newAccount={newAccount} />);
-	}
-
 	return (
-		<div className="LoginPage">
-			{Page}
-			<Footer />
-		</div>
+		<BrowserRouter>
+			<div className="LoginPage">
+				<Routes>
+					<Route path="/NewAccount" element={<CreateAccount URL={URL} />} />
+					<Route path="/*" element={<LoginBoard URL={URL} chooseArea={chooseArea} />} />
+				</Routes>
+				<Footer />
+			</div>
+		</BrowserRouter>
 	);
 }
 

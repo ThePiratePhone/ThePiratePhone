@@ -199,7 +199,8 @@ h2 {
 	font-size: 0.8em;
 	width: 100%;
 	box-sizing: border-box;
-	height: 10vh;
+	min-height: 10vh;
+	resize: vertical;
 }
 
 .NoAccount {

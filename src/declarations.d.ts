@@ -28,27 +28,29 @@ type Caller = {
 	callTime: Map<string, number>;
 };
 
-type CallStatus = 'Called' | 'Calling' | 'Not responded' | 'Todo';
+type CallStatus = 'In progress' | 'to recall' | 'Done' | 'deleted';
 
-type Satisfaction = -2 | -1 | 0 | 1 | 2;
+type Satisfaction = 0 | 1 | 2 | 3 | 4;
 
 type Client = {
 	name: string;
+	firstname: string;
 	phone: string;
-	callStatus: CallStatus;
-	callerNumber: string | undefined;
-	callStart: Date | undefined;
-	callEnd: Date | undefined;
-	data: {
-		[key: string]: Array<{
-			status: CallStatus;
-			caller: string;
-			comment: string | undefined;
-			satisfaction: Satisfaction;
-			startCall: Date;
-			endCall: Date;
-		}>;
-	};
+	institution: string | null;
+	createdAt: Date;
+	campaigns: Array<Campaign>;
+};
+
+type Call = {
+	client: Client;
+	caller: Caller;
+	campaign: Campaign;
+	satisfaction: Satisfaction;
+	comment: string | null;
+	status: CallStatus;
+	start: Date;
+	duration: number | null;
+	lastInteraction: Date;
 };
 
 type Credentials = {
@@ -83,6 +85,6 @@ type Theme = {
 };
 
 type ScoreBoard = {
+	topfiveUsers: Array<{ _id: string; name: string; count: number; totalDuration: number; you: boolean }>;
 	yourPlace: number;
-	scoreBoard: Array<{ name: string; totalCalls: number; totalTime: number }>;
 };

@@ -18,11 +18,11 @@ function CallEnd({
 	nextCall: () => void;
 }) {
 	const VALUES = [
-		{ name: 'Compte voter', value: 2 },
-		{ name: 'Ne compte pas voter', value: 1 },
-		{ name: 'Pas interessé·e', value: -1 },
-		{ name: 'À retirer', value: -2 },
-		{ name: 'Pas de réponse', value: 0 }
+		{ name: 'A voté', value: 0 },
+		{ name: 'Interessé·e', value: 2 },
+		{ name: 'Pas interesé·e', value: 1 },
+		{ name: 'À retirer', value: 4 },
+		{ name: 'Pas de réponse', value: 3 }
 	];
 
 	const [Loading, setLoading] = useState(false);
@@ -31,13 +31,14 @@ function CallEnd({
 	function click() {
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
+		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
 		if (comment === '') {
 			comment = undefined;
 		}
 
 		setLoading(true);
-		post(satisfaction, comment).then(res => {
+		post(satisfaction, recall, comment).then(res => {
 			if (res) {
 				nextCall();
 			} else {
@@ -46,15 +47,16 @@ function CallEnd({
 		});
 	}
 
-	async function post(satisfaction: number, comment?: string) {
+	async function post(satisfaction: number, recall: boolean, comment?: string) {
 		try {
-			await axios.post(credentials.URL + '/endCall', {
+			await axios.post(credentials.URL + '/caller/endCall', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
 				area: credentials.area,
 				timeInCall: time,
 				comment: comment,
-				satisfaction: satisfaction
+				satisfaction: satisfaction,
+				status: recall
 			});
 			return true;
 		} catch (err: any) {
@@ -69,7 +71,7 @@ function CallEnd({
 
 	async function cancel() {
 		try {
-			await axios.post(credentials.URL + '/giveUp', {
+			await axios.post(credentials.URL + '/caller/giveUp', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
 				area: credentials.area
@@ -91,7 +93,18 @@ function CallEnd({
 				<h3>Comment s'est passé cet appel ?</h3>
 			</div>
 			<div className="CallingButtons">
-				<select className="inputField" id="satisfaction" defaultValue={0}>
+				<select
+					className="inputField"
+					id="satisfaction"
+					defaultValue={3}
+					onChange={() => {
+						if ((document.getElementById('satisfaction') as HTMLInputElement).value == '3') {
+							(document.getElementById('recall') as HTMLInputElement).checked = true;
+						} else {
+							(document.getElementById('recall') as HTMLInputElement).checked = false;
+						}
+					}}
+				>
 					{VALUES.map((value, i) => {
 						return (
 							<option key={i} value={value.value}>
@@ -100,6 +113,10 @@ function CallEnd({
 						);
 					})}
 				</select>
+				<div>
+					<input type="checkbox" className="recall" id="recall" defaultChecked />
+					<label htmlFor="recall">À rappeler</label>
+				</div>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
 				<Button

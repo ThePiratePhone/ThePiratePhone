@@ -7,24 +7,25 @@ import Loader from '../Components/Loader';
 
 function Recall({ credentials }: { credentials: Credentials }) {
 	const VALUES = [
-		{ name: 'Compte voter', value: 2 },
-		{ name: 'Ne compte pas voter', value: 1 },
-		{ name: 'Pas interessé·e', value: -1 },
-		{ name: 'À retirer', value: -2 }
+		{ name: 'A voté', value: 0 },
+		{ name: 'Interessé·e', value: 2 },
+		{ name: 'Pas interesé·e', value: 1 },
+		{ name: 'À retirer', value: 4 }
 	];
 
 	const navigate = useNavigate();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
-	async function post(satisfaction: number, phone: string, comment?: string) {
+	async function post(satisfaction: number, phone: string, recall: boolean, comment?: string) {
 		try {
 			return (
-				await axios.post(credentials.URL + '/validatePhoneNumber', {
+				await axios.post(credentials.URL + '/caller/validateCall', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
 					area: credentials.area,
 					satisfaction: satisfaction,
+					status: recall,
 					phoneNumber: phone,
 					comment: comment
 				})
@@ -49,12 +50,13 @@ function Recall({ credentials }: { credentials: Credentials }) {
 		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
+		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
 		if (comment === '') {
 			comment = undefined;
 		}
 
-		post(satisfaction, phone, comment).then(res => {
+		post(satisfaction, phone, recall, comment).then(res => {
 			if (res == 0) {
 				navigate('/');
 			} else if (res == 1) {
@@ -82,6 +84,10 @@ function Recall({ credentials }: { credentials: Credentials }) {
 						);
 					})}
 				</select>
+				<div>
+					<input type="checkbox" className="recall" id="recall" />
+					<label htmlFor="recall">À rappeler</label>
+				</div>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
 			</div>

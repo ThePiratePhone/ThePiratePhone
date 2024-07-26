@@ -24,8 +24,6 @@ function Join({
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
-	const navigate = useNavigate();
-
 	async function join(area: string, password: string): Promise<Campaign | undefined> {
 		try {
 			return (
@@ -62,7 +60,7 @@ function Join({
 				if (next) {
 					next();
 				} else {
-					navigate('/');
+					useNavigate()('/');
 				}
 			}
 			setLoading(false);
