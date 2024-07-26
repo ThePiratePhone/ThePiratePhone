@@ -65,7 +65,8 @@ function ScoreBoard({ credentials }: { credentials: Credentials }) {
 							count={val.count}
 							name={val.name}
 							duration={val.totalDuration}
-							pos={i == 5 ? res.yourPosition : i + 1}
+							pos={i == 5 ? res.yourPlace : i + 1}
+							key={i}
 						/>
 					);
 				});

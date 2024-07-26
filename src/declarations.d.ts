@@ -86,5 +86,5 @@ type Theme = {
 
 type ScoreBoard = {
 	topfiveUsers: Array<{ _id: string; name: string; count: number; totalDuration: number; you: boolean }>;
-	yourPosition: number;
+	yourPlace: number;
 };
