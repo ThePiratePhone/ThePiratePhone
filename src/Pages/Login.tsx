@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
 import Logo from '../Assets/Logo.svg';
 
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Footer from '../Components/Footer';
 import Loader from '../Components/Loader';
@@ -12,31 +12,38 @@ import { clearCredentials, getCredentials, setCredentials } from '../Utils/Stora
 import { parseCampaign } from '../Utils/Utils';
 
 async function Login(credentials: Credentials): Promise<LoginResponse> {
-	try {
-		const response = await axios.post(credentials.URL + '/caller/login', {
-			phone: credentials.phone,
-			pinCode: credentials.pinCode
-		});
-		if (response?.data?.data) {
-			return { OK: true, Message: 'OK', data: response.data.data };
-		} else {
-			return { OK: false, Message: 'Unknown error', data: undefined };
+	return new Promise<LoginResponse>(resolve => {
+		try {
+			axios
+				.post(credentials.URL + '/caller/login', {
+					phone: credentials.phone,
+					pinCode: credentials.pinCode
+				})
+				.then(response => {
+					if (response?.data?.data) {
+						resolve({ OK: true, Message: 'OK', data: response.data.data });
+					} else {
+						resolve({ OK: false, Message: 'Unknown error', data: undefined });
+					}
+				});
+		} catch (err) {
+			console.error(err);
+			resolve({ OK: false, Message: 'Unknown error', data: undefined });
 		}
-	} catch (err: any) {
-		console.error(err);
-		return { OK: false, Message: 'Unknown error', data: undefined };
-	}
+	});
 }
 
 async function testOldToken(URL: string) {
-	try {
-		const oldCredentials = getCredentials();
-		oldCredentials.URL = URL;
-		return await Login(oldCredentials);
-	} catch (err: any) {
-		console.error(err);
-		return { OK: false, Message: 'Unknown error', data: undefined };
-	}
+	return new Promise<LoginResponse>(resolve => {
+		try {
+			const oldCredentials = getCredentials();
+			oldCredentials.URL = URL;
+			Login(oldCredentials).then(resolve);
+		} catch (err: any) {
+			console.error(err);
+			resolve({ OK: false, Message: 'Unknown error', data: undefined });
+		}
+	});
 }
 
 function CreateAccount({ URL }: { URL: string }) {
@@ -45,18 +52,21 @@ function CreateAccount({ URL }: { URL: string }) {
 	const [Areas, setAreas] = useState<Array<Area>>([]);
 	const navigate = useNavigate();
 
-	async function getAreas(): Promise<Array<Area> | undefined> {
-		try {
-			const response = await axios.get(URL + '/getArea');
-			if (typeof response == 'undefined') {
-				return undefined;
-			} else {
-				return response.data.data;
+	async function getAreas() {
+		return new Promise<Array<Area> | undefined>(resolve => {
+			try {
+				axios.get(URL + '/getArea').then(response => {
+					if (typeof response == 'undefined') {
+						resolve(undefined);
+					} else {
+						resolve(response.data.data);
+					}
+				});
+			} catch (err) {
+				console.error(err);
+				resolve(undefined);
 			}
-		} catch (err: any) {
-			console.error(err);
-			return undefined;
-		}
+		});
 	}
 
 	function connect() {
@@ -86,7 +96,7 @@ function CreateAccount({ URL }: { URL: string }) {
 		};
 
 		axios
-			.post(URL + '/createCaller', credentials)
+			.post(URL + '/caller/createCaller', credentials)
 			.then(() => {
 				connect();
 			})

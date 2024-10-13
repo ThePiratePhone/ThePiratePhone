@@ -5,19 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
 
-function Recall({ credentials }: { credentials: Credentials }) {
-	const VALUES = [
-		{ name: 'A voté', value: 0 },
-		{ name: 'Interessé·e', value: 2 },
-		{ name: 'Pas interesé·e', value: 1 },
-		{ name: 'À retirer', value: 4 }
-	];
-
+function Recall({ status, credentials }: { status: Array<string>; credentials: Credentials }) {
 	const navigate = useNavigate();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
-	async function post(satisfaction: number, phone: string, recall: boolean, comment?: string) {
+	async function post(satisfaction: string, phone: string, recall: boolean, comment?: string) {
 		try {
 			return (
 				await axios.post(credentials.URL + '/caller/validateCall', {
@@ -47,7 +40,7 @@ function Recall({ credentials }: { credentials: Credentials }) {
 	function click() {
 		setLoading(true);
 
-		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
+		const satisfaction = (document.getElementById('satisfaction') as HTMLInputElement).value;
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
@@ -76,12 +69,8 @@ function Recall({ credentials }: { credentials: Credentials }) {
 			<input className="inputField" id="phone" type="tel" placeholder="Téléphone" />
 			<div className="CallingButtons">
 				<select className="inputField" id="satisfaction">
-					{VALUES.map((value, i) => {
-						return (
-							<option key={i} value={value.value}>
-								{value.name}
-							</option>
-						);
+					{status.map((value, i) => {
+						return <option key={i}>{value}</option>;
 					})}
 				</select>
 				<div>

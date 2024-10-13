@@ -1,7 +1,7 @@
 import { cleanSatisfaction } from '../Utils/Cleaners';
 
 function CallHistory({ callHistory }: { callHistory: Array<Call> }) {
-	if (callHistory.length == 0) return <div className="NoCall">Jamais appelé·e</div>;
+	if (!callHistory?.length) return <div className="NoCall">Jamais appelé·e</div>;
 	const values = new Array<{
 		status: CallStatus;
 		satisfaction: Satisfaction;

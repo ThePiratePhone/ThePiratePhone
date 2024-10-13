@@ -72,6 +72,7 @@ type Campaign = {
 	areaName: string;
 	callHoursStart: Date | null;
 	callHoursEnd: Date | null;
+	status: Array<string>;
 };
 
 type Area = {

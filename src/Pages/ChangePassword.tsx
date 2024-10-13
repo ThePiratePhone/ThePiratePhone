@@ -18,7 +18,7 @@ function ChangePassword({
 
 	async function modify(pinCode: string) {
 		try {
-			await axios.post(credentials.URL + '/changePassword', {
+			await axios.post(credentials.URL + '/caller/changePassword', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
 				area: credentials.area,

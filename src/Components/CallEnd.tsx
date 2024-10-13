@@ -10,26 +10,20 @@ function CallEnd({
 	client,
 	time,
 	credentials,
-	nextCall
+	nextCall,
+	status
 }: {
 	client: Client;
 	time: number;
 	credentials: Credentials;
 	nextCall: () => void;
+	status: Array<string>;
 }) {
-	const VALUES = [
-		{ name: 'A voté', value: 0 },
-		{ name: 'Interessé·e', value: 2 },
-		{ name: 'Pas interesé·e', value: 1 },
-		{ name: 'À retirer', value: 4 },
-		{ name: 'Pas de réponse', value: 3 }
-	];
-
 	const [Loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	function click() {
-		const satisfaction = parseInt((document.getElementById('satisfaction') as HTMLInputElement).value);
+		const satisfaction = (document.getElementById('satisfaction') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
 		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
@@ -47,7 +41,7 @@ function CallEnd({
 		});
 	}
 
-	async function post(satisfaction: number, recall: boolean, comment?: string) {
+	async function post(satisfaction: string, recall: boolean, comment?: string) {
 		try {
 			await axios.post(credentials.URL + '/caller/endCall', {
 				phone: credentials.phone,
@@ -93,22 +87,11 @@ function CallEnd({
 				<h3>Comment s'est passé cet appel ?</h3>
 			</div>
 			<div className="CallingButtons">
-				<select
-					className="inputField"
-					id="satisfaction"
-					defaultValue={3}
-					onChange={() => {
-						if ((document.getElementById('satisfaction') as HTMLInputElement).value == '3') {
-							(document.getElementById('recall') as HTMLInputElement).checked = true;
-						} else {
-							(document.getElementById('recall') as HTMLInputElement).checked = false;
-						}
-					}}
-				>
-					{VALUES.map((value, i) => {
+				<select className="inputField" id="satisfaction" defaultValue={1}>
+					{status.map((value, i) => {
 						return (
-							<option key={i} value={value.value}>
-								{value.name}
+							<option key={i} value={value}>
+								{value}
 							</option>
 						);
 					})}

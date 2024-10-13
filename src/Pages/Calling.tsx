@@ -15,6 +15,7 @@ async function getNewClient(credentials: Credentials): Promise<
 				| {
 						client: Client;
 						script: string;
+						status: Array<string>;
 						callHistory: Array<Call>;
 						campaignCallStart: number;
 						campaignCallEnd: number;
@@ -90,6 +91,7 @@ function Calling({
 							if (result.data?.campaignCallStart && result.data?.campaignCallEnd) {
 								campaign.callHoursEnd = new Date(result.data.campaignCallEnd);
 								campaign.callHoursStart = new Date(result.data.campaignCallStart);
+								campaign.status = result.data.status;
 								setCampaign(campaign);
 							}
 							if (!result.status) {
@@ -117,6 +119,7 @@ function Calling({
 					}
 				});
 			}
+
 			if (!isInHours(campaign)) {
 				setPage(<OutOfHours campaign={campaign} next={next} />);
 				return;
@@ -132,6 +135,7 @@ function Calling({
 					<CallEnd
 						credentials={credentials}
 						client={client.current}
+						status={campaign.status}
 						time={time ?? 0}
 						nextCall={getNextClient}
 					/>

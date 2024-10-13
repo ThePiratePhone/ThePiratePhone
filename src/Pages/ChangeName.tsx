@@ -20,7 +20,7 @@ function ChangeName({
 
 	async function modify(name: string) {
 		try {
-			await axios.post(credentials.URL + '/changeName', {
+			await axios.post(credentials.URL + '/caller/changeName', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
 				area: credentials.area,

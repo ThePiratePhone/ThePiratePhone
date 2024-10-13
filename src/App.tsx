@@ -96,7 +96,7 @@ function App({
 		},
 		{
 			path: '/Recall',
-			element: <Recall credentials={Credentials} />
+			element: <Recall status={CurrentCampaign.status} credentials={Credentials} />
 		},
 		{
 			path: '/ScoreBoard',
