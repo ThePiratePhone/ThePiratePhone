@@ -22,6 +22,7 @@ function Join({
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
+	const [ButtonDisabled, setButtonDisabled] = useState(false);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
 	async function join(area: string, password: string): Promise<Campaign | undefined> {
@@ -47,6 +48,8 @@ function Join({
 	}
 
 	function click() {
+		if (ButtonDisabled) return;
+
 		const area = (document.getElementById('area') as HTMLInputElement).value;
 		const password = (document.getElementById('password') as HTMLInputElement).value;
 
@@ -102,6 +105,7 @@ function Join({
 			setAreasComp(<></>);
 		} else if (Areas.length === 0) {
 			setAreasComp(<h3>Vous êtes déjà dans toutes les organisations !</h3>);
+			setButtonDisabled(true);
 		} else {
 			setAreasComp(
 				<select className="inputField" id="area">
@@ -129,7 +133,7 @@ function Join({
 				placeholder="Clé d'organisation"
 			/>
 			{ErrorMessage ?? ''}
-			<Button value="Rejoindre" onclick={click} />
+			<Button type={ButtonDisabled ? 'ButtonDisabled' : undefined} value="Rejoindre" onclick={click} />
 			{Loading ? <Loader /> : <></>}
 		</div>
 	);
