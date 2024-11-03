@@ -41,15 +41,6 @@ function getCallString(calls: number) {
 		<>
 			<span className="Phone">{calls}</span> appels ! Vous êtes les gardiens de la ligne et les guerrières du
 			combiné ! Le monde vous écoute !
-		</>,
-		<>
-			<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Jordan Bardella a changé
-			d'avis sur son programme ! Continuez à être plus cohérent que lui au micro !
-		</>,
-		<>
-			<span className="Phone">{calls}</span> appels ? C'est presque autant de fois où Zemmour a essayé de se faire
-			passer pour un vétéran de la politique ! Continuez à faire des appels, au moins vous, vous êtes authentiques
-			!
 		</>
 	];
 
