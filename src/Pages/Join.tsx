@@ -25,14 +25,16 @@ function Join({
 	const [ButtonDisabled, setButtonDisabled] = useState(false);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
+	const navigate = useNavigate();
+
 	async function join(area: string, password: string): Promise<Campaign | undefined> {
 		try {
 			return (
-				await axios.post(credentials.URL + '/joinCampaign', {
-					area: area,
+				await axios.post(credentials.URL + '/caller/joinCampaign', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
-					campaignPassword: password
+					campaignPassword: password,
+					destinationArea: area
 				})
 			).data.data;
 		} catch (err: any) {
@@ -60,11 +62,8 @@ function Join({
 				credentials.area = newCampaign.areaId;
 				setCredentials(credentials);
 				addCampaign(newCampaign);
-				if (next) {
-					next();
-				} else {
-					useNavigate()('/');
-				}
+
+				next ? next() : navigate('/');
 			}
 			setLoading(false);
 		});
@@ -78,8 +77,7 @@ function Join({
 				response.data.data = response.data.data.filter((area: Area) => {
 					return !(areas.find(val => val.areaId == area._id) || area._id == credentials.area);
 				});
-				response.data.data = response.data.data.sort(areaSorter);
-				return response.data.data;
+				return response.data.data.sort(areaSorter);
 			} catch (err: any) {
 				console.error(err);
 				return undefined;
