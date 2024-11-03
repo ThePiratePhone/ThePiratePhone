@@ -11,38 +11,37 @@ import { areaSorter } from '../Utils/Sorters';
 import { clearCredentials, getCredentials, setCredentials } from '../Utils/Storage';
 import { parseCampaign } from '../Utils/Utils';
 
-async function Login(credentials: Credentials): Promise<LoginResponse> {
+function login(credentials: Credentials): Promise<LoginResponse> {
 	return new Promise<LoginResponse>(resolve => {
-		try {
-			axios
-				.post(credentials.URL + '/caller/login', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode
-				})
-				.then(response => {
-					if (response?.data?.data) {
-						resolve({ OK: true, Message: 'OK', data: response.data.data });
-					} else {
-						resolve({ OK: false, Message: 'Unknown error', data: undefined });
-					}
-				});
-		} catch (err) {
-			console.error(err);
-			resolve({ OK: false, Message: 'Unknown error', data: undefined });
-		}
+		axios
+			.post(credentials.URL + '/caller/login', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode
+			})
+			.then(response => {
+				if (response?.data?.data) {
+					resolve({ OK: true, Message: 'OK', data: response.data.data });
+				} else {
+					resolve({ OK: false, Message: 'Unknown error', data: undefined });
+				}
+			})
+			.catch(err => {
+				console.error(err);
+				resolve({ OK: false, Message: 'Unknown error', data: undefined });
+			});
 	});
 }
 
-async function testOldToken(URL: string) {
+function testOldToken(URL: string) {
 	return new Promise<LoginResponse>(resolve => {
-		try {
-			const oldCredentials = getCredentials();
-			oldCredentials.URL = URL;
-			Login(oldCredentials).then(resolve);
-		} catch (err: any) {
-			console.error(err);
-			resolve({ OK: false, Message: 'Unknown error', data: undefined });
-		}
+		const oldCredentials = getCredentials();
+		oldCredentials.URL = URL;
+		login(oldCredentials)
+			.then(resolve)
+			.catch(err => {
+				console.error(err);
+				resolve({ OK: false, Message: 'Unknown error', data: undefined });
+			});
 	});
 }
 
@@ -52,20 +51,21 @@ function CreateAccount({ URL }: { URL: string }) {
 	const [Areas, setAreas] = useState<Array<Area>>([]);
 	const navigate = useNavigate();
 
-	async function getAreas() {
+	function getAreas() {
 		return new Promise<Array<Area> | undefined>(resolve => {
-			try {
-				axios.get(URL + '/getArea').then(response => {
+			axios
+				.get(URL + '/getArea')
+				.then(response => {
 					if (typeof response == 'undefined') {
 						resolve(undefined);
 					} else {
 						resolve(response.data.data);
 					}
+				})
+				.catch(err => {
+					console.error(err);
+					resolve(undefined);
 				});
-			} catch (err) {
-				console.error(err);
-				resolve(undefined);
-			}
 		});
 	}
 
@@ -230,7 +230,8 @@ function LoginBoard({
 			URL: URL
 		};
 
-		Login(credentials).then(result => {
+		login(credentials).then(result => {
+			setLoading(false);
 			if (result.OK && result.data) {
 				setCredentials(credentials);
 				result.data.caller.pinCode = credentials.pinCode;
@@ -241,7 +242,6 @@ function LoginBoard({
 			} else {
 				setErrorMessage('Identifiants invalides');
 			}
-			setLoading(false);
 		});
 	}
 
