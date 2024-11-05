@@ -19,38 +19,6 @@ function cleanNumber(number: string) {
 	return newNumber;
 }
 
-function cleanStatus(status: CallStatus) {
-	switch (status) {
-		case 'In progress':
-			return "En cours d'appel";
-		case 'to recall':
-			return 'À rappeler';
-		case 'deleted':
-			return 'Supprimé';
-		case 'Done':
-			return 'Terminé';
-		default:
-			return 'Pas appelé·e';
-	}
-}
-
-function cleanSatisfaction(satisfaction: Satisfaction) {
-	switch (satisfaction) {
-		case 0:
-			return 'A voté';
-		case 1:
-			return 'Pas interessé·e';
-		case 2:
-			return 'Interessé·e';
-		case 3:
-			return 'Pas de réponse';
-		case 4:
-			return 'Supprimé';
-		default:
-			return 'Appel en cours';
-	}
-}
-
 function cleanCallingTime(duration: number) {
 	const date = new Date(
 		1970,
@@ -64,4 +32,4 @@ function cleanCallingTime(duration: number) {
 	return date.toLocaleTimeString();
 }
 
-export { cleanCallingTime, cleanNumber, cleanSatisfaction, cleanStatus };
+export { cleanCallingTime, cleanNumber };

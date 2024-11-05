@@ -1,23 +1,10 @@
-import { cleanSatisfaction } from '../Utils/Cleaners';
-
 function CallHistory({ callHistory }: { callHistory: Array<Call> }) {
 	if (!callHistory?.length) return <div className="NoCall">Jamais appelé·e</div>;
-	const values = new Array<{
-		status: CallStatus;
-		satisfaction: Satisfaction;
-		comment: string | undefined;
-		startCall: Date;
-	}>();
-	callHistory.forEach((res, i) => {
-		if (i == callHistory.length - 1) return;
+	const values = callHistory.map(res => {
 		res.start = new Date(res.start);
-		values.push({
-			status: res.status,
-			satisfaction: res.satisfaction,
-			comment: res?.comment ?? undefined,
-			startCall: res.start
-		});
+		return res;
 	});
+
 	if (values.length == 0) {
 		return <div className="NoCall">Jamais appelé·e</div>;
 	}
@@ -31,9 +18,9 @@ function CallHistory({ callHistory }: { callHistory: Array<Call> }) {
 						<div key={i}>
 							<span className="Phone">{i + 1}</span>. (
 							<span className="Phone">
-								{res.startCall.toLocaleDateString()} - {res.startCall.toLocaleTimeString()}
+								{res.start.toLocaleDateString()} - {res.start.toLocaleTimeString()}
 							</span>
-							) {cleanSatisfaction(res.satisfaction)} {res.comment ? `(${res.comment})` : ''}
+							) {res.satisfaction} {res.comment != null ? `(${res.comment})` : ''}
 						</div>
 					);
 				})}

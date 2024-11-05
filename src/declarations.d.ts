@@ -43,7 +43,6 @@ type Client = {
 
 type Call = {
 	client: Client;
-	caller: Caller;
 	campaign: Campaign;
 	satisfaction: Satisfaction;
 	comment: string | null;
