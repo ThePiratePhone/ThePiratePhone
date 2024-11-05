@@ -12,7 +12,7 @@ import './declarations.d.ts';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const URL = 'https://pp.mpqa.fr:8443/api';
+const URL = 'https://pp.mpqa.fr/api';
 
 function renderApp(caller: Caller, credentials: Credentials, campaigns: Array<Campaign>, campaign: Campaign) {
 	credentials.URL = URL;
