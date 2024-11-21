@@ -28,7 +28,10 @@ type Caller = {
 	callTime: Map<string, number>;
 };
 
-type CallStatus = 'In progress' | 'to recall' | 'Done' | 'deleted';
+type CallStatus = {
+	name: string;
+	toRecall: boolean;
+};
 
 type Satisfaction = 0 | 1 | 2 | 3 | 4;
 
@@ -71,7 +74,7 @@ type Campaign = {
 	areaName: string;
 	callHoursStart: Date | null;
 	callHoursEnd: Date | null;
-	status: Array<string>;
+	status: Array<CallStatus>;
 };
 
 type Area = {

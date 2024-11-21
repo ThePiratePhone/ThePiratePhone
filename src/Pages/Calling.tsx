@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CallEnd from '../Components/CallEnd';
-import InCall from '../Components/InCall';
-import OutOfHours from '../Components/OutOfHours';
+import CallEnd from '../Components/Call/CallEnd';
+import InCall from '../Components/Call/InCall';
+import OutOfHours from '../Components/Call/OutOfHours';
 import { getCallingTime } from '../Utils/Storage';
 import { isInHours } from '../Utils/Utils';
 
@@ -15,7 +15,7 @@ async function getNewClient(credentials: Credentials): Promise<
 				| {
 						client: Client;
 						script: string;
-						status: Array<string>;
+						status: Array<CallStatus>;
 						callHistory: Array<Call>;
 						campaignCallStart: number;
 						campaignCallEnd: number;

@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from '../Button';
 
 function OutOfHours({ campaign, next }: { campaign: Campaign; next: () => void }) {
 	if (!campaign.callHoursStart || !campaign.callHoursEnd)

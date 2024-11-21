@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
 
-function Recall({ status, credentials }: { status: Array<string>; credentials: Credentials }) {
+function Recall({ status, credentials }: { status: Array<CallStatus>; credentials: Credentials }) {
 	const navigate = useNavigate();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
@@ -43,13 +43,12 @@ function Recall({ status, credentials }: { status: Array<string>; credentials: C
 		const satisfaction = (document.getElementById('satisfaction') as HTMLInputElement).value;
 		const phone = (document.getElementById('phone') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
-		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
 		if (comment === '') {
 			comment = undefined;
 		}
 
-		post(satisfaction, phone, recall, comment).then(res => {
+		post(satisfaction, phone, status.find(val => val.name == satisfaction)!.toRecall, comment).then(res => {
 			if (res == 0) {
 				navigate('/');
 			} else if (res == 1) {
@@ -70,13 +69,9 @@ function Recall({ status, credentials }: { status: Array<string>; credentials: C
 			<div className="CallingButtons">
 				<select className="inputField" id="satisfaction">
 					{status.map((value, i) => {
-						return <option key={i}>{value}</option>;
+						return <option key={i}>{value.name}</option>;
 					})}
 				</select>
-				<div>
-					<input type="checkbox" className="recall" id="recall" />
-					<label htmlFor="recall">À rappeler</label>
-				</div>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
 			</div>

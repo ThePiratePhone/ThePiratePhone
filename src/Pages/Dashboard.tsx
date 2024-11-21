@@ -76,7 +76,7 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 			setProgress(<>Il n'y a aucun numéro dans cette campagne.</>);
 			return;
 		}
-		if (vals.totalCall <= 5) {
+		if (vals.totalCall <= 15) {
 			setProgress(
 				<>
 					<span className="Phone">{vals.totalCall}</span>{' '}

@@ -232,6 +232,7 @@ h2 {
 
 .FooterElement {
 	font-size: 1em;
+	font-family: 'Montserrat';
 }
 
 .FooterElement > a {
@@ -569,12 +570,30 @@ h2 {
 	color: var(--color1Text);
 }
 
-.CallHistory > h3 {
+.CallHistory {
 	text-align: center;
+	width: 100%;
+	padding: 3vh 0;
+	background-color: var(--color1v1);
+	color: var(--color1Text);
+	border-top: 2px solid var(--color1v1Border);
+	border-bottom: 2px solid var(--color1v1Border);
+	margin-top: 2px;
+
+	& > h3 {
+		margin-top: 0;
+	}
 }
 
 .NoCall {
 	text-align: center;
+	padding: 3vh 0;
+	width: 100%;
+	background-color: var(--color1v1);
+	color: var(--color1Text);
+	border-top: 2px solid var(--color1v1Border);
+	border-bottom: 2px solid var(--color1v1Border);
+	margin-top: 2px;
 }
 
 #theme {

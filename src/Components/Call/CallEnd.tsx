@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { cleanNumber } from '../Utils/Cleaners';
-import Button from './Button';
-import Loader from './Loader';
+import { cleanNumber } from '../../Utils/Cleaners';
+import Button from '../Button';
+import Loader from '../Loader';
 
 function CallEnd({
 	client,
@@ -17,7 +17,7 @@ function CallEnd({
 	time: number;
 	credentials: Credentials;
 	nextCall: () => void;
-	status: Array<string>;
+	status: Array<CallStatus>;
 }) {
 	const [Loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -25,14 +25,13 @@ function CallEnd({
 	function click() {
 		const satisfaction = (document.getElementById('satisfaction') as HTMLInputElement).value;
 		let comment: string | undefined = (document.getElementById('comment') as HTMLInputElement).value.trim();
-		const recall = (document.getElementById('recall') as HTMLInputElement).checked;
 
 		if (comment === '') {
 			comment = undefined;
 		}
 
 		setLoading(true);
-		post(satisfaction, recall, comment).then(res => {
+		post(satisfaction, status.find(val => val.name == satisfaction)!.toRecall, comment).then(res => {
 			if (res) {
 				nextCall();
 			} else {
@@ -90,16 +89,12 @@ function CallEnd({
 				<select className="inputField" id="satisfaction" defaultValue={1}>
 					{status.map((value, i) => {
 						return (
-							<option key={i} value={value}>
-								{value}
+							<option key={i} value={value.name}>
+								{value.name}
 							</option>
 						);
 					})}
 				</select>
-				<div>
-					<input type="checkbox" className="recall" id="recall" defaultChecked />
-					<label htmlFor="recall">À rappeler</label>
-				</div>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
 				<Button value="Confirmer" onclick={click} />
 				<Button

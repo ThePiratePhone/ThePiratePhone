@@ -1,6 +1,6 @@
-import { cleanNumber } from '../Utils/Cleaners';
-import { saveCallingTime } from '../Utils/Storage';
-import Button from './Button';
+import { cleanNumber } from '../../Utils/Cleaners';
+import { saveCallingTime } from '../../Utils/Storage';
+import Button from '../Button';
 import CallHistory from './CallHistory';
 import Script from './Script';
 
