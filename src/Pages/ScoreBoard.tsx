@@ -19,10 +19,10 @@ function ScoreElement({
 }) {
 	return (
 		<div className={'ScoreBox' + (you ? ' YourSelf' : '')}>
+			<span className="Phone">{pos}</span>
 			<b>
-				<span className="Phone">{pos}</span>
+				<span>{name}</span>
 			</b>
-			<span>{name}</span>
 			<span>
 				<span className="Phone">{count}</span> {count > 1 ? 'appels' : 'appel'}
 			</span>
