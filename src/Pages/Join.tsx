@@ -25,8 +25,6 @@ function Join({
 	const [ButtonDisabled, setButtonDisabled] = useState(false);
 	const [AreasComp, setAreasComp] = useState(<></>);
 
-	const navigate = useNavigate();
-
 	async function join(area: string, password: string): Promise<Campaign | undefined> {
 		try {
 			return (
@@ -38,7 +36,7 @@ function Join({
 				})
 			).data.data;
 		} catch (err: any) {
-			if (err.response.data.message === 'Wrong campaign password') {
+			if (err.response.data.message === 'Campaign not found') {
 				setErrorMessage('Clé invalide');
 			} else {
 				console.error(err);
@@ -63,7 +61,7 @@ function Join({
 				setCredentials(credentials);
 				addCampaign(newCampaign);
 
-				next ? next() : navigate('/');
+				next ? next() : useNavigate()('/');
 			}
 			setLoading(false);
 		});

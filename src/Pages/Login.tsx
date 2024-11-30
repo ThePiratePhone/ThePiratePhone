@@ -49,7 +49,6 @@ function CreateAccount({ URL }: { URL: string }) {
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
-	const navigate = useNavigate();
 
 	function getAreas() {
 		return new Promise<Array<Area> | undefined>(resolve => {
@@ -70,7 +69,7 @@ function CreateAccount({ URL }: { URL: string }) {
 	}
 
 	function connect() {
-		navigate('/');
+		useNavigate()('/');
 	}
 
 	useEffect(() => {
@@ -194,7 +193,6 @@ function LoginBoard({
 }) {
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		const credentials = getCredentials();
@@ -217,7 +215,7 @@ function LoginBoard({
 	}, [chooseArea]);
 
 	function newAccount() {
-		navigate('/NewAccount');
+		useNavigate()('/NewAccount');
 	}
 
 	function connect() {
