@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
 
 import Logo from '../Assets/Logo.svg';
 
@@ -50,6 +50,8 @@ function CreateAccount({ URL }: { URL: string }) {
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 	const [Areas, setAreas] = useState<Array<Area>>([]);
 
+	const navigate = useNavigate();
+
 	function getAreas() {
 		return new Promise<Array<Area> | undefined>(resolve => {
 			axios
@@ -66,10 +68,6 @@ function CreateAccount({ URL }: { URL: string }) {
 					resolve(undefined);
 				});
 		});
-	}
-
-	function connect() {
-		useNavigate()('/');
 	}
 
 	useEffect(() => {
@@ -97,10 +95,10 @@ function CreateAccount({ URL }: { URL: string }) {
 		axios
 			.post(URL + '/caller/createCaller', credentials)
 			.then(() => {
-				connect();
+				navigate('/');
 			})
 			.catch(err => {
-				if (err.response.data?.message) {
+				if (err.response?.data?.message) {
 					const message = err.response.data.message;
 					if (message === 'caller already exist') {
 						setErrorMessage('Numéro de téléphone déjà utilisé');
@@ -176,7 +174,7 @@ function CreateAccount({ URL }: { URL: string }) {
 			<input className="inputField" id="pin" type="tel" placeholder="Pin" maxLength={4} onKeyUp={enter} />
 			<Button value="Créer un compte" onclick={createAccount} />
 			<div className="NoAccount">
-				Déjà un compte ?<div onClick={connect}>Par ici !</div>
+				Déjà un compte ?<Link to="/">Par ici !</Link>
 			</div>
 			{ErrorMessage ?? ''}
 			{Loading ? <Loader /> : <></>}
@@ -213,10 +211,6 @@ function LoginBoard({
 			setLoading(false);
 		}
 	}, [chooseArea]);
-
-	function newAccount() {
-		useNavigate()('/NewAccount');
-	}
 
 	function connect() {
 		setLoading(true);
@@ -262,7 +256,7 @@ function LoginBoard({
 			<input className="inputField" maxLength={4} id="pin" type="tel" placeholder="Pin" onKeyUp={keyLogin} />
 			<Button value="Se connecter" onclick={connect} />
 			<div className="NoAccount">
-				Pas de compte ? <div onClick={newAccount}>Par ici !</div>
+				Pas de compte ? <Link to="/NewAccount">Par ici !</Link>
 			</div>
 			{ErrorMessage ?? <></>}
 			{Loading ? <Loader /> : <></>}
