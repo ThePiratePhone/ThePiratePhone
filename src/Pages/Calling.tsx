@@ -60,7 +60,7 @@ function Calling({
 }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
-	const client = useRef<Client>();
+	const client = useRef<Client>(undefined);
 
 	const navigate = useNavigate();
 

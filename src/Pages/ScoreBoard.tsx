@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 
 import Loader from '../Components/Loader';
 import { cleanCallingTime } from '../Utils/Cleaners';
