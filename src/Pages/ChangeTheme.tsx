@@ -18,6 +18,7 @@ function ChangeTheme({ Theme, setTheme }: { Theme: string; setTheme: (themeID: s
 
 	function cancel() {
 		setTheme(oldTheme.current);
+		setLocalTheme(oldTheme.current);
 		navigate('/Settings');
 	}
 

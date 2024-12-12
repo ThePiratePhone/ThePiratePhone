@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 import auroraurban from '../Themes/auroraurban';
 import blackandwhite from '../Themes/blackandwhite';
 import deepocean from '../Themes/deepocean';
