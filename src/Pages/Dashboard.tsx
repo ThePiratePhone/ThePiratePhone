@@ -31,16 +31,7 @@ function getCallString(calls: number) {
 			Woah. <span className="Phone">{calls}</span> appels ! Ça s'arrête jamais...
 		</>,
 		<>
-			<span className="Phone">{calls}</span> appels ! Vous êtes la preuve vivante que chaque sonnerie compte,
-			chaque parole compte, chaque appel compte !
-		</>,
-		<>
-			<span className="Phone">{calls}</span> appels ! Vous avez battu le record olympique du PiratePhone ! Qui a
-			dit que parler au téléphone ne pouvait pas être un sport ?
-		</>,
-		<>
-			<span className="Phone">{calls}</span> appels ! Vous êtes les gardiens de la ligne et les guerrières du
-			combiné ! Le monde vous écoute !
+			Déjà <span className="Phone">{calls}</span> appels ? Pas mal du tout.
 		</>
 	];
 
@@ -79,14 +70,22 @@ function Dashboard({ credentials }: { credentials: Credentials }) {
 		if (vals.totalCall <= 15) {
 			setProgress(
 				<>
-					<span className="Phone">{vals.totalCall}</span>{' '}
-					{vals.totalCall > 1 ? 'appels effectués' : 'appel effectué'}.
+					{vals.totalCall == 1 ? (
+						<>
+							<span className="Phone">1</span> appel effectué
+						</>
+					) : (
+						<>
+							<span className="Phone">{vals.totalCall}</span> appels effectués
+						</>
+					)}
+					.
 				</>
 			);
 		} else if (vals.totalCall == 1312) {
 			setProgress(
 				<>
-					<span className="Phone">{vals.totalCall}</span> Appels ! Nombre magique ! Il portera chance lors du
+					<span className="Phone">{vals.totalCall}</span> appels ! Nombre magique ! Il portera chance lors du
 					prochain appel !
 				</>
 			);
