@@ -19,6 +19,7 @@ function Join({
 	areas: Array<Campaign>;
 	next?: () => void;
 }) {
+	const navigate = useNavigate();
 	const [Areas, setAreas] = useState<Array<Area> | undefined>();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
@@ -27,17 +28,16 @@ function Join({
 
 	async function join(area: string, password: string): Promise<Campaign | undefined> {
 		try {
-			return (
-				await axios.post(credentials.URL + '/caller/joinCampaign', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					campaignPassword: password,
-					destinationArea: area
-				})
-			).data.data;
+			const res = await axios.post(credentials.URL + '/caller/joinCampaign', {
+				phone: credentials.phone,
+				pinCode: credentials.pinCode,
+				campaignPassword: password,
+				destinationArea: area
+			});
+			return res.data.data;
 		} catch (err: any) {
 			if (err.response.data.message === 'Campaign not found') {
-				setErrorMessage('Clé invalide');
+				setErrorMessage("Clé invalide, ou aucune campagne dans l'organisation");
 			} else {
 				console.error(err);
 				setErrorMessage('Une erreur est survenue');
@@ -57,13 +57,11 @@ function Join({
 
 		join(area, password).then(newCampaign => {
 			if (newCampaign) {
-				credentials.area = newCampaign.areaId;
+				credentials.campaign = newCampaign._id;
 				setCredentials(credentials);
 				addCampaign(newCampaign);
-
-				next ? next() : useNavigate()('/');
+				next ? next() : navigate('/');
 			}
-			setLoading(false);
 		});
 	}
 

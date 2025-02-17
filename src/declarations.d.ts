@@ -60,6 +60,7 @@ type Credentials = {
 	pinCode: string;
 	area: string;
 	URL: string;
+	campaign?: string;
 };
 
 type AreaCombo = {
