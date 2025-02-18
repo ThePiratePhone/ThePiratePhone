@@ -31,7 +31,7 @@ function Join({
 			const res = await axios.post(credentials.URL + '/caller/joinCampaign', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
-				campaignPassword: password,
+				areaPassword: password,
 				destinationArea: area
 			});
 			return res.data.data;
