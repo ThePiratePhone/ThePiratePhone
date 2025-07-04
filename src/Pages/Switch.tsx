@@ -3,34 +3,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 
 function Switch({
-	areas,
+	campaigns,
 	setCredentials,
 	switchCampaign,
 	credentials
 }: {
-	areas: Array<Campaign>;
-	setCredentials: (newCredentials: Credentials) => void;
-	switchCampaign: (area: Campaign) => void;
-	credentials: Credentials;
+	campaigns: Array<Campaign>;
+	setCredentials: (newCredentials: CredentialsV2) => void;
+	switchCampaign: (campaign: Campaign) => void;
+	credentials: CredentialsV2;
 }) {
 	const navigate = useNavigate();
 
 	function click() {
-		const areaId = (document.getElementById('area') as HTMLInputElement).value;
-		credentials.area = areaId;
-		const area = areas.find(val => val.areaId === areaId) as Campaign;
+		const campaignId = (document.getElementById('campaign') as HTMLInputElement).value;
+		credentials.campaign = campaignId;
+		const campaign = campaigns.find(val => val._id === campaignId) as Campaign;
 		setCredentials(credentials);
-		switchCampaign(area);
+		switchCampaign(campaign);
 		navigate('/');
 	}
 	return (
 		<div className="Dashboard">
 			<h1>Changer d'organisation</h1>
-			<select className="inputField" id="area">
-				{areas.map((area, i) => {
+			<select className="inputField" id="campaign" defaultValue={credentials.campaign}>
+				{campaigns.map((campaign, i) => {
 					return (
-						<option key={i} value={area.areaId}>
-							{area.areaName}
+						<option key={i} value={campaign._id}>
+							{campaign.name}
 						</option>
 					);
 				})}

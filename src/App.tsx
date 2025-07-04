@@ -10,13 +10,14 @@ import ChangePassword from './Pages/ChangePassword';
 import ChangeTheme from './Pages/ChangeTheme';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
-import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
-import Switch from './Pages/Switch';
 import { campaignSorter } from './Utils/Sorters';
 import { getLocalTheme } from './Utils/Storage';
+import { parseCampaign } from './Utils/Utils';
+import Switch from './Pages/Switch';
+import Join from './Pages/Join';
 
 function App({
 	caller,
@@ -26,7 +27,7 @@ function App({
 	renderLogin
 }: {
 	caller: Caller;
-	credentials: Credentials;
+	credentials: CredentialsV2;
 	campaigns: Array<Campaign>;
 	currentCampaign: Campaign;
 	renderLogin: () => void;
@@ -36,15 +37,17 @@ function App({
 	const [Theme, setTheme] = useState(getLocalTheme());
 	const [Caller, setCaller] = useState(caller);
 
+	campaigns = parseCampaign(campaigns);
+
 	function addCampaign(newCampaign: Campaign) {
 		campaigns.push(newCampaign);
+		console.log(campaigns);
+		console.log(campaigns.sort(campaignSorter));
 		campaigns = campaigns.sort(campaignSorter);
-
 		switchCampaign(newCampaign);
 	}
 
-	function changeCredentials(newCredentials: Credentials) {
-		setCredentials(newCredentials);
+	function changeCredentials(newCredentials: CredentialsV2) {
 		setCaller(cal => {
 			cal.pinCode = newCredentials.pinCode;
 			return cal;
@@ -53,9 +56,9 @@ function App({
 	}
 
 	function switchCampaign(campaign: Campaign) {
-		credentials.area = campaign.areaId;
+		credentials.campaign = campaign._id;
 		setCredentials(old => {
-			old.area = campaign.areaId;
+			old.campaign = campaign._id;
 			setCredentials(old);
 			return old;
 		});
@@ -71,7 +74,7 @@ function App({
 			path: '/Switch',
 			element: (
 				<Switch
-					areas={campaigns}
+					campaigns={campaigns}
 					setCredentials={changeCredentials}
 					switchCampaign={switchCampaign}
 					credentials={Credentials}
@@ -86,7 +89,6 @@ function App({
 					credentials={Credentials}
 					setCredentials={changeCredentials}
 					addCampaign={addCampaign}
-					areas={campaigns}
 				/>
 			)
 		},

@@ -10,7 +10,7 @@ function ChangeName({
 	caller,
 	setCaller
 }: {
-	credentials: Credentials;
+	credentials: CredentialsV2;
 	caller: Caller;
 	setCaller: (caller: Caller) => void;
 }) {
@@ -23,7 +23,7 @@ function ChangeName({
 			await axios.post(credentials.URL + '/caller/changeName', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
-				area: credentials.area,
+				campaign: credentials.campaign,
 				newName: name
 			});
 			return true;

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
 
-function Recall({ status, credentials }: { status: Array<CallStatus>; credentials: Credentials }) {
+function Recall({ status, credentials }: { status: Array<CallStatus>; credentials: CredentialsV2 }) {
 	const navigate = useNavigate();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
@@ -16,7 +16,7 @@ function Recall({ status, credentials }: { status: Array<CallStatus>; credential
 				await axios.post(credentials.URL + '/caller/validateCall', {
 					phone: credentials.phone,
 					pinCode: credentials.pinCode,
-					area: credentials.area,
+					campaign: credentials.campaign,
 					satisfaction: satisfaction,
 					status: recall,
 					phoneNumber: phone,

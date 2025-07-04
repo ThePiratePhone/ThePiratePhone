@@ -7,7 +7,7 @@ type LoginResponse = {
 	data:
 		| {
 				caller: Caller;
-				areaCombo: AreaCombo;
+				campaignAvailable: Array<Campaign>;
 		  }
 		| undefined;
 };
@@ -55,12 +55,11 @@ type Call = {
 	lastInteraction: Date;
 };
 
-type Credentials = {
+type CredentialsV2 = {
 	phone: string;
 	pinCode: string;
-	area: string;
 	URL: string;
-	campaign?: string;
+	campaign: string;
 };
 
 type AreaCombo = {
@@ -76,6 +75,7 @@ type Campaign = {
 	callHoursStart: Date | null;
 	callHoursEnd: Date | null;
 	status: Array<CallStatus>;
+	callPermited: boolean;
 };
 
 type Area = {

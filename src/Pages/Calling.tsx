@@ -8,7 +8,7 @@ import OutOfHours from '../Components/Call/OutOfHours';
 import { getCallingTime } from '../Utils/Storage';
 import { isInHours } from '../Utils/Utils';
 
-async function getNewClient(credentials: Credentials): Promise<
+async function getNewClient(credentials: CredentialsV2): Promise<
 	| {
 			status: boolean;
 			data:
@@ -54,7 +54,7 @@ function Calling({
 	campaign,
 	setCampaign
 }: {
-	credentials: Credentials;
+	credentials: CredentialsV2;
 	campaign: Campaign;
 	setCampaign: (campaign: Campaign) => void;
 }) {
@@ -67,11 +67,7 @@ function Calling({
 	useEffect(() => {
 		async function cancel() {
 			try {
-				await axios.post(credentials.URL + '/caller/giveUp', {
-					phone: credentials.phone,
-					pinCode: credentials.pinCode,
-					area: credentials.area
-				});
+				await axios.post(credentials.URL + '/caller/giveUp', credentials);
 				navigate('/');
 			} catch (err: any) {
 				if (err.response?.data?.message) {

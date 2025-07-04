@@ -9,7 +9,7 @@ function Header({ areaName }: { areaName: string }) {
 	const LINKS = [
 		{ value: 'Accueil', link: '/' },
 		{ value: 'ScoreBoard', link: '/ScoreBoard' },
-		{ value: "Changer d'organisation", link: '/Switch' },
+		{ value: 'Changer de campagne', link: '/Switch' },
 		{ value: 'Paramètres', link: '/Settings' }
 	];
 
