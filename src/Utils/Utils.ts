@@ -6,10 +6,20 @@ function isInHours(campaign: Campaign) {
 	if (!campaign.callHoursStart || !campaign.callHoursEnd) return true;
 
 	const callHoursStart = new Date();
-	callHoursStart.setHours(campaign.callHoursStart.getHours(), campaign.callHoursStart.getMinutes(), 0, 0);
+	callHoursStart.setHours(
+		new Date(campaign.callHoursStart).getHours(),
+		new Date(campaign.callHoursStart).getMinutes(),
+		0,
+		0
+	);
 
 	const callHoursEnd = new Date();
-	callHoursEnd.setHours(campaign.callHoursEnd.getHours(), campaign.callHoursEnd.getMinutes(), 0, 0);
+	callHoursEnd.setHours(
+		new Date(campaign.callHoursEnd).getHours(),
+		new Date(campaign.callHoursEnd).getMinutes(),
+		0,
+		0
+	);
 
 	return now > callHoursStart && now < callHoursEnd;
 }

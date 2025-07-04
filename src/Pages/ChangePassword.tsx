@@ -9,8 +9,8 @@ function ChangePassword({
 	credentials,
 	setCredentials
 }: {
-	credentials: Credentials;
-	setCredentials: (credentials: Credentials) => void;
+	credentials: Credentials | CredentialsV2;
+	setCredentials: (credentials: Credentials | CredentialsV2) => void;
 }) {
 	const [Loading, setLoading] = useState(false);
 
@@ -21,7 +21,7 @@ function ChangePassword({
 			await axios.post(credentials.URL + '/caller/changePassword', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
-				area: credentials.area,
+				campaign: credentials.campaign,
 				newPin: pinCode
 			});
 			return true;

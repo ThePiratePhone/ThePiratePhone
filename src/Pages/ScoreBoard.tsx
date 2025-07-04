@@ -31,22 +31,14 @@ function ScoreElement({
 	);
 }
 
-function ScoreBoard({ credentials }: { credentials: Credentials }) {
+function ScoreBoard({ credentials }: { credentials: Credentials | CredentialsV2 }) {
 	const [ScoreBoard, setScoreBoard] = useState<Array<JSX.Element> | undefined>(undefined);
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
 	async function getScore(): Promise<ScoreBoard | undefined> {
 		try {
-			return (
-				(
-					await axios.post(credentials.URL + '/otherCaller/scoreBoard', {
-						area: credentials.area,
-						phone: credentials.phone,
-						pinCode: credentials.pinCode
-					})
-				).data ?? undefined
-			);
+			return (await axios.post(credentials.URL + '/otherCaller/scoreBoard', credentials)).data ?? undefined;
 		} catch (err: any) {
 			console.error(err);
 			return undefined;

@@ -10,13 +10,12 @@ import ChangePassword from './Pages/ChangePassword';
 import ChangeTheme from './Pages/ChangeTheme';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
-import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
-import Switch from './Pages/Switch';
 import { campaignSorter } from './Utils/Sorters';
 import { getLocalTheme } from './Utils/Storage';
+import { parseCampaign } from './Utils/Utils';
 
 function App({
 	caller,
@@ -26,7 +25,7 @@ function App({
 	renderLogin
 }: {
 	caller: Caller;
-	credentials: Credentials;
+	credentials: Credentials | CredentialsV2;
 	campaigns: Array<Campaign>;
 	currentCampaign: Campaign;
 	renderLogin: () => void;
@@ -36,14 +35,16 @@ function App({
 	const [Theme, setTheme] = useState(getLocalTheme());
 	const [Caller, setCaller] = useState(caller);
 
+	campaigns = parseCampaign(campaigns);
+
 	function addCampaign(newCampaign: Campaign) {
 		campaigns.push(newCampaign);
 		campaigns = campaigns.sort(campaignSorter);
 
-		switchCampaign(newCampaign);
+		// switchCampaign(newCampaign);
 	}
 
-	function changeCredentials(newCredentials: Credentials) {
+	function changeCredentials(newCredentials: Credentials | CredentialsV2) {
 		setCredentials(newCredentials);
 		setCaller(cal => {
 			cal.pinCode = newCredentials.pinCode;
@@ -53,9 +54,9 @@ function App({
 	}
 
 	function switchCampaign(campaign: Campaign) {
-		credentials.area = campaign.areaId;
+		credentials.campaign = campaign._id;
 		setCredentials(old => {
-			old.area = campaign.areaId;
+			old.campaign = campaign._id;
 			setCredentials(old);
 			return old;
 		});
@@ -67,29 +68,29 @@ function App({
 			path: '/',
 			element: <Dashboard credentials={Credentials} />
 		},
-		{
-			path: '/Switch',
-			element: (
-				<Switch
-					areas={campaigns}
-					setCredentials={changeCredentials}
-					switchCampaign={switchCampaign}
-					credentials={Credentials}
-				/>
-			)
-		},
-		{
-			path: '/Join',
-			element: (
-				<Join
-					next={undefined}
-					credentials={Credentials}
-					setCredentials={changeCredentials}
-					addCampaign={addCampaign}
-					areas={campaigns}
-				/>
-			)
-		},
+		// {
+		// 	path: '/Switch',
+		// 	element: (
+		// 		<Switch
+		// 			areas={campaigns}
+		// 			setCredentials={changeCredentials}
+		// 			switchCampaign={switchCampaign}
+		// 			credentials={Credentials}
+		// 		/>
+		// 	)
+		// },
+		// {
+		// 	path: '/Join',
+		// 	element: (
+		// 		<Join
+		// 			next={undefined}
+		// 			credentials={Credentials}
+		// 			setCredentials={changeCredentials}
+		// 			addCampaign={addCampaign}
+		// 			areas={campaigns}
+		// 		/>
+		// 	)
+		// },
 		{
 			path: '/Calling',
 			element: <Calling setCampaign={setCurrentCampaign} campaign={CurrentCampaign} credentials={Credentials} />

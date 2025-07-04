@@ -2,7 +2,7 @@ function getCredentials() {
 	return JSON.parse(window.localStorage.getItem('credentials') as string) as Credentials;
 }
 
-function setCredentials(credentials: Credentials) {
+function setCredentials(credentials: Credentials | CredentialsV2) {
 	window.localStorage.setItem('credentials', JSON.stringify(credentials));
 }
 
@@ -16,6 +16,13 @@ function setLocalTheme(theme: string) {
 
 function clearCredentials() {
 	window.localStorage.removeItem('credentials');
+}
+
+function setPreferedCampaign(campaign: Campaign) {
+	window.localStorage.setItem('preferedCampaign', JSON.stringify(campaign._id));
+}
+function getPreferedCampaign(): string {
+	return JSON.parse(window.localStorage.getItem('preferedCampaign') as string);
 }
 
 function getCallingTime() {
@@ -41,5 +48,7 @@ export {
 	getLocalTheme,
 	saveCallingTime,
 	setCredentials,
-	setLocalTheme
+	setLocalTheme,
+	setPreferedCampaign,
+	getPreferedCampaign
 };

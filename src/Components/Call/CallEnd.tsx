@@ -15,7 +15,7 @@ function CallEnd({
 }: {
 	client: Client;
 	time: number;
-	credentials: Credentials;
+	credentials: Credentials | CredentialsV2;
 	nextCall: () => void;
 	status: Array<CallStatus>;
 }) {
@@ -45,7 +45,7 @@ function CallEnd({
 			await axios.post(credentials.URL + '/caller/endCall', {
 				phone: credentials.phone,
 				pinCode: credentials.pinCode,
-				area: credentials.area,
+				campaign: credentials.campaign,
 				timeInCall: time,
 				comment: comment,
 				satisfaction: satisfaction,
@@ -64,11 +64,7 @@ function CallEnd({
 
 	async function cancel() {
 		try {
-			await axios.post(credentials.URL + '/caller/giveUp', {
-				phone: credentials.phone,
-				pinCode: credentials.pinCode,
-				area: credentials.area
-			});
+			await axios.post(credentials.URL + '/caller/giveUp', credentials);
 			return true;
 		} catch (err: any) {
 			console.error(err);

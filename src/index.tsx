@@ -12,10 +12,14 @@ import './declarations.d.ts';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const URL = 'https://pp.mpqa.fr/api';
-
-function renderApp(caller: Caller, credentials: Credentials, campaigns: Array<Campaign>, campaign: Campaign) {
-	credentials.URL = URL;
+const ApiUrl = 'http://localhost:8081';
+function renderApp(
+	caller: Caller,
+	credentials: Credentials | CredentialsV2,
+	campaigns: Array<Campaign>,
+	campaign: Campaign
+) {
+	credentials.URL = ApiUrl;
 	root.render(
 		<App
 			currentCampaign={campaign}
@@ -27,34 +31,8 @@ function renderApp(caller: Caller, credentials: Credentials, campaigns: Array<Ca
 	);
 }
 
-function chooseArea(caller: Caller, credentials: { phone: string; pinCode: string }, areas: AreaCombo) {
-	function callback(campaign: Campaign) {
-		const newCredentials = {
-			phone: credentials.phone,
-			pinCode: credentials.pinCode,
-			area: campaign.areaId,
-			URL: URL
-		};
-		setCredentials(newCredentials);
-		renderApp(caller, newCredentials, areas.campaignAvailable, campaign);
-	}
-
-	if (areas.campaignAvailable.length === 1) {
-		callback(areas.campaignAvailable[0]);
-	}
-
-	const newCredentials = {
-		phone: credentials.phone,
-		pinCode: credentials.pinCode,
-		URL: URL,
-		area: areas.area._id
-	};
-
-	root.render(<Choose credentials={newCredentials} renderApp={callback} areas={areas.campaignAvailable} />);
-}
-
 function renderLogin() {
-	root.render(<LoginPage URL={URL} chooseArea={chooseArea} />);
+	root.render(<LoginPage renderApp={renderApp} />);
 }
 
 if (mobileCheck()) {
@@ -64,3 +42,4 @@ if (mobileCheck()) {
 		<div className="DesktopHomePage">Cette application n'est pas disponible sur PC. Rendez-vous sur mobile !</div>
 	);
 }
+export default ApiUrl;
