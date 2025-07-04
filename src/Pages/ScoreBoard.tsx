@@ -31,7 +31,7 @@ function ScoreElement({
 	);
 }
 
-function ScoreBoard({ credentials }: { credentials: Credentials | CredentialsV2 }) {
+function ScoreBoard({ credentials }: { credentials: CredentialsV2 }) {
 	const [ScoreBoard, setScoreBoard] = useState<Array<JSX.Element> | undefined>(undefined);
 	const [Loading, setLoading] = useState(true);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);

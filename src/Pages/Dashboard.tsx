@@ -65,7 +65,7 @@ function getCallString(calls: ProgressResponse) {
 	return VALUES[getRandom(0, VALUES.length - 1)];
 }
 
-async function getProgress(credentials: Credentials | CredentialsV2): Promise<ProgressResponse | string | undefined> {
+async function getProgress(credentials: CredentialsV2): Promise<ProgressResponse | string | undefined> {
 	try {
 		return (await axios.post(credentials.URL + '/caller/getProgress', credentials)).data.data;
 	} catch (err: any) {
@@ -78,7 +78,7 @@ async function getProgress(credentials: Credentials | CredentialsV2): Promise<Pr
 	}
 }
 
-function Dashboard({ credentials }: { credentials: Credentials | CredentialsV2 }) {
+function Dashboard({ credentials }: { credentials: CredentialsV2 }) {
 	const [Progress, setProgress] = useState(<></>);
 
 	function DynamicProgress(vals: string | ProgressResponse) {

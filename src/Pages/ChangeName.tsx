@@ -10,7 +10,7 @@ function ChangeName({
 	caller,
 	setCaller
 }: {
-	credentials: Credentials | CredentialsV2;
+	credentials: CredentialsV2;
 	caller: Caller;
 	setCaller: (caller: Caller) => void;
 }) {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
 
-function Recall({ status, credentials }: { status: Array<CallStatus>; credentials: Credentials | CredentialsV2 }) {
+function Recall({ status, credentials }: { status: Array<CallStatus>; credentials: CredentialsV2 }) {
 	const navigate = useNavigate();
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);

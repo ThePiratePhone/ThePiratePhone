@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
-import { setPreferedCampaign } from '../Utils/Storage';
+import { setPreferredCampaign } from '../Utils/Storage';
 
 function Join({
 	credentials,
@@ -12,8 +12,8 @@ function Join({
 	addCampaign,
 	next
 }: {
-	credentials: Credentials | CredentialsV2;
-	setCredentials: (newCredentials: Credentials | CredentialsV2) => void;
+	credentials: CredentialsV2;
+	setCredentials: (newCredentials: CredentialsV2) => void;
 	addCampaign: (newCampaign: Campaign) => void;
 	next?: () => void;
 }) {
@@ -61,7 +61,7 @@ function Join({
 			if (newCampaign) {
 				credentials.campaign = newCampaign._id;
 				setCredentials(credentials);
-				setPreferedCampaign(newCampaign);
+				setPreferredCampaign(newCampaign);
 				addCampaign(newCampaign);
 				next ? next() : navigate('/');
 			}

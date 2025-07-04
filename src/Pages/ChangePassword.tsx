@@ -9,8 +9,8 @@ function ChangePassword({
 	credentials,
 	setCredentials
 }: {
-	credentials: Credentials | CredentialsV2;
-	setCredentials: (credentials: Credentials | CredentialsV2) => void;
+	credentials: CredentialsV2;
+	setCredentials: (credentials: CredentialsV2) => void;
 }) {
 	const [Loading, setLoading] = useState(false);
 

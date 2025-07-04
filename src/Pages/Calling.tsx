@@ -8,7 +8,7 @@ import OutOfHours from '../Components/Call/OutOfHours';
 import { getCallingTime } from '../Utils/Storage';
 import { isInHours } from '../Utils/Utils';
 
-async function getNewClient(credentials: Credentials | CredentialsV2): Promise<
+async function getNewClient(credentials: CredentialsV2): Promise<
 	| {
 			status: boolean;
 			data:
@@ -54,7 +54,7 @@ function Calling({
 	campaign,
 	setCampaign
 }: {
-	credentials: Credentials | CredentialsV2;
+	credentials: CredentialsV2;
 	campaign: Campaign;
 	setCampaign: (campaign: Campaign) => void;
 }) {

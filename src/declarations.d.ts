@@ -55,14 +55,6 @@ type Call = {
 	lastInteraction: Date;
 };
 
-type Credentials = {
-	phone: string;
-	pinCode: string;
-	area: string;
-	URL: string;
-	campaign?: string;
-};
-
 type CredentialsV2 = {
 	phone: string;
 	pinCode: string;

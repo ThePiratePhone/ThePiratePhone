@@ -15,7 +15,7 @@ function CallEnd({
 }: {
 	client: Client;
 	time: number;
-	credentials: Credentials | CredentialsV2;
+	credentials: CredentialsV2;
 	nextCall: () => void;
 	status: Array<CallStatus>;
 }) {

@@ -27,7 +27,7 @@ function App({
 	renderLogin
 }: {
 	caller: Caller;
-	credentials: Credentials | CredentialsV2;
+	credentials: CredentialsV2;
 	campaigns: Array<Campaign>;
 	currentCampaign: Campaign;
 	renderLogin: () => void;
@@ -47,8 +47,7 @@ function App({
 		switchCampaign(newCampaign);
 	}
 
-	function changeCredentials(newCredentials: Credentials | CredentialsV2) {
-		setCredentials(newCredentials);
+	function changeCredentials(newCredentials: CredentialsV2) {
 		setCaller(cal => {
 			cal.pinCode = newCredentials.pinCode;
 			return cal;

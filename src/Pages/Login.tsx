@@ -11,12 +11,12 @@ import Loader from '../Components/Loader';
 import {
 	clearCredentials,
 	getCredentials,
-	getPreferedCampaign,
+	getPreferredCampaign,
 	setCredentials,
-	setPreferedCampaign
+	setPreferredCampaign
 } from '../Utils/Storage';
 import { parseCampaign } from '../Utils/Utils';
-function login(credentials: Credentials | CredentialsV2): Promise<LoginResponse> {
+function login(credentials: CredentialsV2): Promise<LoginResponse> {
 	return new Promise<LoginResponse>(resolve => {
 		axios
 			.post(credentials.URL + '/caller/login', {
@@ -53,36 +53,31 @@ function testOldToken(URL: string) {
 function LoginBoard({
 	renderApp
 }: {
-	renderApp: (
-		caller: Caller,
-		credentials: Credentials | CredentialsV2,
-		campaigns: Array<Campaign>,
-		campaign: Campaign
-	) => void;
+	renderApp: (caller: Caller, credentials: CredentialsV2, campaigns: Array<Campaign>, campaign: Campaign) => void;
 }) {
 	const [Loading, setLoading] = useState(false);
 	const [ErrorMessage, setErrorMessage] = useState<string | null>(null);
 
 	useEffect(() => {
 		const credentials = getCredentials();
-		const preferedCampaignId = getPreferedCampaign();
-		console.log(credentials, preferedCampaignId);
+		const preferredCampaignId = getPreferredCampaign();
+		console.log(credentials, preferredCampaignId);
 
-		if (credentials && preferedCampaignId) {
+		if (credentials && preferredCampaignId) {
 			testOldToken(ApiUrl).then(result => {
-				const preferedCampaign = result?.data?.campaignAvailable.find(el => el._id == preferedCampaignId);
-				console.log(preferedCampaign, result);
-				if (result.OK && result.data && preferedCampaign) {
+				const preferredCampaign = result?.data?.campaignAvailable.find(el => el._id == preferredCampaignId);
+				console.log(preferredCampaign, result);
+				if (result.OK && result.data && preferredCampaign) {
 					result.data.caller.pinCode = credentials.pinCode;
 
-					renderApp(result.data.caller, credentials, result.data.campaignAvailable, preferedCampaign);
+					renderApp(result.data.caller, credentials, result.data.campaignAvailable, preferredCampaign);
 				} else {
 					clearCredentials();
 					setLoading(false);
 				}
 			});
 		}
-	});
+	}, []);
 
 	function connect() {
 		setLoading(true);
@@ -109,7 +104,7 @@ function LoginBoard({
 						};
 						setCredentials(newCredentials);
 
-						const preferedCampaignId = getPreferedCampaign();
+						const preferedCampaignId = getPreferredCampaign();
 						if (preferedCampaignId) {
 							const preferedCampaign = campaignAvailable.find(el => el._id == preferedCampaignId);
 							if (preferedCampaign) {
@@ -117,7 +112,7 @@ function LoginBoard({
 								renderApp(data.caller, newCredentials, campaignAvailable, preferedCampaign);
 							} else {
 								const newPrefered = campaignAvailable.find(el => el.callPermited);
-								setPreferedCampaign(newPrefered ? newPrefered : campaignAvailable[0]);
+								setPreferredCampaign(newPrefered ? newPrefered : campaignAvailable[0]);
 								renderApp(
 									data.caller,
 									newCredentials,
@@ -126,13 +121,13 @@ function LoginBoard({
 								);
 							}
 						} else {
-							const newPrefered = campaignAvailable.find(el => el.callPermited);
-							setPreferedCampaign(newPrefered ? newPrefered : campaignAvailable[0]);
+							const newPreferred = campaignAvailable.find(el => el.callPermited);
+							setPreferredCampaign(newPreferred ? newPreferred : campaignAvailable[0]);
 							renderApp(
 								data.caller,
 								newCredentials,
 								campaignAvailable,
-								newPrefered ? newPrefered : campaignAvailable[0]
+								newPreferred ? newPreferred : campaignAvailable[0]
 							);
 						}
 					} else {
@@ -212,7 +207,7 @@ function CreateAccount() {
 			.then(res => {
 				setLoading(false);
 				if (res.status == 200 && res.data.data) {
-					setPreferedCampaign(res.data.data.campaign.id);
+					setPreferredCampaign(res.data.data.campaign.id);
 					navigate('/');
 				} else {
 					setErrorMessage('Une erreur est survenue');
@@ -303,12 +298,7 @@ function CreateAccount() {
 function LoginPage({
 	renderApp
 }: {
-	renderApp: (
-		caller: Caller,
-		credentials: Credentials | CredentialsV2,
-		campaigns: Array<Campaign>,
-		campaign: Campaign
-	) => void;
+	renderApp: (caller: Caller, credentials: CredentialsV2, campaigns: Array<Campaign>, campaign: Campaign) => void;
 }) {
 	return (
 		<BrowserRouter>

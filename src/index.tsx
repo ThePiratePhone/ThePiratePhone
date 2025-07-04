@@ -10,13 +10,8 @@ import './declarations.d.ts';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const ApiUrl = 'http://localhost:8081';
-function renderApp(
-	caller: Caller,
-	credentials: Credentials | CredentialsV2,
-	campaigns: Array<Campaign>,
-	campaign: Campaign
-) {
+const ApiUrl = 'https://api.pp.qamp.fr';
+function renderApp(caller: Caller, credentials: CredentialsV2, campaigns: Array<Campaign>, campaign: Campaign) {
 	credentials.URL = ApiUrl;
 	root.render(
 		<App

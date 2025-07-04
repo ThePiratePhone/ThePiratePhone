@@ -9,9 +9,9 @@ function Switch({
 	credentials
 }: {
 	campaigns: Array<Campaign>;
-	setCredentials: (newCredentials: Credentials | CredentialsV2) => void;
+	setCredentials: (newCredentials: CredentialsV2) => void;
 	switchCampaign: (campaign: Campaign) => void;
-	credentials: Credentials | CredentialsV2;
+	credentials: CredentialsV2;
 }) {
 	const navigate = useNavigate();
 
