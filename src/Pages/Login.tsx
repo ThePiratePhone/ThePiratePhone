@@ -207,7 +207,7 @@ function CreateAccount() {
 			.then(res => {
 				setLoading(false);
 				if (res.status == 200 && res.data.data) {
-					setPreferredCampaign(res.data.data.campaign.id);
+					setPreferredCampaign(parseCampaign(res.data.data.campaign)[0]);
 					navigate('/');
 				} else {
 					setErrorMessage('Une erreur est survenue');
