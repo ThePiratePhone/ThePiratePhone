@@ -492,17 +492,19 @@ h2 {
 }
 
 .Dashboard {
-	padding: 2vh 0;
+	padding: 2vh;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 2vh;
+	text-align: center;
 }
 
-.Dashboard {
-	text-align: center;
+.Dashboard > p {
+	width: 70%;
+	text-align: justify;
 }
 
 .AreaSelector {

@@ -16,6 +16,8 @@ import Settings from './Pages/Settings';
 import { campaignSorter } from './Utils/Sorters';
 import { getLocalTheme } from './Utils/Storage';
 import { parseCampaign } from './Utils/Utils';
+import Switch from './Pages/Switch';
+import Join from './Pages/Join';
 
 function App({
 	caller,
@@ -39,9 +41,10 @@ function App({
 
 	function addCampaign(newCampaign: Campaign) {
 		campaigns.push(newCampaign);
+		console.log(campaigns);
+		console.log(campaigns.sort(campaignSorter));
 		campaigns = campaigns.sort(campaignSorter);
-
-		// switchCampaign(newCampaign);
+		switchCampaign(newCampaign);
 	}
 
 	function changeCredentials(newCredentials: Credentials | CredentialsV2) {
@@ -68,29 +71,28 @@ function App({
 			path: '/',
 			element: <Dashboard credentials={Credentials} />
 		},
-		// {
-		// 	path: '/Switch',
-		// 	element: (
-		// 		<Switch
-		// 			areas={campaigns}
-		// 			setCredentials={changeCredentials}
-		// 			switchCampaign={switchCampaign}
-		// 			credentials={Credentials}
-		// 		/>
-		// 	)
-		// },
-		// {
-		// 	path: '/Join',
-		// 	element: (
-		// 		<Join
-		// 			next={undefined}
-		// 			credentials={Credentials}
-		// 			setCredentials={changeCredentials}
-		// 			addCampaign={addCampaign}
-		// 			areas={campaigns}
-		// 		/>
-		// 	)
-		// },
+		{
+			path: '/Switch',
+			element: (
+				<Switch
+					campaigns={campaigns}
+					setCredentials={changeCredentials}
+					switchCampaign={switchCampaign}
+					credentials={Credentials}
+				/>
+			)
+		},
+		{
+			path: '/Join',
+			element: (
+				<Join
+					next={undefined}
+					credentials={Credentials}
+					setCredentials={changeCredentials}
+					addCampaign={addCampaign}
+				/>
+			)
+		},
 		{
 			path: '/Calling',
 			element: <Calling setCampaign={setCurrentCampaign} campaign={CurrentCampaign} credentials={Credentials} />

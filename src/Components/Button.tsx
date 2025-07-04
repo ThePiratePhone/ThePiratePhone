@@ -16,13 +16,17 @@ function Button({
 	if (link) {
 		return (
 			<Link className={type !== '' ? 'Button ' + type : 'Button'} to={link} onClick={onclick}>
-				<button type={isSubmit ? 'submit' : 'button'}>{value}</button>
+				<button disabled={type === 'ButtonDisabled'} type={isSubmit ? 'submit' : 'button'}>
+					{value}
+				</button>
 			</Link>
 		);
 	} else {
 		return (
 			<div className={type ? 'Button ' + type : 'Button'} onClick={onclick}>
-				<button type={isSubmit ? 'submit' : 'button'}>{value}</button>
+				<button disabled={type === 'ButtonDisabled'} type={isSubmit ? 'submit' : 'button'}>
+					{value}
+				</button>
 			</div>
 		);
 	}

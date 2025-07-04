@@ -1,9 +1,7 @@
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import Choose from './Pages/Choose';
 import LoginPage from './Pages/Login';
-import { setCredentials } from './Utils/Storage';
 import { mobileCheck } from './Utils/Utils';
 
 import './Stylesheets/index.scss';
