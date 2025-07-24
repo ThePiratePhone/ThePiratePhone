@@ -61,6 +61,7 @@ function App({
 			return old;
 		});
 		setCurrentCampaign(campaign);
+		setPreferredCampaign(campaign);
 	}
 
 	const ELEMENTS = [
