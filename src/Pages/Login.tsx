@@ -66,7 +66,6 @@ function LoginBoard({
 		if (credentials && preferredCampaignId) {
 			testOldToken(ApiUrl).then(result => {
 				const preferredCampaign = result?.data?.campaignAvailable.find(el => el._id == preferredCampaignId);
-				console.log(preferredCampaign, result);
 				if (result.OK && result.data && preferredCampaign) {
 					result.data.caller.pinCode = credentials.pinCode;
 

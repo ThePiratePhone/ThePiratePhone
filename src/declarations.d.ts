@@ -36,12 +36,19 @@ type CallStatus = {
 type Satisfaction = 0 | 1 | 2 | 3 | 4;
 
 type Client = {
-	name: string;
+	_id: string;
+	name: stirng;
 	firstname: string;
 	phone: string;
-	institution: string | null;
-	createdAt: Date;
-	campaigns: Array<Campaign>;
+	area: string;
+	priority:
+		| [
+				{
+					campaign: String;
+					id: String;
+				}
+		  ]
+		| undefined;
 };
 
 type Call = {

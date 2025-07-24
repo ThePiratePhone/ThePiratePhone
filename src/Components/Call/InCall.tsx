@@ -7,18 +7,19 @@ import Script from './Script';
 function InCall({
 	client,
 	script,
+	priority,
 	callHistory,
 	endCall,
 	cancel
 }: {
 	client: Client;
 	script: string;
+	priority: string;
 	callHistory: Array<Call>;
 	endCall: () => void;
 	cancel: () => void;
 }) {
 	saveCallingTime();
-
 	return (
 		<>
 			<div className="CallingHeader">
@@ -27,7 +28,10 @@ function InCall({
 					<Button value="Fin d'appel" onclick={endCall} />
 				</div>
 				<div className="User">
-					<h2 className="UserName">{client.name}</h2>
+					<h2 className="UserName">
+						{client.name} {client.firstname}
+					</h2>
+					<h2 className="priority">{priority}</h2>
 					<a href={'tel:' + client.phone} className="Button">
 						<div className="Phone">{cleanNumber(client.phone)}</div>
 						<button>Appeler</button>

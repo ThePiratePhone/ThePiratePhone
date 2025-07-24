@@ -19,6 +19,7 @@ async function getNewClient(credentials: CredentialsV2): Promise<
 						callHistory: Array<Call>;
 						campaignCallStart: number;
 						campaignCallEnd: number;
+						priority: string;
 				  }
 				| undefined;
 	  }
@@ -97,6 +98,7 @@ function Calling({
 									<InCall
 										client={client.current}
 										script={result.data.script}
+										priority={result.data.priority}
 										callHistory={result.data.callHistory}
 										endCall={() => endCall()}
 										cancel={cancel}

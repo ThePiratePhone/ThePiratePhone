@@ -9,7 +9,7 @@
 		"sass": "^1.84.0"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "react-scripts start ",
 		"build": "react-scripts build",
 		"deploy": "ssh Dave rm -r /var/www/piratephone/* && scp -r build/* Dave:/var/www/piratephone/"
 	},

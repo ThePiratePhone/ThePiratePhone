@@ -14,7 +14,7 @@ import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
 import { campaignSorter } from './Utils/Sorters';
-import { getLocalTheme } from './Utils/Storage';
+import { getLocalTheme, setPreferredCampaign } from './Utils/Storage';
 import { parseCampaign } from './Utils/Utils';
 import Switch from './Pages/Switch';
 import Join from './Pages/Join';
@@ -41,8 +41,6 @@ function App({
 
 	function addCampaign(newCampaign: Campaign) {
 		campaigns.push(newCampaign);
-		console.log(campaigns);
-		console.log(campaigns.sort(campaignSorter));
 		campaigns = campaigns.sort(campaignSorter);
 		switchCampaign(newCampaign);
 	}
