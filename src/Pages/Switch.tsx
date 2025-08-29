@@ -14,6 +14,7 @@ function Switch({
 	credentials: CredentialsV2;
 }) {
 	const navigate = useNavigate();
+	console.log(credentials.campaign);
 
 	function click() {
 		const campaignId = (document.getElementById('campaign') as HTMLInputElement).value;
@@ -28,6 +29,7 @@ function Switch({
 			<h1>Changer d'organisation</h1>
 			<select className="inputField" id="campaign" defaultValue={credentials.campaign}>
 				{campaigns.map((campaign, i) => {
+					console.log(campaign);
 					return (
 						<option key={i} value={campaign._id}>
 							{campaign.name}

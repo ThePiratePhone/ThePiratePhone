@@ -47,19 +47,19 @@ function App({
 
 	function changeCredentials(newCredentials: CredentialsV2) {
 		setCaller(cal => {
-			cal.pinCode = newCredentials.pinCode;
-			return cal;
+			return { ...cal, pinCode: newCredentials.pinCode };
 		});
-		setCredentials(newCredentials);
+		setCredentials(prevCredentials => ({
+			...prevCredentials,
+			...newCredentials
+		}));
 	}
 
 	function switchCampaign(campaign: Campaign) {
-		credentials.campaign = campaign._id;
-		setCredentials(old => {
-			old.campaign = campaign._id;
-			setCredentials(old);
-			return old;
-		});
+		setCredentials(old => ({
+			...old,
+			campaign: campaign._id
+		}));
 		setCurrentCampaign(campaign);
 		setPreferredCampaign(campaign);
 	}

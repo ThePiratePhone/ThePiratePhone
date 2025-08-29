@@ -84,6 +84,8 @@ function CallEnd({
 			<div className="CallingButtons">
 				<select className="inputField" id="satisfaction" defaultValue={1}>
 					{status.map((value, i) => {
+						if (value.name.startsWith('[hide]')) return;
+
 						return (
 							<option key={i} value={value.name}>
 								{value.name}
