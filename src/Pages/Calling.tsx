@@ -20,6 +20,7 @@ async function getNewClient(credentials: CredentialsV2): Promise<
 						campaignCallStart: number;
 						campaignCallEnd: number;
 						priority: string;
+						smsScript: string | undefined;
 				  }
 				| undefined;
 	  }
@@ -53,11 +54,13 @@ async function getNewClient(credentials: CredentialsV2): Promise<
 function Calling({
 	credentials,
 	campaign,
-	setCampaign
+	setCampaign,
+	caller
 }: {
 	credentials: CredentialsV2;
 	campaign: Campaign;
 	setCampaign: (campaign: Campaign) => void;
+	caller: Caller;
 }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
 
@@ -92,7 +95,7 @@ function Calling({
 								setCampaign(campaign);
 							}
 							if (!result.status) {
-								endCall();
+								endCall(result.data.smsScript);
 							} else {
 								setPage(
 									<InCall
@@ -100,7 +103,7 @@ function Calling({
 										script={result.data.script}
 										priority={result.data.priority}
 										callHistory={result.data.callHistory}
-										endCall={() => endCall()}
+										endCall={() => endCall(result.data?.smsScript)}
 										cancel={cancel}
 									/>
 								);
@@ -126,7 +129,7 @@ function Calling({
 			}
 		}
 
-		function endCall() {
+		function endCall(smsScript: string | undefined) {
 			if (client.current) {
 				const time = getCallingTime();
 				setPage(
@@ -135,7 +138,9 @@ function Calling({
 						client={client.current}
 						status={campaign.status}
 						time={time ?? 0}
+						caller={caller}
 						nextCall={getNextClient}
+						smsScript={smsScript}
 					/>
 				);
 			}

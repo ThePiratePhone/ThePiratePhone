@@ -83,6 +83,7 @@ type Campaign = {
 	callHoursEnd: Date | null;
 	status: Array<CallStatus>;
 	callPermited: boolean;
+	smsScript: boolean;
 };
 
 type Area = {

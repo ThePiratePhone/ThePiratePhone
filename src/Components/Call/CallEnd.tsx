@@ -8,16 +8,20 @@ import Loader from '../Loader';
 
 function CallEnd({
 	client,
+	caller,
 	time,
 	credentials,
 	nextCall,
-	status
+	status,
+	smsScript
 }: {
 	client: Client;
+	caller: Caller;
 	time: number;
 	credentials: CredentialsV2;
 	nextCall: () => void;
 	status: Array<CallStatus>;
+	smsScript: string | undefined;
 }) {
 	const [Loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -72,6 +76,12 @@ function CallEnd({
 		}
 	}
 
+	function cleanSms(smsScript: string) {
+		smsScript = smsScript.replace('(clientName)', client.name);
+		smsScript = smsScript.replace('(clientFisrtName)', client.firstname);
+		smsScript = smsScript.replace('(callerName)', caller.name);
+		return smsScript;
+	}
 	return (
 		<div className="CallingEndContainer">
 			<div className="CallingEnded">
@@ -94,7 +104,18 @@ function CallEnd({
 					})}
 				</select>
 				<textarea className="inputField comment" placeholder="Commentaire" id="comment"></textarea>
-				<Button value="Confirmer" onclick={click} />
+				{smsScript != undefined ? (
+					<a
+						className={'ButtonClass'}
+						href={'sms:' + client.phone + '&body=' + cleanSms(smsScript)}
+						onClick={click}
+					>
+						envoyer un sms et confirmé
+					</a>
+				) : (
+					<></>
+				)}
+				<Button value={smsScript == undefined ? 'confirmé' : 'confirmé seulent'} onclick={click} />
 				<Button
 					value="Annuler"
 					onclick={() => {

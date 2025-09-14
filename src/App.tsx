@@ -93,7 +93,14 @@ function App({
 		},
 		{
 			path: '/Calling',
-			element: <Calling setCampaign={setCurrentCampaign} campaign={CurrentCampaign} credentials={Credentials} />
+			element: (
+				<Calling
+					setCampaign={setCurrentCampaign}
+					campaign={CurrentCampaign}
+					credentials={Credentials}
+					caller={caller}
+				/>
+			)
 		},
 		{
 			path: '/Recall',

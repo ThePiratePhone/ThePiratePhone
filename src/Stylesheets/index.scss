@@ -109,7 +109,8 @@ h2 {
 	width: fit-content;
 }
 
-.Button > button {
+.Button > button,
+.ButtonClass {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
