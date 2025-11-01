@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.b34a7a98.css",
-    "main.js": "/static/js/main.d80a3f5d.js",
+    "main.js": "/static/js/main.bf3208e3.js",
     "static/media/Montserrat.ttf": "/static/media/Montserrat.7e687123cd4528224ce5.ttf",
     "static/media/Raleway.ttf": "/static/media/Raleway.e14d84ccec6be3ff19e3.ttf",
     "static/media/Phudu.ttf": "/static/media/Phudu.a15bfdc97badc7b52c50.ttf",
     "static/media/Logo.svg": "/static/media/Logo.45ececdb4d970ce2cbea9eaae3384913.svg",
     "index.html": "/index.html",
     "main.b34a7a98.css.map": "/static/css/main.b34a7a98.css.map",
-    "main.d80a3f5d.js.map": "/static/js/main.d80a3f5d.js.map"
+    "main.bf3208e3.js.map": "/static/js/main.bf3208e3.js.map"
   },
   "entrypoints": [
     "static/css/main.b34a7a98.css",
-    "static/js/main.d80a3f5d.js"
+    "static/js/main.bf3208e3.js"
   ]
 }
