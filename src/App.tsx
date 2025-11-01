@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
@@ -126,7 +126,7 @@ function App({
 	];
 
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<ThemeProvider themeId={Theme}>
 				<div className="Main">
 					<Header areaName={CurrentCampaign.areaName} />
@@ -140,7 +140,7 @@ function App({
 					<Footer />
 				</div>
 			</ThemeProvider>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { HashRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -300,7 +300,7 @@ function LoginPage({
 	renderApp: (caller: Caller, credentials: CredentialsV2, campaigns: Array<Campaign>, campaign: Campaign) => void;
 }) {
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<div className="LoginPage">
 				<Routes>
 					<Route path="/NewAccount" element={<CreateAccount />} />
@@ -308,7 +308,7 @@ function LoginPage({
 				</Routes>
 				<Footer />
 			</div>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 
