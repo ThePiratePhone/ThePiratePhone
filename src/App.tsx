@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
@@ -10,14 +10,14 @@ import ChangePassword from './Pages/ChangePassword';
 import ChangeTheme from './Pages/ChangeTheme';
 import Dashboard from './Pages/Dashboard';
 import E404 from './Pages/E404';
+import Join from './Pages/Join';
 import Recall from './Pages/Recall';
 import ScoreBoard from './Pages/ScoreBoard';
 import Settings from './Pages/Settings';
+import Switch from './Pages/Switch';
 import { campaignSorter } from './Utils/Sorters';
 import { getLocalTheme, setPreferredCampaign } from './Utils/Storage';
 import { parseCampaign } from './Utils/Utils';
-import Switch from './Pages/Switch';
-import Join from './Pages/Join';
 
 function App({
 	caller,
@@ -133,7 +133,7 @@ function App({
 	];
 
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<ThemeProvider themeId={Theme}>
 				<div className="Main">
 					<Header areaName={CurrentCampaign.areaName} />
@@ -147,7 +147,7 @@ function App({
 					<Footer />
 				</div>
 			</ThemeProvider>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 
