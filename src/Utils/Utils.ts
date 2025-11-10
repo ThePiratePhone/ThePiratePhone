@@ -28,7 +28,8 @@ function parseCampaign(campaigns: Array<Campaign>) {
 	return campaigns.sort(campaignSorter).map(campaign => ({
 		...campaign,
 		callHoursEnd: campaign.callHoursEnd ? new Date(campaign.callHoursEnd) : campaign.callHoursEnd,
-		callHoursStart: campaign.callHoursStart ? new Date(campaign.callHoursStart) : campaign.callHoursStart
+		callHoursStart: campaign.callHoursStart ? new Date(campaign.callHoursStart) : campaign.callHoursStart,
+		endTime: campaign.endTime ? new Date(campaign.endTime) : campaign.endTime
 	}));
 }
 

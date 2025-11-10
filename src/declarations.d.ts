@@ -81,6 +81,7 @@ type Campaign = {
 	areaName: string;
 	callHoursStart: Date | null;
 	callHoursEnd: Date | null;
+	endTime: Date | null;
 	status: Array<CallStatus>;
 	callPermited: boolean;
 };
