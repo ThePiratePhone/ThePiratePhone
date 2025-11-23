@@ -1,7 +1,12 @@
 import Button from '../Button';
 
 function OutOfHours({ campaign, next }: { campaign: Campaign; next: () => void }) {
-	if (!campaign.callHoursStart || !campaign.callHoursEnd)
+	if (
+		!campaign.callHoursStart ||
+		!campaign.callHoursEnd ||
+		isNaN(campaign.callHoursStart.getTime()) ||
+		isNaN(campaign.callHoursEnd.getTime())
+	)
 		return <div className="CallingError">Une erreur est survenue :/</div>;
 
 	const start = campaign.callHoursStart.toLocaleTimeString().split('').slice(0, -3).join('');

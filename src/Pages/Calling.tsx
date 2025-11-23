@@ -1,54 +1,11 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import CallEnd from '../Components/Call/CallEnd';
 import InCall from '../Components/Call/InCall';
 import OutOfHours from '../Components/Call/OutOfHours';
 import { getCallingTime } from '../Utils/Storage';
 import { isInHours } from '../Utils/Utils';
-
-async function getNewClient(credentials: CredentialsV2): Promise<
-	| {
-			status: boolean;
-			data:
-				| {
-						client: Client;
-						script: string;
-						status: Array<CallStatus>;
-						callHistory: Array<Call>;
-						campaignCallStart: number;
-						campaignCallEnd: number;
-						priority: string;
-				  }
-				| undefined;
-	  }
-	| undefined
-> {
-	try {
-		const result = await axios.post(credentials.URL + '/caller/getPhoneNumber', credentials);
-		if (result) {
-			if (result?.data?.OK) {
-				return { status: true, data: result.data };
-			} else {
-				return { status: false, data: undefined };
-			}
-		} else {
-			return undefined;
-		}
-	} catch (err: any) {
-		if (err?.response?.data) {
-			if (err.response.data?.OK) {
-				return { status: false, data: err.response.data };
-			} else {
-				return { status: true, data: undefined };
-			}
-		} else {
-			console.error(err);
-			return undefined;
-		}
-	}
-}
 
 function Calling({
 	credentials,
@@ -60,88 +17,100 @@ function Calling({
 	setCampaign: (campaign: Campaign) => void;
 }) {
 	const [Page, setPage] = useState(<div className="CallingError">Récupération en cours...</div>);
-
+	const navigate = useNavigate();
 	const client = useRef<Client>(undefined);
 
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		async function cancel() {
-			try {
-				await axios.post(credentials.URL + '/caller/giveUp', credentials);
+	async function cancel() {
+		try {
+			await axios.post(credentials.URL + '/caller/giveUp', credentials);
+			navigate('/');
+		} catch (err: any) {
+			if (err.response?.data?.message) {
 				navigate('/');
-			} catch (err: any) {
-				if (err.response?.data?.message) {
-					navigate('/');
-				} else {
-					console.error(err);
-				}
-			}
-		}
-
-		function getNextClient() {
-			function next() {
-				getNewClient(credentials).then(result => {
-					if (typeof result != 'undefined') {
-						if (result?.data?.client) {
-							client.current = result.data.client;
-							if (result.data?.campaignCallStart && result.data?.campaignCallEnd) {
-								campaign.callHoursEnd = new Date(result.data.campaignCallEnd);
-								campaign.callHoursStart = new Date(result.data.campaignCallStart);
-								campaign.status = result.data.status;
-								setCampaign(campaign);
-							}
-							if (!result.status) {
-								endCall();
-							} else {
-								setPage(
-									<InCall
-										client={client.current}
-										script={result.data.script}
-										priority={result.data.priority}
-										callHistory={result.data.callHistory}
-										endCall={() => endCall()}
-										cancel={cancel}
-									/>
-								);
-							}
-						} else {
-							if (result.status) {
-								setPage(<div className="CallingError">Aucun numéro disponible</div>);
-							} else {
-								setPage(<div className="CallingError">Aucune campagne n'est en cours</div>);
-							}
-						}
-					} else {
-						setPage(<div className="CallingError">Une erreur est survenue :/</div>);
-					}
-				});
-			}
-
-			if (!isInHours(campaign)) {
-				setPage(<OutOfHours campaign={campaign} next={next} />);
-				return;
 			} else {
-				next();
+				console.error(err);
 			}
 		}
+	}
 
-		function endCall() {
-			if (client.current) {
-				const time = getCallingTime();
+	function endCall() {
+		if (client.current) {
+			const time = getCallingTime();
+			setPage(
+				<CallEnd
+					credentials={credentials}
+					client={client.current}
+					status={campaign.status}
+					time={time ?? 0}
+					nextCall={getNext}
+				/>
+			);
+		}
+	}
+
+	function getNextClient() {
+		axios
+			.post(credentials.URL + '/caller/getPhoneNumber', credentials)
+			.catch(error => {
+				const message = error.response?.data?.message;
+				if (!error.status) {
+					endCall();
+				}
+				if (error.status == 403 && message == 'Call not permited, the end time has passed') {
+					setPage(<div className="CallingError">la date de fin de campagne et passé</div>);
+					return;
+				} else if (error.status == 403 && message == 'Call not permited') {
+					setPage(
+						<div className="CallingError">les appel ne sont pas ou plus permis dans cette campagne</div>
+					);
+					return;
+				} else if (error.status == 403) {
+					setPage(<div className="CallingError">vous n'avez pas le droit d'appeler dans cette campagne</div>);
+					return;
+				} else if (error.status == 404 && message == 'Campaign not found or not active') {
+					setPage(
+						<div className="CallingError">
+							vous n'avez plus le droit d'appeler dans cette campagne elle semble desactivé
+						</div>
+					);
+					return;
+				} else if (error.status == 404 && message == 'Client not found') {
+					setPage(<div className="CallingError">hum il n'y a plus de client disponible</div>);
+					return;
+				} else if (error.status == 500) {
+					setPage(<div className="CallingError">erreur serveur :/</div>);
+					return;
+				}
+			})
+			.then(nexClient => {
+				console.log(nexClient);
+				if (!nexClient || !nexClient.data) {
+					setPage(<div className="CallingError">erreur de recuperation, donnée corompu :/</div>);
+					return;
+				}
+
 				setPage(
-					<CallEnd
-						credentials={credentials}
-						client={client.current}
-						status={campaign.status}
-						time={time ?? 0}
-						nextCall={getNextClient}
+					<InCall
+						client={nexClient.data.client}
+						script={nexClient.data.script}
+						priority={nexClient.data.priority}
+						callHistory={nexClient.data.callHistory}
+						endCall={() => endCall()}
+						cancel={cancel}
 					/>
 				);
-			}
+			});
+	}
+	function getNext() {
+		if (!isInHours(campaign)) {
+			setPage(<OutOfHours campaign={campaign} next={getNextClient} />);
+			return;
+		} else {
+			getNextClient();
 		}
-
-		getNextClient();
+	}
+	useEffect(() => {
+		getNext();
 	}, [credentials]);
 
 	return <div className="Calling">{Page}</div>;
