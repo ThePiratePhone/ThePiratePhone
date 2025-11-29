@@ -34,7 +34,7 @@ function getCallString(calls: ProgressResponse) {
 			Déjà <span className="Phone">{calls.totalCall}</span> appels ? Pas mal du tout.
 		</>,
 		<>
-			Déjà <span className="Phone">{calls.totalCall}</span> appels ? c'est le nombre de fois ou Yven est allez
+			Déjà <span className="Phone">{calls.totalCall}</span> appels ? c'est le nombre de fois ou Yvenn est allé
 			pleurer sur un plateau télé.
 		</>
 	];
@@ -49,7 +49,7 @@ function getCallString(calls: ProgressResponse) {
 		VALUES.push(
 			<>
 				<span className="Phone">{Math.floor(calls.timeInCall / 60_000)}</span> minutes passées au téléphone !
-				Bardela a passé moins de temps au parlement que vous au téléphone !
+				Bardella a passé moins de temps au parlement que vous au téléphone !
 			</>
 		);
 	}

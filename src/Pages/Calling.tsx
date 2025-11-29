@@ -82,19 +82,31 @@ function Calling({
 					return;
 				}
 			})
-			.then(nexClient => {
-				console.log(nexClient);
-				if (!nexClient || !nexClient.data) {
+			.then(nexClientResponse => {
+				if (!nexClientResponse || !nexClientResponse.data) {
 					setPage(<div className="CallingError">erreur de recuperation, donnée corompu :/</div>);
 					return;
 				}
 
+				if (nexClientResponse.data?.campaignCallStart) {
+					campaign.callHoursStart = new Date(nexClientResponse.data.campaignCallStart);
+					campaign.status = nexClientResponse.data.status;
+					setCampaign(campaign);
+				}
+
+				if (nexClientResponse.data?.endTime) {
+					campaign.endTime = new Date(nexClientResponse.data.endTime);
+					campaign.status = nexClientResponse.data.status;
+					setCampaign(campaign);
+				}
+
 				setPage(
 					<InCall
-						client={nexClient.data.client}
-						script={nexClient.data.script}
-						priority={nexClient.data.priority}
-						callHistory={nexClient.data.callHistory}
+						client={nexClientResponse.data.client}
+						script={nexClientResponse.data.script}
+						priority={nexClientResponse.data.priority}
+						callHistory={nexClientResponse.data.callHistory}
+						campagneEnd={campaign.endTime || new Date()}
 						endCall={() => endCall()}
 						cancel={cancel}
 					/>

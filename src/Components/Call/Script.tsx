@@ -1,10 +1,5 @@
 function Script({ script }: { script: string }) {
-	return (
-		<div className="Script">
-			<h3>Script</h3>
-			{script}
-		</div>
-	);
+	return <div className="Script">{script}</div>;
 }
 
 export default Script;

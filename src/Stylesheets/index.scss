@@ -250,7 +250,6 @@ h2 {
 .Calling {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
 }
@@ -307,7 +306,6 @@ h2 {
 .Calling > h2 {
 	font-size: 1em;
 	text-align: center;
-	text-align: center;
 	flex-grow: 1;
 }
 
@@ -318,6 +316,37 @@ h2 {
 	width: 100%;
 	height: 25vh;
 	height: fit-content;
+}
+
+.tabPanels {
+	article {
+		display: none;
+	}
+
+	article.activePanel {
+		display: inline;
+	}
+
+	h3.tabPanelsTitle {
+		margin: 0;
+		text-align: center;
+		background-color: var(--color2v2);
+		color: var(--color2Text);
+		border-top: 2px solid var(--color2v2Border);
+		border-bottom: 2px solid var(--color2v2Border);
+	}
+}
+
+.TimerComponent {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 2em 0 2em;
+
+	.timer {
+		display: flex;
+		gap: 1em;
+		justify-content: center;
+	}
 }
 
 .CallingError {
@@ -333,14 +362,10 @@ h2 {
 
 .Script {
 	font-size: 1em;
-	padding: 2em;
+	padding: 0 2em 2em 2em;
 	text-align: justify;
 	line-height: 1.5em;
 	white-space: pre-wrap;
-}
-
-.Script > h3 {
-	text-align: center;
 }
 
 .E404 {
